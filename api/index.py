@@ -1611,7 +1611,7 @@ logger = get_logger("api.fetch")
 
 
 async def fetch_endpoint(request: Request):
-    check_rate_limit(request)
+    check_general_limit(request)
     try:
         body = await request.json()
     except Exception:
