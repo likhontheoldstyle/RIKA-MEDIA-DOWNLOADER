@@ -1,1 +1,154 @@
-aW1wb3J0IGJhc2U2NAppbXBvcnQgaGFzaGxpYgppbXBvcnQganNvbgppbXBvcnQgb3MKaW1wb3J0IHJlCmltcG9ydCBzZWNyZXRzCmltcG9ydCBzaHV0aWwKaW1wb3J0IHRpbWUKCmZyb20gY3J5cHRvZ3JhcGh5LmZlcm5ldCBpbXBvcnQgRmVybmV0LCBJbnZhbGlkVG9rZW4KCmZyb20gY29yZSBpbXBvcnQgY29uZmlnCgoKX1NBRkVfQ0hBUlMgPSByZS5jb21waWxlKHIiW15BLVphLXowLTkuXy1dKyIpCl9NVUxUSV9TRVAgPSByZS5jb21waWxlKHIiWy5fLV0rIikKX1NJWkVfUkUgPSByZS5jb21waWxlKHIiKFtcZC5dKylccyooW0tNR1RdQikiLCByZS5JR05PUkVDQVNFKQoKCmRlZiBfZmVybmV0KCk6CiAgICByYXcgPSBjb25maWcuU0VDUkVUX0tFWS5lbmNvZGUoInV0Zi04IikKICAgIHRyeToKICAgICAgICBrZXkgPSBiYXNlNjQudXJsc2FmZV9iNjRlbmNvZGUocmF3KQogICAgICAgIHJldHVybiBGZXJuZXQoa2V5KQogICAgZXhjZXB0IEV4Y2VwdGlvbjoKICAgICAgICBkaWdlc3QgPSBoYXNobGliLnNoYTI1NihyYXcpLmRpZ2VzdCgpCiAgICAgICAgcmV0dXJuIEZlcm5ldChiYXNlNjQudXJsc2FmZV9iNjRlbmNvZGUoZGlnZXN0KSkKCgpkZWYgaXNzdWVfdG9rZW4ocGF5bG9hZCk6CiAgICBkYXRhID0gZGljdChwYXlsb2FkKQogICAgZGF0YVsiZXhwIl0gPSBpbnQodGltZS50aW1lKCkpICsgY29uZmlnLlRPS0VOX1RUTAogICAgcmF3ID0ganNvbi5kdW1wcyhkYXRhLCBzZXBhcmF0b3JzPSgiLCIsICI6IikpLmVuY29kZSgidXRmLTgiKQogICAgcmV0dXJuIF9mZXJuZXQoKS5lbmNyeXB0KHJhdykuZGVjb2RlKCJ1dGYtOCIpCgoKZGVmIHZlcmlmeV90b2tlbih0b2tlbik6CiAgICBpZiBub3QgdG9rZW4gb3Igbm90IGlzaW5zdGFuY2UodG9rZW4sIHN0cikgb3IgbGVuKHRva2VuKSA+IDQwOTY6CiAgICAgICAgcmV0dXJuIE5vbmUKICAgIHRyeToKICAgICAgICByYXcgPSBfZmVybmV0KCkuZGVjcnlwdCh0b2tlbi5lbmNvZGUoInV0Zi04IiksIHR0bD1jb25maWcuVE9LRU5fVFRMICsgMzAwKQogICAgICAgIGRhdGEgPSBqc29uLmxvYWRzKHJhdy5kZWNvZGUoInV0Zi04IikpCiAgICBleGNlcHQgKEludmFsaWRUb2tlbiwgVmFsdWVFcnJvciwgS2V5RXJyb3IpOgogICAgICAgIHJldHVybiBOb25lCiAgICBpZiBub3QgaXNpbnN0YW5jZShkYXRhLCBkaWN0KToKICAgICAgICByZXR1cm4gTm9uZQogICAgaWYgaW50KGRhdGEuZ2V0KCJleHAiLCAwKSkgPCBpbnQodGltZS50aW1lKCkpOgogICAgICAgIHJldHVybiBOb25lCiAgICBpZiBub3QgZGF0YS5nZXQoInUiKToKICAgICAgICByZXR1cm4gTm9uZQogICAgcmV0dXJuIGRhdGEKCgpkZWYgbmV3X2lkKCk6CiAgICByZXR1cm4gc2VjcmV0cy50b2tlbl91cmxzYWZlKDE2KQoKCmRlZiBmb3JtYXRfc2l6ZShudW1fYnl0ZXMpOgogICAgaWYgbnVtX2J5dGVzIGlzIE5vbmU6CiAgICAgICAgcmV0dXJuIE5vbmUKICAgIHRyeToKICAgICAgICBzaXplID0gZmxvYXQobnVtX2J5dGVzKQogICAgZXhjZXB0IChUeXBlRXJyb3IsIFZhbHVlRXJyb3IpOgogICAgICAgIHJldHVybiBOb25lCiAgICBpZiBzaXplIDwgMDoKICAgICAgICByZXR1cm4gTm9uZQogICAgdW5pdHMgPSBbIkIiLCAiS0IiLCAiTUIiLCAiR0IiLCAiVEIiXQogICAgaW5kZXggPSAwCiAgICB3aGlsZSBzaXplID49IDEwMjQgYW5kIGluZGV4IDwgbGVuKHVuaXRzKSAtIDE6CiAgICAgICAgc2l6ZSAvPSAxMDI0CiAgICAgICAgaW5kZXggKz0gMQogICAgaWYgaW5kZXggPT0gMDoKICAgICAgICByZXR1cm4gIiVkICVzIiAlIChzaXplLCB1bml0c1tpbmRleF0pCiAgICByZXR1cm4gIiUuMmYgJXMiICUgKHNpemUsIHVuaXRzW2luZGV4XSkKCgpkZWYgcGFyc2Vfc2l6ZV90ZXh0KHRleHQpOgogICAgaWYgbm90IHRleHQgb3Igbm90IGlzaW5zdGFuY2UodGV4dCwgc3RyKToKICAgICAgICByZXR1cm4gTm9uZQogICAgbWF0Y2ggPSBfU0laRV9SRS5zZWFyY2godGV4dCkKICAgIGlmIG5vdCBtYXRjaDoKICAgICAgICByZXR1cm4gTm9uZQogICAgbXVsdGlwbGllcnMgPSB7IktCIjogMTAyNCwgIk1CIjogMTAyNCAqKiAyLCAiR0IiOiAxMDI0ICoqIDMsICJUQiI6IDEwMjQgKiogNH0KICAgIHRyeToKICAgICAgICByZXR1cm4gaW50KGZsb2F0KG1hdGNoLmdyb3VwKDEpKSAqIG11bHRpcGxpZXJzW21hdGNoLmdyb3VwKDIpLnVwcGVyKCldKQogICAgZXhjZXB0IChWYWx1ZUVycm9yLCBLZXlFcnJvcik6CiAgICAgICAgcmV0dXJuIE5vbmUKCgpkZWYgc2FmZV9maWxlbmFtZShuYW1lLCBleHRlbnNpb249IiIpOgogICAgYmFzZSA9IF9TQUZFX0NIQVJTLnN1YigiXyIsIHN0cihuYW1lIG9yICJtZWRpYSIpKQogICAgYmFzZSA9IF9NVUxUSV9TRVAuc3ViKCJfIiwgYmFzZSkuc3RyaXAoIi5fLSIpCiAgICBpZiBub3QgYmFzZToKICAgICAgICBiYXNlID0gIm1lZGlhIgogICAgYmFzZSA9IGJhc2VbOjEyMF0KICAgIGV4dCA9IHJlLnN1YihyIlteQS1aYS16MC05XSIsICIiLCBzdHIoZXh0ZW5zaW9uIG9yICIiKSlbOjEwXQogICAgaWYgZXh0OgogICAgICAgIHJldHVybiAiJXMuJXMiICUgKGJhc2UsIGV4dC5sb3dlcigpKQogICAgcmV0dXJuIGJhc2UKCgpkZWYgcXVhbGl0eV9yYW5rKHF1YWxpdHkpOgogICAgZnJvbSBjb3JlLmNvbnN0YW50cyBpbXBvcnQgUVVBTElUWV9SQU5LCiAgICBpZiBub3QgcXVhbGl0eToKICAgICAgICByZXR1cm4gLTEKICAgIHRleHQgPSBzdHIocXVhbGl0eSkuc3RyaXAoKS5sb3dlcigpCiAgICBpZiB0ZXh0IGluIFFVQUxJVFlfUkFOSzoKICAgICAgICByZXR1cm4gUVVBTElUWV9SQU5LW3RleHRdCiAgICBtYXRjaCA9IHJlLm1hdGNoKHIiKFxkezMsNH0pXHMqcCIsIHRleHQpCiAgICBpZiBtYXRjaDoKICAgICAgICByZXR1cm4gaW50KG1hdGNoLmdyb3VwKDEpKQogICAgcmV0dXJuIC0xCgoKZGVmIGNsZWFudXBfcGF0aChwYXRoKToKICAgIHRyeToKICAgICAgICBpZiBwYXRoIGFuZCBvcy5wYXRoLmlzZmlsZShwYXRoKToKICAgICAgICAgICAgb3MudW5saW5rKHBhdGgpCiAgICBleGNlcHQgT1NFcnJvcjoKICAgICAgICBwYXNzCgoKZGVmIGNsZWFudXBfZGlyKHBhdGgpOgogICAgdHJ5OgogICAgICAgIGlmIHBhdGggYW5kIG9zLnBhdGguaXNkaXIocGF0aCk6CiAgICAgICAgICAgIHNodXRpbC5ybXRyZWUocGF0aCwgaWdub3JlX2Vycm9ycz1UcnVlKQogICAgZXhjZXB0IE9TRXJyb3I6CiAgICAgICAgcGFzcwoKCmNsYXNzIFRUTENhY2hlOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIHR0bD02MDAsIG1heF9pdGVtcz0yMDApOgogICAgICAgIHNlbGYuX3R0bCA9IHR0bAogICAgICAgIHNlbGYuX21heF9pdGVtcyA9IG1heF9pdGVtcwogICAgICAgIHNlbGYuX3N0b3JlID0ge30KCiAgICBkZWYgZ2V0KHNlbGYsIGtleSk6CiAgICAgICAgaXRlbSA9IHNlbGYuX3N0b3JlLmdldChrZXkpCiAgICAgICAgaWYgbm90IGl0ZW06CiAgICAgICAgICAgIHJldHVybiBOb25lCiAgICAgICAgdmFsdWUsIGV4cGlyZXMgPSBpdGVtCiAgICAgICAgaWYgZXhwaXJlcyA8IHRpbWUudGltZSgpOgogICAgICAgICAgICBzZWxmLl9zdG9yZS5wb3Aoa2V5LCBOb25lKQogICAgICAgICAgICByZXR1cm4gTm9uZQogICAgICAgIHJldHVybiB2YWx1ZQoKICAgIGRlZiBzZXQoc2VsZiwga2V5LCB2YWx1ZSk6CiAgICAgICAgaWYgbGVuKHNlbGYuX3N0b3JlKSA+PSBzZWxmLl9tYXhfaXRlbXM6CiAgICAgICAgICAgIG9sZGVzdCA9IG1pbihzZWxmLl9zdG9yZS5pdGVtcygpLCBrZXk9bGFtYmRhIGt2OiBrdlsxXVsxXSlbMF0KICAgICAgICAgICAgc2VsZi5fc3RvcmUucG9wKG9sZGVzdCwgTm9uZSkKICAgICAgICBzZWxmLl9zdG9yZVtrZXldID0gKHZhbHVlLCB0aW1lLnRpbWUoKSArIHNlbGYuX3R0bCkKCiAgICBkZWYgY2xlYXIoc2VsZik6CiAgICAgICAgc2VsZi5fc3RvcmUuY2xlYXIoKQo=
+import base64
+import hashlib
+import json
+import os
+import re
+import secrets
+import shutil
+import time
+
+from cryptography.fernet import Fernet, InvalidToken
+
+from core import config
+
+
+_SAFE_CHARS = re.compile(r"[^A-Za-z0-9._-]+")
+_MULTI_SEP = re.compile(r"[._-]+")
+_SIZE_RE = re.compile(r"([\d.]+)\s*([KMGT]B)", re.IGNORECASE)
+
+
+def _fernet():
+    raw = config.SECRET_KEY.encode("utf-8")
+    try:
+        key = base64.urlsafe_b64encode(raw)
+        return Fernet(key)
+    except Exception:
+        digest = hashlib.sha256(raw).digest()
+        return Fernet(base64.urlsafe_b64encode(digest))
+
+
+def issue_token(payload):
+    data = dict(payload)
+    data["exp"] = int(time.time()) + config.TOKEN_TTL
+    raw = json.dumps(data, separators=(",", ":")).encode("utf-8")
+    return _fernet().encrypt(raw).decode("utf-8")
+
+
+def verify_token(token):
+    if not token or not isinstance(token, str) or len(token) > 4096:
+        return None
+    try:
+        raw = _fernet().decrypt(token.encode("utf-8"), ttl=config.TOKEN_TTL + 300)
+        data = json.loads(raw.decode("utf-8"))
+    except (InvalidToken, ValueError, KeyError):
+        return None
+    if not isinstance(data, dict):
+        return None
+    if int(data.get("exp", 0)) < int(time.time()):
+        return None
+    if not data.get("u"):
+        return None
+    return data
+
+
+def new_id():
+    return secrets.token_urlsafe(16)
+
+
+def format_size(num_bytes):
+    if num_bytes is None:
+        return None
+    try:
+        size = float(num_bytes)
+    except (TypeError, ValueError):
+        return None
+    if size < 0:
+        return None
+    units = ["B", "KB", "MB", "GB", "TB"]
+    index = 0
+    while size >= 1024 and index < len(units) - 1:
+        size /= 1024
+        index += 1
+    if index == 0:
+        return "%d %s" % (size, units[index])
+    return "%.2f %s" % (size, units[index])
+
+
+def parse_size_text(text):
+    if not text or not isinstance(text, str):
+        return None
+    match = _SIZE_RE.search(text)
+    if not match:
+        return None
+    multipliers = {"KB": 1024, "MB": 1024 ** 2, "GB": 1024 ** 3, "TB": 1024 ** 4}
+    try:
+        return int(float(match.group(1)) * multipliers[match.group(2).upper()])
+    except (ValueError, KeyError):
+        return None
+
+
+def safe_filename(name, extension=""):
+    base = _SAFE_CHARS.sub("_", str(name or "media"))
+    base = _MULTI_SEP.sub("_", base).strip("._-")
+    if not base:
+        base = "media"
+    base = base[:120]
+    ext = re.sub(r"[^A-Za-z0-9]", "", str(extension or ""))[:10]
+    if ext:
+        return "%s.%s" % (base, ext.lower())
+    return base
+
+
+def quality_rank(quality):
+    from core.constants import QUALITY_RANK
+    if not quality:
+        return -1
+    text = str(quality).strip().lower()
+    if text in QUALITY_RANK:
+        return QUALITY_RANK[text]
+    match = re.match(r"(\d{3,4})\s*p", text)
+    if match:
+        return int(match.group(1))
+    return -1
+
+
+def cleanup_path(path):
+    try:
+        if path and os.path.isfile(path):
+            os.unlink(path)
+    except OSError:
+        pass
+
+
+def cleanup_dir(path):
+    try:
+        if path and os.path.isdir(path):
+            shutil.rmtree(path, ignore_errors=True)
+    except OSError:
+        pass
+
+
+class TTLCache:
+    def __init__(self, ttl=600, max_items=200):
+        self._ttl = ttl
+        self._max_items = max_items
+        self._store = {}
+
+    def get(self, key):
+        item = self._store.get(key)
+        if not item:
+            return None
+        value, expires = item
+        if expires < time.time():
+            self._store.pop(key, None)
+            return None
+        return value
+
+    def set(self, key, value):
+        if len(self._store) >= self._max_items:
+            oldest = min(self._store.items(), key=lambda kv: kv[1][1])[0]
+            self._store.pop(oldest, None)
+        self._store[key] = (value, time.time() + self._ttl)
+
+    def clear(self):
+        self._store.clear()
