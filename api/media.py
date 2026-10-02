@@ -1,1 +1,24 @@
-aW1wb3J0IG9zCmltcG9ydCBzeXMKCnN5cy5wYXRoLmluc2VydCgwLCBvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5kaXJuYW1lKG9zLnBhdGguYWJzcGF0aChfX2ZpbGVfXykpKSkKCmZyb20gZmFzdGFwaSBpbXBvcnQgUmVxdWVzdApmcm9tIGZhc3RhcGkucmVzcG9uc2VzIGltcG9ydCBKU09OUmVzcG9uc2UKCmZyb20gY29yZS5leGNlcHRpb25zIGltcG9ydCBWYWxpZGF0aW9uRXJyb3IKZnJvbSBoYW5kbGVyIGltcG9ydCBkb3dubG9hZF9oYW5kbGVyCmZyb20gc2VjdXJpdHkucmF0ZV9saW1pdCBpbXBvcnQgY2hlY2tfZ2VuZXJhbF9saW1pdAoKCmFzeW5jIGRlZiBtZWRpYV9lbmRwb2ludChyZXF1ZXN0OiBSZXF1ZXN0KToKICAgIGNoZWNrX2dlbmVyYWxfbGltaXQocmVxdWVzdCkKICAgIHRva2VuID0gcmVxdWVzdC5xdWVyeV9wYXJhbXMuZ2V0KCJ0b2tlbiIsICIiKQogICAgaWYgbm90IHRva2VuIG9yIGxlbih0b2tlbikgPiA0MDk2OgogICAgICAgIHJhaXNlIFZhbGlkYXRpb25FcnJvcigpCiAgICByZXR1cm4gSlNPTlJlc3BvbnNlKGRvd25sb2FkX2hhbmRsZXIubWVkaWFfaW5mbyh0b2tlbikpCgoKZnJvbSBtYWluLmFwcCBpbXBvcnQgY3JlYXRlX2FwcAoKYXBwID0gY3JlYXRlX2FwcCgpCg==
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from fastapi import Request
+from fastapi.responses import JSONResponse
+
+from core.exceptions import ValidationError
+from handler import download_handler
+from security.rate_limit import check_general_limit
+
+
+async def media_endpoint(request: Request):
+    check_general_limit(request)
+    token = request.query_params.get("token", "")
+    if not token or len(token) > 4096:
+        raise ValidationError()
+    return JSONResponse(download_handler.media_info(token))
+
+
+from main.app import create_app
+
+app = create_app()
