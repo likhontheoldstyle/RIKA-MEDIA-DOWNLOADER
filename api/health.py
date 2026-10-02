@@ -1,1 +1,15 @@
-aW1wb3J0IG9zCmltcG9ydCBzeXMKCnN5cy5wYXRoLmluc2VydCgwLCBvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5kaXJuYW1lKG9zLnBhdGguYWJzcGF0aChfX2ZpbGVfXykpKSkKCmZyb20gZmFzdGFwaS5yZXNwb25zZXMgaW1wb3J0IEpTT05SZXNwb25zZQoKCmFzeW5jIGRlZiBoZWFsdGhfZW5kcG9pbnQoKToKICAgIHJldHVybiBKU09OUmVzcG9uc2UoeyJzdGF0dXMiOiAib2sifSkKCgpmcm9tIG1haW4uYXBwIGltcG9ydCBjcmVhdGVfYXBwCgphcHAgPSBjcmVhdGVfYXBwKCkK
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from fastapi.responses import JSONResponse
+
+
+async def health_endpoint():
+    return JSONResponse({"status": "ok"})
+
+
+from main.app import create_app
+
+app = create_app()
