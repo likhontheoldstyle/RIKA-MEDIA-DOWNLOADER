@@ -1,1 +1,13 @@
-LmVudgouZW52LioKX19weWNhY2hlX18vCioucHljCioucHlvCnZhci90ZW1wLyoKdmFyL2NhY2hlLyoKdmFyL3J1bnRpbWUvKgohLmdpdGtlZXAKLnZlbnYvCnZlbnYvCm5vZGVfbW9kdWxlcy8KLnB5dGVzdF9jYWNoZS8K
+.env
+.env.*
+__pycache__/
+*.pyc
+*.pyo
+var/temp/*
+var/cache/*
+var/runtime/*
+!.gitkeep
+.venv/
+venv/
+node_modules/
+.pytest_cache/
