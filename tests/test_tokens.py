@@ -1,1 +1,52 @@
-aW1wb3J0IHRpbWUKCmltcG9ydCBweXRlc3QKCmZyb20gY29yZSBpbXBvcnQgdXRpbHMKZnJvbSBjb3JlLmV4Y2VwdGlvbnMgaW1wb3J0IE1lZGlhRXhwaXJlZAoKCmRlZiB0ZXN0X3Rva2VuX3JvdW5kdHJpcCgpOgogICAgcGF5bG9hZCA9IHsidSI6ICJodHRwczovL3JlZGlyZWN0b3IuZ29vZ2xldmlkZW8uY29tL3giLCAiayI6ICJ2aWRlbyJ9CiAgICB0b2tlbiA9IHV0aWxzLmlzc3VlX3Rva2VuKHBheWxvYWQpCiAgICBhc3NlcnQgaXNpbnN0YW5jZSh0b2tlbiwgc3RyKQogICAgYXNzZXJ0IGxlbih0b2tlbikgPiA1MAogICAgZGF0YSA9IHV0aWxzLnZlcmlmeV90b2tlbih0b2tlbikKICAgIGFzc2VydCBkYXRhIGlzIG5vdCBOb25lCiAgICBhc3NlcnQgZGF0YVsidSJdID09IHBheWxvYWRbInUiXQogICAgYXNzZXJ0IGRhdGFbImsiXSA9PSAidmlkZW8iCiAgICBhc3NlcnQgImV4cCIgaW4gZGF0YQoKCmRlZiB0ZXN0X3Rva2VuX3RhbXBlcl9yZWplY3RlZCgpOgogICAgdG9rZW4gPSB1dGlscy5pc3N1ZV90b2tlbih7InUiOiAiaHR0cHM6Ly9yZWRpcmVjdG9yLmdvb2dsZXZpZGVvLmNvbS94In0pCiAgICB0YW1wZXJlZCA9IHRva2VuWzotNF0gKyAoIkFBQUEiIGlmIG5vdCB0b2tlbi5lbmRzd2l0aCgiQUFBQSIpIGVsc2UgIkJCQkIiKQogICAgYXNzZXJ0IHV0aWxzLnZlcmlmeV90b2tlbih0YW1wZXJlZCkgaXMgTm9uZQoKCmRlZiB0ZXN0X3Rva2VuX2dhcmJhZ2VfcmVqZWN0ZWQoKToKICAgIGFzc2VydCB1dGlscy52ZXJpZnlfdG9rZW4oIiIpIGlzIE5vbmUKICAgIGFzc2VydCB1dGlscy52ZXJpZnlfdG9rZW4oTm9uZSkgaXMgTm9uZQogICAgYXNzZXJ0IHV0aWxzLnZlcmlmeV90b2tlbigibm90LWEtdG9rZW4iKSBpcyBOb25lCgoKZGVmIHRlc3RfdG9rZW5fZXhwaXJ5X3JlamVjdGVkKG1vbmtleXBhdGNoKToKICAgIGltcG9ydCBjb3JlLmNvbmZpZyBhcyBjb25maWcKICAgIGltcG9ydCBjb3JlLnV0aWxzIGFzIHV0aWxzX21vZAogICAgbW9ua2V5cGF0Y2guc2V0YXR0cihjb25maWcsICJUT0tFTl9UVEwiLCAzNjAwKQogICAgdG9rZW4gPSB1dGlscy5pc3N1ZV90b2tlbih7InUiOiAiaHR0cHM6Ly9yZWRpcmVjdG9yLmdvb2dsZXZpZGVvLmNvbS94In0pCiAgICBhc3NlcnQgdXRpbHMudmVyaWZ5X3Rva2VuKHRva2VuKSBpcyBub3QgTm9uZQogICAgcmVhbF90aW1lID0gdGltZS50aW1lCiAgICBtb25rZXlwYXRjaC5zZXRhdHRyKHV0aWxzX21vZC50aW1lLCAidGltZSIsIGxhbWJkYTogcmVhbF90aW1lKCkgKyA3MjAwKQogICAgYXNzZXJ0IHV0aWxzLnZlcmlmeV90b2tlbih0b2tlbikgaXMgTm9uZQoKCmRlZiB0ZXN0X3Rva2VuX25vX3VybF9yZWplY3RlZCgpOgogICAgdG9rZW4gPSB1dGlscy5pc3N1ZV90b2tlbih7ImsiOiAidmlkZW8ifSkKICAgIGFzc2VydCB1dGlscy52ZXJpZnlfdG9rZW4odG9rZW4pIGlzIE5vbmUKCgpkZWYgdGVzdF9leHBpcmVkX21lZGlhX3JhaXNlcygpOgogICAgZnJvbSBoYW5kbGVyLmRvd25sb2FkX2hhbmRsZXIgaW1wb3J0IHJlc29sdmVfdG9rZW4KICAgIHdpdGggcHl0ZXN0LnJhaXNlcyhNZWRpYUV4cGlyZWQpOgogICAgICAgIHJlc29sdmVfdG9rZW4oImdhcmJhZ2UtdG9rZW4iKQo=
+import time
+
+import pytest
+
+from core import utils
+from core.exceptions import MediaExpired
+
+
+def test_token_roundtrip():
+    payload = {"u": "https://redirector.googlevideo.com/x", "k": "video"}
+    token = utils.issue_token(payload)
+    assert isinstance(token, str)
+    assert len(token) > 50
+    data = utils.verify_token(token)
+    assert data is not None
+    assert data["u"] == payload["u"]
+    assert data["k"] == "video"
+    assert "exp" in data
+
+
+def test_token_tamper_rejected():
+    token = utils.issue_token({"u": "https://redirector.googlevideo.com/x"})
+    tampered = token[:-4] + ("AAAA" if not token.endswith("AAAA") else "BBBB")
+    assert utils.verify_token(tampered) is None
+
+
+def test_token_garbage_rejected():
+    assert utils.verify_token("") is None
+    assert utils.verify_token(None) is None
+    assert utils.verify_token("not-a-token") is None
+
+
+def test_token_expiry_rejected(monkeypatch):
+    import core.config as config
+    import core.utils as utils_mod
+    monkeypatch.setattr(config, "TOKEN_TTL", 3600)
+    token = utils.issue_token({"u": "https://redirector.googlevideo.com/x"})
+    assert utils.verify_token(token) is not None
+    real_time = time.time
+    monkeypatch.setattr(utils_mod.time, "time", lambda: real_time() + 7200)
+    assert utils.verify_token(token) is None
+
+
+def test_token_no_url_rejected():
+    token = utils.issue_token({"k": "video"})
+    assert utils.verify_token(token) is None
+
+
+def test_expired_media_raises():
+    from handler.download_handler import resolve_token
+    with pytest.raises(MediaExpired):
+        resolve_token("garbage-token")
