@@ -9,13 +9,13 @@ from fastapi.responses import JSONResponse
 from core.exceptions import ValidationError
 from core.logger import get_logger
 from handler import fetch_handler
-from security.rate_limit import check_rate_limit
+from security.rate_limit import check_general_limit
 
 logger = get_logger("api.fetch")
 
 
 async def fetch_endpoint(request: Request):
-    check_rate_limit(request)
+    check_general_limit(request)
     try:
         body = await request.json()
     except Exception:
