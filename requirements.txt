@@ -1,1 +1,7 @@
-ZmFzdGFwaT49MC4xMTAsPDEKdXZpY29ybltzdGFuZGFyZF0+PTAuMjkKaHR0cHg+PTAuMjcKcHlkYW50aWM+PTIuNgpjcnlwdG9ncmFwaHk+PTQyCmltYWdlaW8tZmZtcGVnPj0wLjUKcHl0ZXN0Pj04Cg==
+fastapi>=0.110,<1
+uvicorn[standard]>=0.29
+httpx>=0.27
+pydantic>=2.6
+cryptography>=42
+imageio-ffmpeg>=0.5
+pytest>=8
