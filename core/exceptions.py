@@ -1,1 +1,51 @@
-ZnJvbSBjb3JlLmNvbnN0YW50cyBpbXBvcnQgR0VORVJJQ19FUlJPUgoKCmNsYXNzIEFwcEVycm9yKEV4Y2VwdGlvbik6CiAgICBzdGF0dXNfY29kZSA9IDUwMAogICAgc2FmZV9tZXNzYWdlID0gR0VORVJJQ19FUlJPUgoKCmNsYXNzIEludmFsaWRVUkwoQXBwRXJyb3IpOgogICAgc3RhdHVzX2NvZGUgPSA0MDAKICAgIHNhZmVfbWVzc2FnZSA9ICJJbnZhbGlkIFlvdVR1YmUgVVJMLiIKCgpjbGFzcyBVbnN1cHBvcnRlZFBsYXRmb3JtKEFwcEVycm9yKToKICAgIHN0YXR1c19jb2RlID0gNDAwCiAgICBzYWZlX21lc3NhZ2UgPSAiT25seSBZb3VUdWJlIFVSTHMgYXJlIHN1cHBvcnRlZC4iCgoKY2xhc3MgQVBJRXJyb3IoQXBwRXJyb3IpOgogICAgc3RhdHVzX2NvZGUgPSA1MDIKICAgIHNhZmVfbWVzc2FnZSA9ICJVbmFibGUgdG8gcHJvY2VzcyB0aGlzIHZpZGVvIHJpZ2h0IG5vdy4iCgoKY2xhc3MgTWVkaWFOb3RGb3VuZChBcHBFcnJvcik6CiAgICBzdGF0dXNfY29kZSA9IDQwNAogICAgc2FmZV9tZXNzYWdlID0gIk5vIG1lZGlhIGZvdW5kIGZvciB0aGlzIHZpZGVvLiIKCgpjbGFzcyBNZWRpYUV4cGlyZWQoQXBwRXJyb3IpOgogICAgc3RhdHVzX2NvZGUgPSA0MTAKICAgIHNhZmVfbWVzc2FnZSA9ICJUaGlzIGRvd25sb2FkIGxpbmsgaGFzIGV4cGlyZWQuIFBsZWFzZSBhbmFseXplIHRoZSB2aWRlbyBhZ2Fpbi4iCgoKY2xhc3MgQ29udmVyc2lvbkVycm9yKEFwcEVycm9yKToKICAgIHN0YXR1c19jb2RlID0gNTAwCiAgICBzYWZlX21lc3NhZ2UgPSAiTVAzIGNvbnZlcnNpb24gZmFpbGVkLiBQbGVhc2UgdHJ5IGFnYWluIGxhdGVyLiIKCgpjbGFzcyBDb252ZXJzaW9uVW5hdmFpbGFibGUoQXBwRXJyb3IpOgogICAgc3RhdHVzX2NvZGUgPSA1MDMKICAgIHNhZmVfbWVzc2FnZSA9ICJNUDMgY29udmVyc2lvbiBpcyB0ZW1wb3JhcmlseSB1bmF2YWlsYWJsZS4iCgoKY2xhc3MgUmF0ZUxpbWl0RXhjZWVkZWQoQXBwRXJyb3IpOgogICAgc3RhdHVzX2NvZGUgPSA0MjkKICAgIHNhZmVfbWVzc2FnZSA9ICJSYXRlIGxpbWl0IGV4Y2VlZGVkLiBQbGVhc2Ugc2xvdyBkb3duIGFuZCB0cnkgYWdhaW4uIgoKCmNsYXNzIFZhbGlkYXRpb25FcnJvcihBcHBFcnJvcik6CiAgICBzdGF0dXNfY29kZSA9IDQwMAogICAgc2FmZV9tZXNzYWdlID0gIkludmFsaWQgcmVxdWVzdC4iCg==
+from core.constants import GENERIC_ERROR
+
+
+class AppError(Exception):
+    status_code = 500
+    safe_message = GENERIC_ERROR
+
+
+class InvalidURL(AppError):
+    status_code = 400
+    safe_message = "Invalid YouTube URL."
+
+
+class UnsupportedPlatform(AppError):
+    status_code = 400
+    safe_message = "Only YouTube URLs are supported."
+
+
+class APIError(AppError):
+    status_code = 502
+    safe_message = "Unable to process this video right now."
+
+
+class MediaNotFound(AppError):
+    status_code = 404
+    safe_message = "No media found for this video."
+
+
+class MediaExpired(AppError):
+    status_code = 410
+    safe_message = "This download link has expired. Please analyze the video again."
+
+
+class ConversionError(AppError):
+    status_code = 500
+    safe_message = "MP3 conversion failed. Please try again later."
+
+
+class ConversionUnavailable(AppError):
+    status_code = 503
+    safe_message = "MP3 conversion is temporarily unavailable."
+
+
+class RateLimitExceeded(AppError):
+    status_code = 429
+    safe_message = "Rate limit exceeded. Please slow down and try again."
+
+
+class ValidationError(AppError):
+    status_code = 400
+    safe_message = "Invalid request."
