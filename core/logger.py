@@ -1,1 +1,49 @@
-aW1wb3J0IGxvZ2dpbmcKaW1wb3J0IG9zCmltcG9ydCByZQoKCl9NQVNLX1BBVFRFUk5TID0gWwogICAgcmUuY29tcGlsZShyIig/aSkoYXBpW18tXT9rZXlccypbOj1dXHMqKShbXlxzJjtdKykiKSwKICAgIHJlLmNvbXBpbGUociIoP2kpKHNlY3JldFxzKls6PV1ccyopKFteXHMmO10rKSIpLAogICAgcmUuY29tcGlsZShyIig/aSkodG9rZW5ccypbOj1dXHMqKShbXlxzJjtdezgsfSkiKSwKICAgIHJlLmNvbXBpbGUociIoP2kpKGF1dGhvcml6YXRpb25ccypbOj1dXHMqKShbXlxzJjtdKykiKSwKICAgIHJlLmNvbXBpbGUociIoP2kpKGNvb2tpZVxzKls6PV1ccyopKFteXHMmO10rKSIpLAogICAgcmUuY29tcGlsZShyIig/aSkoc2lnKG5hdHVyZSk/PVteJlxzXXsxNix9KSIpLAogICAgcmUuY29tcGlsZShyIig/aSkocG90PVteJlxzXXsxNix9KSIpLApdCgoKZGVmIG1hc2tfc2VjcmV0cyh0ZXh0KToKICAgIGlmIG5vdCBpc2luc3RhbmNlKHRleHQsIHN0cik6CiAgICAgICAgdGV4dCA9IHN0cih0ZXh0KQogICAgbWFza2VkID0gdGV4dAogICAgZm9yIHBhdHRlcm4gaW4gX01BU0tfUEFUVEVSTlM6CiAgICAgICAgbWFza2VkID0gcGF0dGVybi5zdWIobGFtYmRhIG06IG0uZ3JvdXAoMSkgKyAiKioqIiwgbWFza2VkKQogICAgZm9yIG5hbWUgaW4gKCJTRUNSRVRfS0VZIiwgIkNPTlZFUlRFUl9BUElfS0VZIiwgIkJPVF9UT0tFTiIpOgogICAgICAgIHZhbHVlID0gb3MuZW52aXJvbi5nZXQobmFtZSwgIiIpCiAgICAgICAgaWYgdmFsdWUgYW5kIGxlbih2YWx1ZSkgPiA0IGFuZCB2YWx1ZSBpbiBtYXNrZWQ6CiAgICAgICAgICAgIG1hc2tlZCA9IG1hc2tlZC5yZXBsYWNlKHZhbHVlLCAiKioqIikKICAgIHJldHVybiBtYXNrZWQKCgpjbGFzcyBTZWNyZXRNYXNrRmlsdGVyKGxvZ2dpbmcuRmlsdGVyKToKICAgIGRlZiBmaWx0ZXIoc2VsZiwgcmVjb3JkKToKICAgICAgICB0cnk6CiAgICAgICAgICAgIHJlY29yZC5tc2cgPSBtYXNrX3NlY3JldHMocmVjb3JkLmdldE1lc3NhZ2UoKSkKICAgICAgICAgICAgcmVjb3JkLmFyZ3MgPSAoKQogICAgICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgICAgIHBhc3MKICAgICAgICByZXR1cm4gVHJ1ZQoKCmRlZiBnZXRfbG9nZ2VyKG5hbWUpOgogICAgbG9nZ2VyID0gbG9nZ2luZy5nZXRMb2dnZXIobmFtZSkKICAgIGlmIG5vdCBsb2dnZXIuaGFuZGxlcnM6CiAgICAgICAgaGFuZGxlciA9IGxvZ2dpbmcuU3RyZWFtSGFuZGxlcigpCiAgICAgICAgaGFuZGxlci5zZXRGb3JtYXR0ZXIobG9nZ2luZy5Gb3JtYXR0ZXIoIiUoYXNjdGltZSlzICUobGV2ZWxuYW1lKXMgJShuYW1lKXMgJShtZXNzYWdlKXMiKSkKICAgICAgICBoYW5kbGVyLmFkZEZpbHRlcihTZWNyZXRNYXNrRmlsdGVyKCkpCiAgICAgICAgbG9nZ2VyLmFkZEhhbmRsZXIoaGFuZGxlcikKICAgIGxvZ2dlci5zZXRMZXZlbChsb2dnaW5nLklORk8pCiAgICBsb2dnZXIucHJvcGFnYXRlID0gRmFsc2UKICAgIHJldHVybiBsb2dnZXIK
+import logging
+import os
+import re
+
+
+_MASK_PATTERNS = [
+    re.compile(r"(?i)(api[_-]?key\s*[:=]\s*)([^\s&;]+)"),
+    re.compile(r"(?i)(secret\s*[:=]\s*)([^\s&;]+)"),
+    re.compile(r"(?i)(token\s*[:=]\s*)([^\s&;]{8,})"),
+    re.compile(r"(?i)(authorization\s*[:=]\s*)([^\s&;]+)"),
+    re.compile(r"(?i)(cookie\s*[:=]\s*)([^\s&;]+)"),
+    re.compile(r"(?i)(sig(nature)?=[^&\s]{16,})"),
+    re.compile(r"(?i)(pot=[^&\s]{16,})"),
+]
+
+
+def mask_secrets(text):
+    if not isinstance(text, str):
+        text = str(text)
+    masked = text
+    for pattern in _MASK_PATTERNS:
+        masked = pattern.sub(lambda m: m.group(1) + "***", masked)
+    for name in ("SECRET_KEY", "CONVERTER_API_KEY", "BOT_TOKEN"):
+        value = os.environ.get(name, "")
+        if value and len(value) > 4 and value in masked:
+            masked = masked.replace(value, "***")
+    return masked
+
+
+class SecretMaskFilter(logging.Filter):
+    def filter(self, record):
+        try:
+            record.msg = mask_secrets(record.getMessage())
+            record.args = ()
+        except Exception:
+            pass
+        return True
+
+
+def get_logger(name):
+    logger = logging.getLogger(name)
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s"))
+        handler.addFilter(SecretMaskFilter())
+        logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    return logger
