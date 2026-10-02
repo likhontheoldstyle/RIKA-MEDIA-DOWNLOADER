@@ -1,1 +1,122 @@
-aW1wb3J0IGFzeW5jaW8KaW1wb3J0IGpzb24KaW1wb3J0IG9zCmltcG9ydCB0ZW1wZmlsZQoKaW1wb3J0IGh0dHB4Cgpmcm9tIGNvcmUgaW1wb3J0IGNvbmZpZywgdXRpbHMKZnJvbSBjb3JlLmNvbnN0YW50cyBpbXBvcnQgRE9XTkxPQURfVElNRU9VVCwgRkZNUEVHX1RJTUVPVVQKZnJvbSBjb3JlLmV4Y2VwdGlvbnMgaW1wb3J0IENvbnZlcnNpb25FcnJvciwgQ29udmVyc2lvblVuYXZhaWxhYmxlLCBNZWRpYUV4cGlyZWQsIFZhbGlkYXRpb25FcnJvcgpmcm9tIGNvcmUubG9nZ2VyIGltcG9ydCBnZXRfbG9nZ2VyCmZyb20gaGFuZGxlci5kb3dubG9hZF9oYW5kbGVyIGltcG9ydCByZXNvbHZlX3Rva2VuCmZyb20gc2VjdXJpdHkudmFsaWRhdGlvbiBpbXBvcnQgdmFsaWRhdGVfZG93bmxvYWRfdXJsCgpsb2dnZXIgPSBnZXRfbG9nZ2VyKCJoYW5kbGVyLm1wMyIpCgoKYXN5bmMgZGVmIF9kb3dubG9hZF9zb3VyY2UodXJsLCBkZXN0X3BhdGgpOgogICAgdmFsaWRhdGVfZG93bmxvYWRfdXJsKHVybCkKICAgIHRpbWVvdXQgPSBodHRweC5UaW1lb3V0KERPV05MT0FEX1RJTUVPVVQsIGNvbm5lY3Q9MTAuMCkKICAgIHRvdGFsID0gMAogICAgdHJ5OgogICAgICAgIGFzeW5jIHdpdGggaHR0cHguQXN5bmNDbGllbnQodGltZW91dD10aW1lb3V0LCBmb2xsb3dfcmVkaXJlY3RzPVRydWUpIGFzIGNsaWVudDoKICAgICAgICAgICAgYXN5bmMgd2l0aCBjbGllbnQuc3RyZWFtKCJHRVQiLCB1cmwsIGhlYWRlcnM9eyJVc2VyLUFnZW50IjogIk1vemlsbGEvNS4wIn0pIGFzIHJlc3BvbnNlOgogICAgICAgICAgICAgICAgaWYgcmVzcG9uc2Uuc3RhdHVzX2NvZGUgIT0gMjAwOgogICAgICAgICAgICAgICAgICAgIHJhaXNlIENvbnZlcnNpb25FcnJvcigpCiAgICAgICAgICAgICAgICB3aXRoIG9wZW4oZGVzdF9wYXRoLCAid2IiKSBhcyBoYW5kbGU6CiAgICAgICAgICAgICAgICAgICAgYXN5bmMgZm9yIGNodW5rIGluIHJlc3BvbnNlLmFpdGVyX2J5dGVzKDY1NTM2KToKICAgICAgICAgICAgICAgICAgICAgICAgdG90YWwgKz0gbGVuKGNodW5rKQogICAgICAgICAgICAgICAgICAgICAgICBpZiB0b3RhbCA+IGNvbmZpZy5NUDNfTUFYX1NPVVJDRV9CWVRFUzoKICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJhaXNlIENvbnZlcnNpb25FcnJvcigpCiAgICAgICAgICAgICAgICAgICAgICAgIGhhbmRsZS53cml0ZShjaHVuaykKICAgIGV4Y2VwdCAoaHR0cHguVGltZW91dEV4Y2VwdGlvbiwgaHR0cHguSFRUUEVycm9yLCBPU0Vycm9yKSBhcyBleGM6CiAgICAgICAgbG9nZ2VyLndhcm5pbmcoInNvdXJjZSBkb3dubG9hZCBmYWlsZWQ6ICVzIiwgdHlwZShleGMpLl9fbmFtZV9fKQogICAgICAgIHJhaXNlIENvbnZlcnNpb25FcnJvcigpCiAgICBpZiB0b3RhbCA9PSAwOgogICAgICAgIHJhaXNlIENvbnZlcnNpb25FcnJvcigpCiAgICByZXR1cm4gZGVzdF9wYXRoCgoKYXN5bmMgZGVmIF9ydW5fZmZtcGVnKGZmbXBlZywgc3JjX3BhdGgsIG91dF9wYXRoLCB0aXRsZSk6CiAgICBhcmdzID0gWwogICAgICAgIGZmbXBlZywgIi15IiwKICAgICAgICAiLWkiLCBzcmNfcGF0aCwKICAgICAgICAiLXZuIiwKICAgICAgICAiLWNvZGVjOmEiLCAibGlibXAzbGFtZSIsCiAgICAgICAgIi1iOmEiLCBjb25maWcuTVAzX0JJVFJBVEUsCiAgICAgICAgIi1tZXRhZGF0YSIsICJ0aXRsZT0lcyIgJSB0aXRsZVs6MTIwXSwKICAgICAgICBvdXRfcGF0aCwKICAgIF0KICAgIHRyeToKICAgICAgICBwcm9jZXNzID0gYXdhaXQgYXN5bmNpby5jcmVhdGVfc3VicHJvY2Vzc19leGVjKAogICAgICAgICAgICAqYXJncywKICAgICAgICAgICAgc3Rkb3V0PWFzeW5jaW8uc3VicHJvY2Vzcy5ERVZOVUxMLAogICAgICAgICAgICBzdGRlcnI9YXN5bmNpby5zdWJwcm9jZXNzLlBJUEUsCiAgICAgICAgKQogICAgICAgIHRyeToKICAgICAgICAgICAgXywgc3RkZXJyID0gYXdhaXQgYXN5bmNpby53YWl0X2Zvcihwcm9jZXNzLmNvbW11bmljYXRlKCksIHRpbWVvdXQ9RkZNUEVHX1RJTUVPVVQpCiAgICAgICAgZXhjZXB0IGFzeW5jaW8uVGltZW91dEVycm9yOgogICAgICAgICAgICB0cnk6CiAgICAgICAgICAgICAgICBwcm9jZXNzLmtpbGwoKQogICAgICAgICAgICBleGNlcHQgUHJvY2Vzc0xvb2t1cEVycm9yOgogICAgICAgICAgICAgICAgcGFzcwogICAgICAgICAgICByYWlzZSBDb252ZXJzaW9uRXJyb3IoKQogICAgICAgIGlmIHByb2Nlc3MucmV0dXJuY29kZSAhPSAwOgogICAgICAgICAgICBsb2dnZXIud2FybmluZygiZmZtcGVnIGV4aXRlZCAlcyIsIHByb2Nlc3MucmV0dXJuY29kZSkKICAgICAgICAgICAgcmFpc2UgQ29udmVyc2lvbkVycm9yKCkKICAgIGV4Y2VwdCAoT1NFcnJvciwgQ29udmVyc2lvbkVycm9yKToKICAgICAgICByYWlzZSBDb252ZXJzaW9uRXJyb3IoKQogICAgaWYgbm90IG9zLnBhdGguaXNmaWxlKG91dF9wYXRoKSBvciBvcy5wYXRoLmdldHNpemUob3V0X3BhdGgpID09IDA6CiAgICAgICAgcmFpc2UgQ29udmVyc2lvbkVycm9yKCkKICAgIHJldHVybiBvdXRfcGF0aAoKCmFzeW5jIGRlZiBfcmVtb3RlX2NvbnZlcnQodXJsLCB0aXRsZSk6CiAgICBpZiBub3QgY29uZmlnLnJlbW90ZV9jb252ZXJ0ZXJfYXZhaWxhYmxlKCk6CiAgICAgICAgcmFpc2UgQ29udmVyc2lvblVuYXZhaWxhYmxlKCkKICAgIHBheWxvYWQgPSB7ImF1ZGlvX3VybCI6IHVybCwgImZvcm1hdCI6ICJtcDMiLCAiYml0cmF0ZSI6IGNvbmZpZy5NUDNfQklUUkFURSwgInRpdGxlIjogdGl0bGV9CiAgICBoZWFkZXJzID0geyJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiJ9CiAgICBpZiBjb25maWcuQ09OVkVSVEVSX0FQSV9LRVk6CiAgICAgICAgaGVhZGVyc1siWC1BUEktS2V5Il0gPSBjb25maWcuQ09OVkVSVEVSX0FQSV9LRVkKICAgIHRpbWVvdXQgPSBodHRweC5UaW1lb3V0KEZGTVBFR19USU1FT1VULCBjb25uZWN0PTEwLjApCiAgICB0cnk6CiAgICAgICAgYXN5bmMgd2l0aCBodHRweC5Bc3luY0NsaWVudCh0aW1lb3V0PXRpbWVvdXQpIGFzIGNsaWVudDoKICAgICAgICAgICAgcmVzcG9uc2UgPSBhd2FpdCBjbGllbnQucG9zdChjb25maWcuQ09OVkVSVEVSX1VSTCwganNvbj1wYXlsb2FkLCBoZWFkZXJzPWhlYWRlcnMpCiAgICBleGNlcHQgKGh0dHB4LlRpbWVvdXRFeGNlcHRpb24sIGh0dHB4LkhUVFBFcnJvcikgYXMgZXhjOgogICAgICAgIGxvZ2dlci53YXJuaW5nKCJyZW1vdGUgY29udmVydGVyIGZhaWxlZDogJXMiLCB0eXBlKGV4YykuX19uYW1lX18pCiAgICAgICAgcmFpc2UgQ29udmVyc2lvbkVycm9yKCkKICAgIGlmIHJlc3BvbnNlLnN0YXR1c19jb2RlICE9IDIwMDoKICAgICAgICByYWlzZSBDb252ZXJzaW9uRXJyb3IoKQogICAgdHJ5OgogICAgICAgIGJvZHkgPSByZXNwb25zZS5qc29uKCkKICAgIGV4Y2VwdCBWYWx1ZUVycm9yOgogICAgICAgIHJhaXNlIENvbnZlcnNpb25FcnJvcigpCiAgICBkb3dubG9hZF91cmwgPSBib2R5LmdldCgiZG93bmxvYWRfdXJsIikgaWYgaXNpbnN0YW5jZShib2R5LCBkaWN0KSBlbHNlIE5vbmUKICAgIGlmIG5vdCBkb3dubG9hZF91cmw6CiAgICAgICAgcmFpc2UgQ29udmVyc2lvbkVycm9yKCkKICAgIHJldHVybiB7InR5cGUiOiAicmVkaXJlY3QiLCAidXJsIjogZG93bmxvYWRfdXJsfQoKCmFzeW5jIGRlZiBjb252ZXJ0KHRva2VuKToKICAgIGlmIG5vdCBpc2luc3RhbmNlKHRva2VuLCBzdHIpOgogICAgICAgIHJhaXNlIE1lZGlhRXhwaXJlZCgpCiAgICBwYXlsb2FkID0gcmVzb2x2ZV90b2tlbih0b2tlbikKICAgIGlmIHBheWxvYWQuZ2V0KCJrIikgIT0gImF1ZGlvIjoKICAgICAgICByYWlzZSBWYWxpZGF0aW9uRXJyb3IoKQogICAgdXJsID0gcGF5bG9hZC5nZXQoInUiLCAiIikKICAgIHRpdGxlID0gcGF5bG9hZC5nZXQoInQiLCAiYXVkaW8iKQogICAgaWYgY29uZmlnLmxvY2FsX2NvbnZlcnRlcl9hdmFpbGFibGUoKToKICAgICAgICB0bXBkaXIgPSB0ZW1wZmlsZS5ta2R0ZW1wKGRpcj1jb25maWcuVEVNUF9ESVIsIHByZWZpeD0ibXAzXyIpCiAgICAgICAgc3JjX3BhdGggPSBvcy5wYXRoLmpvaW4odG1wZGlyLCAic291cmNlIikKICAgICAgICBvdXRfcGF0aCA9IG9zLnBhdGguam9pbih0bXBkaXIsICJvdXRwdXQubXAzIikKICAgICAgICB0cnk6CiAgICAgICAgICAgIGF3YWl0IF9kb3dubG9hZF9zb3VyY2UodXJsLCBzcmNfcGF0aCkKICAgICAgICAgICAgYXdhaXQgX3J1bl9mZm1wZWcoY29uZmlnLnJlc29sdmVfZmZtcGVnKCksIHNyY19wYXRoLCBvdXRfcGF0aCwgdGl0bGUpCiAgICAgICAgZXhjZXB0IEV4Y2VwdGlvbjoKICAgICAgICAgICAgdXRpbHMuY2xlYW51cF9kaXIodG1wZGlyKQogICAgICAgICAgICByYWlzZQogICAgICAgIHV0aWxzLmNsZWFudXBfcGF0aChzcmNfcGF0aCkKICAgICAgICBmaWxlbmFtZSA9IHV0aWxzLnNhZmVfZmlsZW5hbWUoIiVzXzE5MmticHMiICUgdGl0bGUsICJtcDMiKQogICAgICAgIHJldHVybiB7InR5cGUiOiAiZmlsZSIsICJwYXRoIjogb3V0X3BhdGgsICJ0bXBkaXIiOiB0bXBkaXIsICJmaWxlbmFtZSI6IGZpbGVuYW1lfQogICAgcmV0dXJuIGF3YWl0IF9yZW1vdGVfY29udmVydCh1cmwsIHRpdGxlKQo=
+import asyncio
+import json
+import os
+import tempfile
+
+import httpx
+
+from core import config, utils
+from core.constants import DOWNLOAD_TIMEOUT, FFMPEG_TIMEOUT
+from core.exceptions import ConversionError, ConversionUnavailable, MediaExpired, ValidationError
+from core.logger import get_logger
+from handler.download_handler import resolve_token
+from security.validation import validate_download_url
+
+logger = get_logger("handler.mp3")
+
+
+async def _download_source(url, dest_path):
+    validate_download_url(url)
+    timeout = httpx.Timeout(DOWNLOAD_TIMEOUT, connect=10.0)
+    total = 0
+    try:
+        async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+            async with client.stream("GET", url, headers={"User-Agent": "Mozilla/5.0"}) as response:
+                if response.status_code != 200:
+                    raise ConversionError()
+                with open(dest_path, "wb") as handle:
+                    async for chunk in response.aiter_bytes(65536):
+                        total += len(chunk)
+                        if total > config.MP3_MAX_SOURCE_BYTES:
+                            raise ConversionError()
+                        handle.write(chunk)
+    except (httpx.TimeoutException, httpx.HTTPError, OSError) as exc:
+        logger.warning("source download failed: %s", type(exc).__name__)
+        raise ConversionError()
+    if total == 0:
+        raise ConversionError()
+    return dest_path
+
+
+async def _run_ffmpeg(ffmpeg, src_path, out_path, title):
+    args = [
+        ffmpeg, "-y",
+        "-i", src_path,
+        "-vn",
+        "-codec:a", "libmp3lame",
+        "-b:a", config.MP3_BITRATE,
+        "-metadata", "title=%s" % title[:120],
+        out_path,
+    ]
+    try:
+        process = await asyncio.create_subprocess_exec(
+            *args,
+            stdout=asyncio.subprocess.DEVNULL,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        try:
+            _, stderr = await asyncio.wait_for(process.communicate(), timeout=FFMPEG_TIMEOUT)
+        except asyncio.TimeoutError:
+            try:
+                process.kill()
+            except ProcessLookupError:
+                pass
+            raise ConversionError()
+        if process.returncode != 0:
+            logger.warning("ffmpeg exited %s", process.returncode)
+            raise ConversionError()
+    except (OSError, ConversionError):
+        raise ConversionError()
+    if not os.path.isfile(out_path) or os.path.getsize(out_path) == 0:
+        raise ConversionError()
+    return out_path
+
+
+async def _remote_convert(url, title):
+    if not config.remote_converter_available():
+        raise ConversionUnavailable()
+    payload = {"audio_url": url, "format": "mp3", "bitrate": config.MP3_BITRATE, "title": title}
+    headers = {"Content-Type": "application/json"}
+    if config.CONVERTER_API_KEY:
+        headers["X-API-Key"] = config.CONVERTER_API_KEY
+    timeout = httpx.Timeout(FFMPEG_TIMEOUT, connect=10.0)
+    try:
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            response = await client.post(config.CONVERTER_URL, json=payload, headers=headers)
+    except (httpx.TimeoutException, httpx.HTTPError) as exc:
+        logger.warning("remote converter failed: %s", type(exc).__name__)
+        raise ConversionError()
+    if response.status_code != 200:
+        raise ConversionError()
+    try:
+        body = response.json()
+    except ValueError:
+        raise ConversionError()
+    download_url = body.get("download_url") if isinstance(body, dict) else None
+    if not download_url:
+        raise ConversionError()
+    return {"type": "redirect", "url": download_url}
+
+
+async def convert(token):
+    if not isinstance(token, str):
+        raise MediaExpired()
+    payload = resolve_token(token)
+    if payload.get("k") != "audio":
+        raise ValidationError()
+    url = payload.get("u", "")
+    title = payload.get("t", "audio")
+    if config.local_converter_available():
+        tmpdir = tempfile.mkdtemp(dir=config.TEMP_DIR, prefix="mp3_")
+        src_path = os.path.join(tmpdir, "source")
+        out_path = os.path.join(tmpdir, "output.mp3")
+        try:
+            await _download_source(url, src_path)
+            await _run_ffmpeg(config.resolve_ffmpeg(), src_path, out_path, title)
+        except Exception:
+            utils.cleanup_dir(tmpdir)
+            raise
+        utils.cleanup_path(src_path)
+        filename = utils.safe_filename("%s_192kbps" % title, "mp3")
+        return {"type": "file", "path": out_path, "tmpdir": tmpdir, "filename": filename}
+    return await _remote_convert(url, title)
