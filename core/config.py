@@ -1,1 +1,73 @@
-aW1wb3J0IGZ1bmN0b29scwppbXBvcnQgb3MKaW1wb3J0IHNodXRpbAppbXBvcnQgdGVtcGZpbGUKCgpkZWYgX2VudihuYW1lLCBkZWZhdWx0PSIiKToKICAgIHZhbHVlID0gb3MuZW52aXJvbi5nZXQobmFtZSwgZGVmYXVsdCkKICAgIHJldHVybiB2YWx1ZSBpZiBpc2luc3RhbmNlKHZhbHVlLCBzdHIpIGVsc2UgZGVmYXVsdAoKCmRlZiBfZW52X2ludChuYW1lLCBkZWZhdWx0KToKICAgIHRyeToKICAgICAgICByZXR1cm4gaW50KG9zLmVudmlyb24uZ2V0KG5hbWUsIGRlZmF1bHQpKQogICAgZXhjZXB0IChUeXBlRXJyb3IsIFZhbHVlRXJyb3IpOgogICAgICAgIHJldHVybiBkZWZhdWx0CgoKQVBQX0VOViA9IF9lbnYoIkFQUF9FTlYiLCAicHJvZHVjdGlvbiIpClNFQ1JFVF9LRVkgPSAicnhfenJOWTA5TXhsTXdFbi00M1pFUWphQ3A3enNNcmxJMDdPanJqMm9XanBCbFpEeFRSRzZOTDdFSzlUbVA4OSIKWVRETF9BUElfVVJMID0gX2VudigiWVRETF9BUElfVVJMIiwgImh0dHBzOi8vYXBpLnl0dWx0cmEuY29tL2lrb29sL3lvdXR1YmUvZG93bmxvYWQiKQpGRk1QRUdfUEFUSCA9IF9lbnYoIkZGTVBFR19QQVRIIiwgIiIpCkNPTlZFUlRFUl9VUkwgPSBfZW52KCJDT05WRVJURVJfVVJMIiwgIiIpCkNPTlZFUlRFUl9BUElfS0VZID0gX2VudigiQ09OVkVSVEVSX0FQSV9LRVkiLCAiIikKUkFURV9MSU1JVCA9IF9lbnZfaW50KCJSQVRFX0xJTUlUIiwgMTApCk1QM19SQVRFX0xJTUlUID0gX2Vudl9pbnQoIk1QM19SQVRFX0xJTUlUIiwgMykKQ0FDSEVfVFRMID0gX2Vudl9pbnQoIkNBQ0hFX1RUTCIsIDYwMCkKVE9LRU5fVFRMID0gX2Vudl9pbnQoIlRPS0VOX1RUTCIsIDI3MDApCk1BWF9SRVFVRVNUX1NJWkUgPSBfZW52X2ludCgiTUFYX1JFUVVFU1RfU0laRSIsIDEwNDg1NzYpCk1BWF9VUkxfTEVOR1RIID0gX2Vudl9pbnQoIk1BWF9VUkxfTEVOR1RIIiwgMjA0OCkKTVAzX0JJVFJBVEUgPSBfZW52KCJNUDNfQklUUkFURSIsICIxOTJrIikKTVAzX01BWF9TT1VSQ0VfQllURVMgPSBfZW52X2ludCgiTVAzX01BWF9TT1VSQ0VfQllURVMiLCAyNjIxNDQwMDApCkJBU0VfRElSID0gb3MucGF0aC5kaXJuYW1lKG9zLnBhdGguZGlybmFtZShvcy5wYXRoLmFic3BhdGgoX19maWxlX18pKSkKCgpkZWYgX2RlZmF1bHRfdGVtcF9kaXIoKToKICAgIGlmIG9zLmVudmlyb24uZ2V0KCJWRVJDRUwiKSBvciBvcy5lbnZpcm9uLmdldCgiQVdTX0xBTUJEQV9GVU5DVElPTl9OQU1FIik6CiAgICAgICAgcmV0dXJuIHRlbXBmaWxlLmdldHRlbXBkaXIoKQogICAgcmV0dXJuIG9zLnBhdGguam9pbihCQVNFX0RJUiwgInZhciIsICJ0ZW1wIikKCgpURU1QX0RJUiA9IF9lbnYoIlRFTVBfRElSIiwgIiIpIG9yIF9kZWZhdWx0X3RlbXBfZGlyKCkKCgpAZnVuY3Rvb2xzLmxydV9jYWNoZShtYXhzaXplPTEpCmRlZiByZXNvbHZlX2ZmbXBlZygpOgogICAgaWYgRkZNUEVHX1BBVEg6CiAgICAgICAgaWYgb3MucGF0aC5pc2ZpbGUoRkZNUEVHX1BBVEgpIGFuZCBvcy5hY2Nlc3MoRkZNUEVHX1BBVEgsIG9zLlhfT0spOgogICAgICAgICAgICByZXR1cm4gRkZNUEVHX1BBVEgKICAgICAgICByZXR1cm4gIiIKICAgIGZvdW5kID0gc2h1dGlsLndoaWNoKCJmZm1wZWciKQogICAgaWYgZm91bmQ6CiAgICAgICAgcmV0dXJuIGZvdW5kCiAgICB0cnk6CiAgICAgICAgaW1wb3J0IGltYWdlaW9fZmZtcGVnCiAgICAgICAgcGF0aCA9IGltYWdlaW9fZmZtcGVnLmdldF9mZm1wZWdfZXhlKCkKICAgICAgICBpZiBwYXRoIGFuZCBvcy5wYXRoLmlzZmlsZShwYXRoKToKICAgICAgICAgICAgcmV0dXJuIHBhdGgKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcmV0dXJuICIiCiAgICByZXR1cm4gIiIKCgpkZWYgbG9jYWxfY29udmVydGVyX2F2YWlsYWJsZSgpOgogICAgcmV0dXJuIGJvb2wocmVzb2x2ZV9mZm1wZWcoKSkKCgpkZWYgcmVtb3RlX2NvbnZlcnRlcl9hdmFpbGFibGUoKToKICAgIHJldHVybiBib29sKENPTlZFUlRFUl9VUkwpCgoKZGVmIG1wM19hdmFpbGFibGUoKToKICAgIHJldHVybiBib29sKGxvY2FsX2NvbnZlcnRlcl9hdmFpbGFibGUoKSBvciByZW1vdGVfY29udmVydGVyX2F2YWlsYWJsZSgpKQo=
+import functools
+import os
+import shutil
+import tempfile
+
+
+def _env(name, default=""):
+    value = os.environ.get(name, default)
+    return value if isinstance(value, str) else default
+
+
+def _env_int(name, default):
+    try:
+        return int(os.environ.get(name, default))
+    except (TypeError, ValueError):
+        return default
+
+
+APP_ENV = _env("APP_ENV", "production")
+SECRET_KEY = "rx_zrNY09MxlMwEn-43ZEQjaCp7zsMrlI07Ojrj2oWjpBlZDxTRG6NL7EK9TmP89"
+YTDL_API_URL = _env("YTDL_API_URL", "https://api.ytultra.com/ikool/youtube/download")
+FFMPEG_PATH = _env("FFMPEG_PATH", "")
+CONVERTER_URL = _env("CONVERTER_URL", "")
+CONVERTER_API_KEY = _env("CONVERTER_API_KEY", "")
+RATE_LIMIT = _env_int("RATE_LIMIT", 10)
+MP3_RATE_LIMIT = _env_int("MP3_RATE_LIMIT", 3)
+CACHE_TTL = _env_int("CACHE_TTL", 600)
+TOKEN_TTL = _env_int("TOKEN_TTL", 2700)
+MAX_REQUEST_SIZE = _env_int("MAX_REQUEST_SIZE", 1048576)
+MAX_URL_LENGTH = _env_int("MAX_URL_LENGTH", 2048)
+MP3_BITRATE = _env("MP3_BITRATE", "192k")
+MP3_MAX_SOURCE_BYTES = _env_int("MP3_MAX_SOURCE_BYTES", 262144000)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _default_temp_dir():
+    if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+        return tempfile.gettempdir()
+    return os.path.join(BASE_DIR, "var", "temp")
+
+
+TEMP_DIR = _env("TEMP_DIR", "") or _default_temp_dir()
+
+
+@functools.lru_cache(maxsize=1)
+def resolve_ffmpeg():
+    if FFMPEG_PATH:
+        if os.path.isfile(FFMPEG_PATH) and os.access(FFMPEG_PATH, os.X_OK):
+            return FFMPEG_PATH
+        return ""
+    found = shutil.which("ffmpeg")
+    if found:
+        return found
+    try:
+        import imageio_ffmpeg
+        path = imageio_ffmpeg.get_ffmpeg_exe()
+        if path and os.path.isfile(path):
+            return path
+    except Exception:
+        return ""
+    return ""
+
+
+def local_converter_available():
+    return bool(resolve_ffmpeg())
+
+
+def remote_converter_available():
+    return bool(CONVERTER_URL)
+
+
+def mp3_available():
+    return bool(local_converter_available() or remote_converter_available())
