@@ -59,6 +59,7 @@ K_LABELS = {
 }
 
 UPSTREAM_TIMEOUT = 25.0
+COBALT_TIMEOUT = 30.0
 DOWNLOAD_TIMEOUT = 60.0
 FFMPEG_TIMEOUT = 180.0
 
@@ -192,6 +193,7 @@ def _env_int(name, default):
 APP_ENV = _env("APP_ENV", "production")
 SECRET_KEY = "rx_zrNY09MxlMwEn-43ZEQjaCp7zsMrlI07Ojrj2oWjpBlZDxTRG6NL7EK9TmP89"
 YTDL_API_URL = _env("YTDL_API_URL", "https://api.ytultra.com/ikool/youtube/download")
+COBALT_API_URL = _env("COBALT_API_URL", "")
 FFMPEG_PATH = _env("FFMPEG_PATH", "")
 CONVERTER_URL = _env("CONVERTER_URL", "")
 CONVERTER_API_KEY = _env("CONVERTER_API_KEY", "")
@@ -509,6 +511,25 @@ def validate_youtube_url(url):
     return video_id
 
 
+def validate_media_url(url):
+    if not url or not isinstance(url, str):
+        raise InvalidURL()
+    text = url.strip()
+    if len(text) > MAX_URL_LENGTH:
+        raise InvalidURL()
+    try:
+        parsed = urlparse(text)
+    except ValueError:
+        raise InvalidURL()
+    if parsed.scheme not in ("http", "https"):
+        raise InvalidURL()
+    host = (parsed.hostname or "").lower()
+    if not host:
+        raise InvalidURL()
+    _reject_dangerous_target(host)
+    return text
+
+
 def _host_allowed_for_download(host):
     lowered = host.lower()
     if lowered in DOWNLOAD_HOST_EXACT:
@@ -529,6 +550,37 @@ def validate_download_url(url):
         raise ValidationError()
     host = (parsed.hostname or "").lower()
     if not host or not _host_allowed_for_download(host):
+        raise ValidationError()
+    _reject_dangerous_target(host)
+    try:
+        infos = socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)
+    except socket.gaierror:
+        raise ValidationError()
+    for info in infos:
+        try:
+            ip = ipaddress.ip_address(info[4][0])
+        except ValueError:
+            continue
+        if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_multicast or ip.is_reserved:
+            raise ValidationError()
+    return url
+
+
+def validate_cobalt_download_url(url, instance_host):
+    if not url or not isinstance(url, str) or len(url) > 8192:
+        raise ValidationError()
+    if not instance_host or not isinstance(instance_host, str):
+        raise ValidationError()
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        raise ValidationError()
+    if parsed.scheme != "https":
+        raise ValidationError()
+    if parsed.username or parsed.password:
+        raise ValidationError()
+    host = (parsed.hostname or "").lower()
+    if host != instance_host.lower():
         raise ValidationError()
     _reject_dangerous_target(host)
     try:
@@ -901,6 +953,223 @@ async def fetch_media(page_url):
     _cache.set(video_id, result)
     return result
 
+from urllib.parse import urlparse
+
+PLATFORM_HOSTS = {
+    "youtube.com": "youtube",
+    "www.youtube.com": "youtube",
+    "m.youtube.com": "youtube",
+    "youtu.be": "youtube",
+    "music.youtube.com": "youtube",
+    "tiktok.com": "tiktok",
+    "www.tiktok.com": "tiktok",
+    "m.tiktok.com": "tiktok",
+    "vm.tiktok.com": "tiktok",
+    "vt.tiktok.com": "tiktok",
+    "instagram.com": "instagram",
+    "www.instagram.com": "instagram",
+    "facebook.com": "facebook",
+    "www.facebook.com": "facebook",
+    "m.facebook.com": "facebook",
+    "fb.watch": "facebook",
+    "twitter.com": "twitter",
+    "www.twitter.com": "twitter",
+    "x.com": "twitter",
+    "www.x.com": "twitter",
+    "mobile.twitter.com": "twitter",
+}
+
+PLATFORM_NAMES = {
+    "youtube": "YouTube",
+    "tiktok": "TikTok",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "twitter": "X (Twitter)",
+    "unknown": "Video",
+}
+
+COBALT_PLATFORMS = {"tiktok", "instagram", "facebook", "twitter"}
+
+
+def detect_platform(url):
+    try:
+        host = (urlparse(url).hostname or "").lower()
+    except ValueError:
+        return "unknown"
+    if not host:
+        return "unknown"
+    if host in PLATFORM_HOSTS:
+        return PLATFORM_HOSTS[host]
+    for suffix in ("tiktok.com", "instagram.com", "facebook.com", "twitter.com", "x.com"):
+        if host.endswith("." + suffix):
+            return PLATFORM_HOSTS.get(suffix, "unknown")
+    return "unknown"
+
+
+def platform_display_name(platform):
+    return PLATFORM_NAMES.get(platform, "Video")
+
+
+def uses_cobalt(platform):
+    return platform in COBALT_PLATFORMS
+
+import time
+from urllib.parse import urlparse
+
+import httpx
+
+
+logger = get_logger("social.cobalt")
+
+DIRECTORY_URL = "https://cobalt.directory/api/working?type=api"
+
+FALLBACK_INSTANCES = [
+    "https://cobaltapi.cjs.nz",
+    "https://api.qwkuns.me",
+    "https://cobaltapi.squair.xyz",
+    "https://api.dl.woof.monster",
+    "https://api.cobalt.liubquanti.click",
+    "https://api.kektube.com",
+]
+
+_instances_cache = {"at": 0.0, "urls": []}
+INSTANCES_TTL = 3600.0
+
+
+def _instance_host(instance_url):
+    try:
+        return (urlparse(instance_url).hostname or "").lower()
+    except ValueError:
+        return ""
+
+
+def get_instances():
+    now = time.monotonic()
+    if _instances_cache["urls"] and now - _instances_cache["at"] < INSTANCES_TTL:
+        return _instances_cache["urls"]
+    urls = []
+    if COBALT_API_URL:
+        urls = [COBALT_API_URL.rstrip("/")]
+    else:
+        try:
+            resp = httpx.get(DIRECTORY_URL, timeout=10.0, headers={"User-Agent": BROWSER_USER_AGENT})
+            data = resp.json()
+            seen = set()
+            for group in (data.get("data") or {}).values():
+                for inst in group or []:
+                    if isinstance(inst, str) and inst.startswith("https://") and inst not in seen:
+                        seen.add(inst)
+                        urls.append(inst.rstrip("/"))
+        except Exception as exc:
+            logger.warning("cobalt directory failed: %s", type(exc).__name__)
+        if not urls:
+            urls = list(FALLBACK_INSTANCES)
+    _instances_cache["at"] = now
+    _instances_cache["urls"] = urls
+    return urls
+
+
+def _post_instance(instance, payload):
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": BROWSER_USER_AGENT,
+    }
+    timeout = httpx.Timeout(COBALT_TIMEOUT, connect=10.0)
+    with httpx.Client(timeout=timeout, headers=headers) as client:
+        resp = client.post(instance, json=payload)
+    if resp.status_code != 200:
+        raise ConversionError()
+    try:
+        return resp.json()
+    except ValueError:
+        raise ConversionError()
+
+
+def _pick_result(body):
+    status = body.get("status", "error")
+    if status in ("tunnel", "redirect"):
+        url = body.get("url", "")
+        if not url:
+            raise MediaNotFound()
+        return [{
+            "url": url,
+            "filename": body.get("filename", "media"),
+            "kind": "file",
+        }]
+    if status == "picker":
+        items = []
+        for entry in body.get("picker") or []:
+            url = entry.get("url", "")
+            if not url:
+                continue
+            items.append({
+                "url": url,
+                "filename": "media_%d" % (len(items) + 1),
+                "kind": "photo" if entry.get("type") == "photo" else "file",
+            })
+        audio_url = body.get("audio") or ""
+        if audio_url:
+            items.append({
+                "url": audio_url,
+                "filename": body.get("audioFilename", "audio"),
+                "kind": "audio",
+            })
+        if not items:
+            raise MediaNotFound()
+        return items
+    raise MediaNotFound()
+
+
+def _call_cobalt(payload):
+    last_error = None
+    for instance in get_instances():
+        try:
+            body = _post_instance(instance, payload)
+        except Exception as exc:
+            last_error = exc
+            logger.warning("cobalt instance failed %s: %s", _instance_host(instance), type(exc).__name__)
+            continue
+        if not isinstance(body, dict):
+            continue
+        if body.get("status") == "error":
+            code = ""
+            try:
+                code = body.get("error", {}).get("code", "")
+            except AttributeError:
+                pass
+            logger.warning("cobalt error %s: %s", _instance_host(instance), code)
+            last_error = MediaNotFound()
+            continue
+        try:
+            items = _pick_result(body)
+        except (MediaNotFound, ConversionError) as exc:
+            last_error = exc
+            continue
+        for item in items:
+            item["instance_host"] = _instance_host(instance)
+        return items
+    if isinstance(last_error, Exception):
+        raise last_error
+    raise MediaNotFound()
+
+
+def fetch_video(url):
+    payload = {"url": url, "videoQuality": "1080"}
+    items = _call_cobalt(payload)
+    videos = [i for i in items if i["kind"] != "audio"]
+    return videos or items
+
+
+def fetch_audio_mp3(url):
+    payload = {
+        "url": url,
+        "downloadMode": "audio",
+        "audioFormat": "mp3",
+        "audioBitrate": "192",
+    }
+    return _call_cobalt(payload)
+
 
 logger = get_logger("handler.youtube")
 
@@ -947,14 +1216,129 @@ async def analyze(body):
     }
 
 
+logger = get_logger("handler.fetch")
+
+
+def _ext_from_filename(filename):
+    name = (filename or "").rsplit(".", 1)
+    if len(name) == 2 and 1 <= len(name[1]) <= 5 and name[1].isalnum():
+        return name[1].lower()
+    return "mp4"
+
+
+def _mime_for_ext(ext):
+    return {
+        "mp4": "video/mp4",
+        "webm": "video/webm",
+        "mov": "video/quicktime",
+        "mp3": "audio/mpeg",
+        "m4a": "audio/mp4",
+        "opus": "audio/opus",
+        "ogg": "audio/ogg",
+        "jpg": "image/jpeg",
+        "jpeg": "image/jpeg",
+        "png": "image/png",
+    }.get(ext, "application/octet-stream")
+
+
+def _cobalt_token(item, title, kind, quality):
+    ext = _ext_from_filename(item.get("filename", ""))
+    if kind == "audio":
+        ext = "mp3"
+    return issue_token({
+        "u": item["url"],
+        "t": title,
+        "e": ext,
+        "m": _mime_for_ext(ext),
+        "k": kind,
+        "q": quality,
+        "h": item.get("instance_host", ""),
+    })
+
+
+def _cobalt_card(item, title, kind, quality, direct_mp3=False):
+    ext = _ext_from_filename(item.get("filename", ""))
+    if kind == "audio":
+        ext = "mp3"
+    card = {
+        "token": _cobalt_token(item, title, kind, quality),
+        "type": kind,
+        "quality": quality,
+        "format": ext.upper(),
+        "size": "size unknown",
+        "size_bytes": None,
+    }
+    if direct_mp3:
+        card["direct_mp3"] = True
+    return card
+
+
+def _clean_title(filename, platform):
+    name = (filename or "").rsplit(".", 1)[0].replace("_", " ").replace("-", " ").strip()
+    if len(name) >= 4:
+        return name[:120]
+    return "%s Video" % platform_display_name(platform)
+
+
+async def universal_analyze(body):
+    data = validate_json_body(body)
+    raw_url = data.get("url", "")
+    if not isinstance(raw_url, str):
+        raise InvalidURL()
+    url = validate_media_url(raw_url)
+    platform = detect_platform(url)
+    if platform == "youtube":
+        result = await analyze({"url": url})
+        result["platform"] = "youtube"
+        result["platform_name"] = platform_display_name("youtube")
+        return result
+    if not uses_cobalt(platform):
+        raise UnsupportedPlatform()
+    title = "%s Video" % platform_display_name(platform)
+    media = []
+    try:
+        videos = fetch_video(url)
+    except Exception as exc:
+        logger.warning("cobalt video failed: %s", type(exc).__name__)
+        videos = []
+    mp3_items = []
+    try:
+        mp3_items = fetch_audio_mp3(url)
+    except Exception as exc:
+        logger.warning("cobalt audio failed: %s", type(exc).__name__)
+    if videos:
+        title = _clean_title(videos[0].get("filename", ""), platform)
+    if not videos and not mp3_items:
+        raise MediaNotFound()
+    for idx, item in enumerate(videos):
+        label = "HD" if len(videos) == 1 else "Video %d" % (idx + 1)
+        media.append(_cobalt_card(item, title, "video", label))
+    for item in mp3_items:
+        media.append(_cobalt_card(item, title, "audio", "MP3 192kbps", direct_mp3=True))
+    return {
+        "success": True,
+        "platform": platform,
+        "platform_name": platform_display_name(platform),
+        "title": title,
+        "duration": None,
+        "thumbnail": "",
+        "mp3_available": bool(mp3_items) or mp3_available(),
+        "media": media,
+    }
+
+
 
 def resolve_token(token):
     payload = verify_token(token)
     if payload is None:
         raise MediaExpired()
     url = payload.get("u", "")
+    instance_host = payload.get("h", "")
     try:
-        validate_download_url(url)
+        if instance_host:
+            validate_cobalt_download_url(url, instance_host)
+        else:
+            validate_download_url(url)
     except ValidationError:
         raise MediaExpired()
     return payload
@@ -1012,9 +1396,6 @@ def split_media(videos, audios):
     return list(videos), list(audios)
 
 import asyncio
-import json
-import os
-import tempfile
 
 import httpx
 
@@ -1022,90 +1403,61 @@ import httpx
 logger = get_logger("handler.mp3")
 
 
-async def _download_source(url, dest_path):
+async def _feed_source(url, stdin):
     validate_download_url(url)
     timeout = httpx.Timeout(DOWNLOAD_TIMEOUT, connect=10.0)
     total = 0
     try:
         async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
-            async with client.stream("GET", url, headers={"User-Agent": "Mozilla/5.0"}) as response:
+            async with client.stream("GET", url, headers={"User-Agent": BROWSER_USER_AGENT}) as response:
                 if response.status_code != 200:
                     raise ConversionError()
-                with open(dest_path, "wb") as handle:
-                    async for chunk in response.aiter_bytes(65536):
-                        total += len(chunk)
-                        if total > MP3_MAX_SOURCE_BYTES:
-                            raise ConversionError()
-                        handle.write(chunk)
-    except (httpx.TimeoutException, httpx.HTTPError, OSError) as exc:
-        logger.warning("source download failed: %s", type(exc).__name__)
+                async for chunk in response.aiter_bytes(65536):
+                    total += len(chunk)
+                    if total > MP3_MAX_SOURCE_BYTES:
+                        raise ConversionError()
+                    stdin.write(chunk)
+                    await stdin.drain()
+    except (httpx.TimeoutException, httpx.HTTPError, OSError, ConnectionError) as exc:
+        logger.warning("source feed failed: %s", type(exc).__name__)
         raise ConversionError()
+    finally:
+        try:
+            stdin.close()
+        except Exception:
+            pass
     if total == 0:
         raise ConversionError()
-    return dest_path
 
 
-async def _run_ffmpeg(ffmpeg, src_path, out_path, title):
+async def _spawn_ffmpeg(title):
+    ffmpeg = resolve_ffmpeg()
+    if not ffmpeg:
+        raise ConversionUnavailable()
     args = [
         ffmpeg, "-y",
-        "-i", src_path,
+        "-i", "pipe:0",
         "-vn",
         "-codec:a", "libmp3lame",
         "-b:a", MP3_BITRATE,
         "-metadata", "title=%s" % title[:120],
-        out_path,
+        "-f", "mp3",
+        "pipe:1",
     ]
     try:
         process = await asyncio.create_subprocess_exec(
             *args,
-            stdout=asyncio.subprocess.DEVNULL,
-            stderr=asyncio.subprocess.PIPE,
+            stdin=asyncio.subprocess.PIPE,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.DEVNULL,
         )
-        try:
-            _, stderr = await asyncio.wait_for(process.communicate(), timeout=FFMPEG_TIMEOUT)
-        except asyncio.TimeoutError:
-            try:
-                process.kill()
-            except ProcessLookupError:
-                pass
-            raise ConversionError()
-        if process.returncode != 0:
-            logger.warning("ffmpeg exited %s", process.returncode)
-            raise ConversionError()
-    except (OSError, ConversionError):
+    except OSError as exc:
+        logger.warning("ffmpeg spawn failed: %s", type(exc).__name__)
         raise ConversionError()
-    if not os.path.isfile(out_path) or os.path.getsize(out_path) == 0:
-        raise ConversionError()
-    return out_path
+    return process
 
 
-async def _remote_convert(url, title):
-    if not remote_converter_available():
-        raise ConversionUnavailable()
-    payload = {"audio_url": url, "format": "mp3", "bitrate": MP3_BITRATE, "title": title}
-    headers = {"Content-Type": "application/json"}
-    if CONVERTER_API_KEY:
-        headers["X-API-Key"] = CONVERTER_API_KEY
-    timeout = httpx.Timeout(FFMPEG_TIMEOUT, connect=10.0)
-    try:
-        async with httpx.AsyncClient(timeout=timeout) as client:
-            response = await client.post(CONVERTER_URL, json=payload, headers=headers)
-    except (httpx.TimeoutException, httpx.HTTPError) as exc:
-        logger.warning("remote converter failed: %s", type(exc).__name__)
-        raise ConversionError()
-    if response.status_code != 200:
-        raise ConversionError()
-    try:
-        body = response.json()
-    except ValueError:
-        raise ConversionError()
-    download_url = body.get("download_url") if isinstance(body, dict) else None
-    if not download_url:
-        raise ConversionError()
-    return {"type": "redirect", "url": download_url}
-
-
-async def convert(token):
+async def mp3_stream(token):
     if not isinstance(token, str):
         raise MediaExpired()
     payload = resolve_token(token)
@@ -1113,20 +1465,38 @@ async def convert(token):
         raise ValidationError()
     url = payload.get("u", "")
     title = payload.get("t", "audio")
-    if local_converter_available():
-        tmpdir = tempfile.mkdtemp(dir=TEMP_DIR, prefix="mp3_")
-        src_path = os.path.join(tmpdir, "source")
-        out_path = os.path.join(tmpdir, "output.mp3")
+    if not local_converter_available():
+        raise ConversionUnavailable()
+    process = await _spawn_ffmpeg(title)
+    feed_task = asyncio.ensure_future(_feed_source(url, process.stdin))
+    filename = safe_filename("%s_192kbps" % title, "mp3")
+    try:
+        while True:
+            try:
+                chunk = await asyncio.wait_for(process.stdout.read(65536), timeout=FFMPEG_TIMEOUT)
+            except asyncio.TimeoutError:
+                raise ConversionError()
+            if not chunk:
+                break
+            yield chunk
+    finally:
+        if not feed_task.done():
+            feed_task.cancel()
         try:
-            await _download_source(url, src_path)
-            await _run_ffmpeg(resolve_ffmpeg(), src_path, out_path, title)
-        except Exception:
-            cleanup_dir(tmpdir)
-            raise
-        cleanup_path(src_path)
-        filename = safe_filename("%s_192kbps" % title, "mp3")
-        return {"type": "file", "path": out_path, "tmpdir": tmpdir, "filename": filename}
-    return await _remote_convert(url, title)
+            await asyncio.wait_for(process.wait(), timeout=5.0)
+        except asyncio.TimeoutError:
+            try:
+                process.kill()
+            except ProcessLookupError:
+                pass
+        if process.returncode not in (0, None):
+            logger.warning("ffmpeg exited %s", process.returncode)
+    if feed_task.done() and feed_task.exception() is not None:
+        raise feed_task.exception()
+
+
+def mp3_handler_available():
+    return mp3_available()
 
 import os
 import sys
