@@ -19,6 +19,4 @@ async def media_endpoint(request: Request):
     return JSONResponse(download_handler.media_info(token))
 
 
-from main.app import create_app
 
-app = create_app()
