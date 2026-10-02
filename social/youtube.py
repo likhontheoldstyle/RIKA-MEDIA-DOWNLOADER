@@ -1,1 +1,220 @@
-aW1wb3J0IHJlCmZyb20gdXJsbGliLnBhcnNlIGltcG9ydCBwYXJzZV9xcywgdXJscGFyc2UKCmltcG9ydCBodHRweAoKZnJvbSBjb3JlIGltcG9ydCBjb25maWcsIHV0aWxzCmZyb20gY29yZS5jb25zdGFudHMgaW1wb3J0ICgKICAgIEFVRElPX0VYVEVOU0lPTlMsCiAgICBCUk9XU0VSX1VTRVJfQUdFTlQsCiAgICBLX0xBQkVMUywKICAgIFVQU1RSRUFNX1RJTUVPVVQsCiAgICBWSURFT19FWFRFTlNJT05TLAopCmZyb20gY29yZS5leGNlcHRpb25zIGltcG9ydCBBUElFcnJvciwgTWVkaWFOb3RGb3VuZApmcm9tIGNvcmUubG9nZ2VyIGltcG9ydCBnZXRfbG9nZ2VyCmZyb20gc2VjdXJpdHkudmFsaWRhdGlvbiBpbXBvcnQgdmFsaWRhdGVfdGh1bWJuYWlsX3VybCwgdmFsaWRhdGVfeW91dHViZV91cmwKCmxvZ2dlciA9IGdldF9sb2dnZXIoInNvY2lhbC55b3V0dWJlIikKCl9jYWNoZSA9IHV0aWxzLlRUTENhY2hlKHR0bD1jb25maWcuQ0FDSEVfVFRMKQoKX0ZPUk1BVF9SRSA9IHJlLmNvbXBpbGUociIoXGR7Myw0fSlccypbcFBdIikKX0tfUkUgPSByZS5jb21waWxlKHIiXGIoWzI0OF0pXHMqW2tLXVxiIikKX0VYVF9SRSA9IHJlLmNvbXBpbGUociJcW1wuKFthLXpBLVowLTldKylcXSIpCgoKZGVmIF9taW1lX2Zyb21fdXJsKHVybCk6CiAgICB0cnk6CiAgICAgICAgcXVlcnkgPSBwYXJzZV9xcyh1cmxwYXJzZSh1cmwpLnF1ZXJ5KQogICAgICAgIHZhbHVlcyA9IHF1ZXJ5LmdldCgibWltZSIpIG9yIFtdCiAgICAgICAgaWYgdmFsdWVzOgogICAgICAgICAgICByZXR1cm4gdmFsdWVzWzBdLnNwbGl0KCI7IilbMF0uc3RyaXAoKS5sb3dlcigpCiAgICBleGNlcHQgRXhjZXB0aW9uOgogICAgICAgIHBhc3MKICAgIHJldHVybiAiIgoKCmRlZiBfaXRhZ19mcm9tX3VybCh1cmwpOgogICAgdHJ5OgogICAgICAgIHF1ZXJ5ID0gcGFyc2VfcXModXJscGFyc2UodXJsKS5xdWVyeSkKICAgICAgICB2YWx1ZXMgPSBxdWVyeS5nZXQoIml0YWciKSBvciBbXQogICAgICAgIGlmIHZhbHVlczoKICAgICAgICAgICAgcmV0dXJuIHZhbHVlc1swXQogICAgZXhjZXB0IEV4Y2VwdGlvbjoKICAgICAgICBwYXNzCiAgICByZXR1cm4gIiIKCgpkZWYgX3F1YWxpdHlfZnJvbV9mb3JtYXQoZm9ybWF0X3RleHQpOgogICAgaWYgbm90IGZvcm1hdF90ZXh0IG9yIG5vdCBpc2luc3RhbmNlKGZvcm1hdF90ZXh0LCBzdHIpOgogICAgICAgIHJldHVybiAiIgogICAgbWF0Y2ggPSBfRk9STUFUX1JFLnNlYXJjaChmb3JtYXRfdGV4dCkKICAgIGlmIG1hdGNoOgogICAgICAgIHJldHVybiAiJXNwIiAlIG1hdGNoLmdyb3VwKDEpCiAgICBtYXRjaCA9IF9LX1JFLnNlYXJjaChmb3JtYXRfdGV4dCkKICAgIGlmIG1hdGNoOgogICAgICAgIHJldHVybiBLX0xBQkVMUy5nZXQobWF0Y2guZ3JvdXAoMSksICIiKQogICAgcmV0dXJuICIiCgoKZGVmIF9leHRfZnJvbV9mb3JtYXQoZm9ybWF0X3RleHQsIG1pbWUpOgogICAgaWYgZm9ybWF0X3RleHQgYW5kIGlzaW5zdGFuY2UoZm9ybWF0X3RleHQsIHN0cik6CiAgICAgICAgbWF0Y2ggPSBfRVhUX1JFLnNlYXJjaChmb3JtYXRfdGV4dCkKICAgICAgICBpZiBtYXRjaDoKICAgICAgICAgICAgcmV0dXJuIG1hdGNoLmdyb3VwKDEpLmxvd2VyKCkKICAgIGlmICIvIiBpbiBtaW1lOgogICAgICAgIHN1YnR5cGUgPSBtaW1lLnNwbGl0KCIvIiwgMSlbMV0uc3BsaXQoIjsiKVswXS5zdHJpcCgpLmxvd2VyKCkKICAgICAgICBpZiBzdWJ0eXBlID09ICJtcDQiOgogICAgICAgICAgICByZXR1cm4gIm1wNCIKICAgICAgICBpZiBzdWJ0eXBlIGluICgid2VibSIsICJ3ZWJhIik6CiAgICAgICAgICAgIHJldHVybiBzdWJ0eXBlCiAgICAgICAgaWYgc3VidHlwZSBpbiAoIngtbTRhIiwgIm00YSIpOgogICAgICAgICAgICByZXR1cm4gIm00YSIKICAgICAgICBpZiBzdWJ0eXBlID09ICJhYWMiOgogICAgICAgICAgICByZXR1cm4gImFhYyIKICAgIHJldHVybiAiIgoKCmRlZiBfY2xhc3NpZnkobWltZSwgZXh0KToKICAgIGlmIG1pbWUuc3RhcnRzd2l0aCgiYXVkaW8vIik6CiAgICAgICAgcmV0dXJuICJhdWRpbyIKICAgIGlmIG1pbWUuc3RhcnRzd2l0aCgidmlkZW8vIik6CiAgICAgICAgcmV0dXJuICJ2aWRlbyIKICAgIGlmIGV4dCBpbiBBVURJT19FWFRFTlNJT05TIGFuZCBleHQgbm90IGluIFZJREVPX0VYVEVOU0lPTlM6CiAgICAgICAgcmV0dXJuICJhdWRpbyIKICAgIGlmIGV4dCBpbiBWSURFT19FWFRFTlNJT05TOgogICAgICAgIHJldHVybiAidmlkZW8iCiAgICByZXR1cm4gIiIKCgpkZWYgX3BhcnNlX21lZGlhX2VudHJ5KGVudHJ5KToKICAgIGlmIG5vdCBpc2luc3RhbmNlKGVudHJ5LCBkaWN0KToKICAgICAgICByZXR1cm4gTm9uZQogICAgdXJsID0gZW50cnkuZ2V0KCJ1cmwiKQogICAgaWYgbm90IHVybCBvciBub3QgaXNpbnN0YW5jZSh1cmwsIHN0cikgb3Igbm90IHVybC5zdGFydHN3aXRoKCJodHRwczovLyIpOgogICAgICAgIHJldHVybiBOb25lCiAgICBmb3JtYXRfdGV4dCA9IGVudHJ5LmdldCgiZm9ybWF0IikKICAgIG1pbWUgPSBfbWltZV9mcm9tX3VybCh1cmwpCiAgICBleHQgPSBfZXh0X2Zyb21fZm9ybWF0KGZvcm1hdF90ZXh0LCBtaW1lKQogICAga2luZCA9IF9jbGFzc2lmeShtaW1lLCBleHQpCiAgICBpZiBub3Qga2luZDoKICAgICAgICByZXR1cm4gTm9uZQogICAgcXVhbGl0eSA9IF9xdWFsaXR5X2Zyb21fZm9ybWF0KGZvcm1hdF90ZXh0KQogICAgaWYga2luZCA9PSAiYXVkaW8iIGFuZCBub3QgcXVhbGl0eToKICAgICAgICBxdWFsaXR5ID0gZXh0LnVwcGVyKCkgaWYgZXh0IGVsc2UgIkFVRElPIgogICAgaWYga2luZCA9PSAidmlkZW8iIGFuZCBub3QgcXVhbGl0eToKICAgICAgICByZXR1cm4gTm9uZQogICAgc2l6ZV9ieXRlcyA9IGVudHJ5LmdldCgiZmlsZVNpemUiKQogICAgdHJ5OgogICAgICAgIHNpemVfYnl0ZXMgPSBpbnQoc2l6ZV9ieXRlcykgaWYgc2l6ZV9ieXRlcyBpcyBub3QgTm9uZSBlbHNlIE5vbmUKICAgIGV4Y2VwdCAoVHlwZUVycm9yLCBWYWx1ZUVycm9yKToKICAgICAgICBzaXplX2J5dGVzID0gTm9uZQogICAgaWYgc2l6ZV9ieXRlcyBpcyBOb25lIGFuZCBpc2luc3RhbmNlKGZvcm1hdF90ZXh0LCBzdHIpOgogICAgICAgIHNpemVfYnl0ZXMgPSB1dGlscy5wYXJzZV9zaXplX3RleHQoZm9ybWF0X3RleHQpCiAgICByZXR1cm4gewogICAgICAgICJ1cmwiOiB1cmwsCiAgICAgICAgImtpbmQiOiBraW5kLAogICAgICAgICJxdWFsaXR5IjogcXVhbGl0eSwKICAgICAgICAiZXh0IjogZXh0IG9yICgibXA0IiBpZiBraW5kID09ICJ2aWRlbyIgZWxzZSAibTRhIiksCiAgICAgICAgIm1pbWUiOiBtaW1lLAogICAgICAgICJzaXplX2J5dGVzIjogc2l6ZV9ieXRlcywKICAgICAgICAiaXRhZyI6IF9pdGFnX2Zyb21fdXJsKHVybCksCiAgICB9CgoKYXN5bmMgZGVmIF9jYWxsX3Vwc3RyZWFtKHZpZGVvX2lkKToKICAgIHBheWxvYWQgPSB7InVybCI6ICJodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PSVzIiAlIHZpZGVvX2lkfQogICAgaGVhZGVycyA9IHsKICAgICAgICAiT3JpZ2luIjogImh0dHBzOi8vd3d3Lnl0dWx0cmEuY29tIiwKICAgICAgICAiUmVmZXJlciI6ICJodHRwczovL3d3dy55dHVsdHJhLmNvbS8iLAogICAgICAgICJVc2VyLUFnZW50IjogQlJPV1NFUl9VU0VSX0FHRU5ULAogICAgICAgICJDb250ZW50LVR5cGUiOiAiYXBwbGljYXRpb24vanNvbiIsCiAgICAgICAgIkFjY2VwdCI6ICJhcHBsaWNhdGlvbi9qc29uIiwKICAgIH0KICAgIHRpbWVvdXQgPSBodHRweC5UaW1lb3V0KFVQU1RSRUFNX1RJTUVPVVQsIGNvbm5lY3Q9MTAuMCkKICAgIHRyeToKICAgICAgICBhc3luYyB3aXRoIGh0dHB4LkFzeW5jQ2xpZW50KHRpbWVvdXQ9dGltZW91dCwgZm9sbG93X3JlZGlyZWN0cz1UcnVlKSBhcyBjbGllbnQ6CiAgICAgICAgICAgIHJlc3BvbnNlID0gYXdhaXQgY2xpZW50LnBvc3QoY29uZmlnLllURExfQVBJX1VSTCwganNvbj1wYXlsb2FkLCBoZWFkZXJzPWhlYWRlcnMpCiAgICBleGNlcHQgKGh0dHB4LlRpbWVvdXRFeGNlcHRpb24sIGh0dHB4LkNvbm5lY3RFcnJvciwgaHR0cHguSFRUUEVycm9yKSBhcyBleGM6CiAgICAgICAgbG9nZ2VyLndhcm5pbmcoInVwc3RyZWFtIHJlcXVlc3QgZmFpbGVkOiAlcyIsIHR5cGUoZXhjKS5fX25hbWVfXykKICAgICAgICByYWlzZSBBUElFcnJvcigpCiAgICBpZiByZXNwb25zZS5zdGF0dXNfY29kZSAhPSAyMDA6CiAgICAgICAgbG9nZ2VyLndhcm5pbmcoInVwc3RyZWFtIHN0YXR1cyAlcyIsIHJlc3BvbnNlLnN0YXR1c19jb2RlKQogICAgICAgIHJhaXNlIEFQSUVycm9yKCkKICAgIHRyeToKICAgICAgICBib2R5ID0gcmVzcG9uc2UuanNvbigpCiAgICBleGNlcHQgVmFsdWVFcnJvcjoKICAgICAgICByYWlzZSBBUElFcnJvcigpCiAgICBpZiBub3QgaXNpbnN0YW5jZShib2R5LCBkaWN0KToKICAgICAgICByYWlzZSBBUElFcnJvcigpCiAgICBkYXRhID0gYm9keS5nZXQoImRhdGEiKQogICAgaWYgbm90IGlzaW5zdGFuY2UoZGF0YSwgZGljdCk6CiAgICAgICAgcmFpc2UgQVBJRXJyb3IoKQogICAgcmV0dXJuIGRhdGEKCgpkZWYgX2RlZHVwZShpdGVtcyk6CiAgICBzZWVuID0gc2V0KCkKICAgIHVuaXF1ZSA9IFtdCiAgICBmb3IgaXRlbSBpbiBpdGVtczoKICAgICAgICBrZXkgPSBpdGVtLmdldCgiaXRhZyIpIG9yIGl0ZW0uZ2V0KCJ1cmwiKQogICAgICAgIGlmIG5vdCBrZXkgb3Iga2V5IGluIHNlZW46CiAgICAgICAgICAgIGNvbnRpbnVlCiAgICAgICAgc2Vlbi5hZGQoa2V5KQogICAgICAgIHVuaXF1ZS5hcHBlbmQoaXRlbSkKICAgIHJldHVybiB1bmlxdWUKCgpkZWYgX3NvcnRfdmlkZW9zKGl0ZW1zKToKICAgIHJldHVybiBzb3J0ZWQoaXRlbXMsIGtleT1sYW1iZGEgbTogdXRpbHMucXVhbGl0eV9yYW5rKG1bInF1YWxpdHkiXSksIHJldmVyc2U9VHJ1ZSkKCgpkZWYgX3NvcnRfYXVkaW9zKGl0ZW1zKToKICAgIGRlZiBrZXkoaXRlbSk6CiAgICAgICAgZXh0ID0gaXRlbVsiZXh0Il0KICAgICAgICBwcmVmID0gMCBpZiBleHQgPT0gIm00YSIgZWxzZSAoMSBpZiBleHQgPT0gImFhYyIgZWxzZSAyKQogICAgICAgIHNpemUgPSBpdGVtLmdldCgic2l6ZV9ieXRlcyIpIG9yIDAKICAgICAgICByZXR1cm4gKHByZWYsIC1zaXplKQogICAgcmV0dXJuIHNvcnRlZChpdGVtcywga2V5PWtleSkKCgphc3luYyBkZWYgZmV0Y2hfbWVkaWEocGFnZV91cmwpOgogICAgdmlkZW9faWQgPSB2YWxpZGF0ZV95b3V0dWJlX3VybChwYWdlX3VybCkKICAgIGNhY2hlZCA9IF9jYWNoZS5nZXQodmlkZW9faWQpCiAgICBpZiBjYWNoZWQgaXMgbm90IE5vbmU6CiAgICAgICAgcmV0dXJuIGNhY2hlZAogICAgZGF0YSA9IGF3YWl0IF9jYWxsX3Vwc3RyZWFtKHZpZGVvX2lkKQogICAgcmF3X21lZGlhcyA9IGRhdGEuZ2V0KCJtZWRpYXMiKQogICAgaWYgbm90IGlzaW5zdGFuY2UocmF3X21lZGlhcywgbGlzdCkgb3Igbm90IHJhd19tZWRpYXM6CiAgICAgICAgcmFpc2UgTWVkaWFOb3RGb3VuZCgpCiAgICBwYXJzZWQgPSBbXQogICAgZm9yIGVudHJ5IGluIHJhd19tZWRpYXM6CiAgICAgICAgaXRlbSA9IF9wYXJzZV9tZWRpYV9lbnRyeShlbnRyeSkKICAgICAgICBpZiBpdGVtOgogICAgICAgICAgICBwYXJzZWQuYXBwZW5kKGl0ZW0pCiAgICBwYXJzZWQgPSBfZGVkdXBlKHBhcnNlZCkKICAgIHZpZGVvcyA9IF9zb3J0X3ZpZGVvcyhbbSBmb3IgbSBpbiBwYXJzZWQgaWYgbVsia2luZCJdID09ICJ2aWRlbyJdKQogICAgYXVkaW9zID0gX3NvcnRfYXVkaW9zKFttIGZvciBtIGluIHBhcnNlZCBpZiBtWyJraW5kIl0gPT0gImF1ZGlvIl0pCiAgICBpZiBub3QgdmlkZW9zIGFuZCBub3QgYXVkaW9zOgogICAgICAgIHJhaXNlIE1lZGlhTm90Rm91bmQoKQogICAgdGl0bGUgPSBkYXRhLmdldCgidGl0bGUiKQogICAgaWYgbm90IHRpdGxlIG9yIG5vdCBpc2luc3RhbmNlKHRpdGxlLCBzdHIpOgogICAgICAgIHRpdGxlID0gIllvdVR1YmUgVmlkZW8iCiAgICB0aXRsZSA9IHRpdGxlLnN0cmlwKClbOjIwMF0gb3IgIllvdVR1YmUgVmlkZW8iCiAgICBkdXJhdGlvbiA9IGRhdGEuZ2V0KCJkdXJhdGlvbiIpCiAgICB0cnk6CiAgICAgICAgZHVyYXRpb24gPSBpbnQoZHVyYXRpb24pIGlmIGR1cmF0aW9uIGlzIG5vdCBOb25lIGVsc2UgTm9uZQogICAgZXhjZXB0IChUeXBlRXJyb3IsIFZhbHVlRXJyb3IpOgogICAgICAgIGR1cmF0aW9uID0gTm9uZQogICAgdGh1bWJuYWlsID0gdmFsaWRhdGVfdGh1bWJuYWlsX3VybChkYXRhLmdldCgiaW1hZ2VVcmwiKSkKICAgIHJlc3VsdCA9IHsKICAgICAgICAidmlkZW9faWQiOiB2aWRlb19pZCwKICAgICAgICAidGl0bGUiOiB0aXRsZSwKICAgICAgICAiZHVyYXRpb24iOiBkdXJhdGlvbiwKICAgICAgICAidGh1bWJuYWlsIjogdGh1bWJuYWlsLAogICAgICAgICJ2aWRlb3MiOiB2aWRlb3MsCiAgICAgICAgImF1ZGlvcyI6IGF1ZGlvcywKICAgIH0KICAgIF9jYWNoZS5zZXQodmlkZW9faWQsIHJlc3VsdCkKICAgIHJldHVybiByZXN1bHQK
+import re
+from urllib.parse import parse_qs, urlparse
+
+import httpx
+
+from core import config, utils
+from core.constants import (
+    AUDIO_EXTENSIONS,
+    BROWSER_USER_AGENT,
+    K_LABELS,
+    UPSTREAM_TIMEOUT,
+    VIDEO_EXTENSIONS,
+)
+from core.exceptions import APIError, MediaNotFound
+from core.logger import get_logger
+from security.validation import validate_thumbnail_url, validate_youtube_url
+
+logger = get_logger("social.youtube")
+
+_cache = utils.TTLCache(ttl=config.CACHE_TTL)
+
+_FORMAT_RE = re.compile(r"(\d{3,4})\s*[pP]")
+_K_RE = re.compile(r"\b([248])\s*[kK]\b")
+_EXT_RE = re.compile(r"\[\.([a-zA-Z0-9]+)\]")
+
+
+def _mime_from_url(url):
+    try:
+        query = parse_qs(urlparse(url).query)
+        values = query.get("mime") or []
+        if values:
+            return values[0].split(";")[0].strip().lower()
+    except Exception:
+        pass
+    return ""
+
+
+def _itag_from_url(url):
+    try:
+        query = parse_qs(urlparse(url).query)
+        values = query.get("itag") or []
+        if values:
+            return values[0]
+    except Exception:
+        pass
+    return ""
+
+
+def _quality_from_format(format_text):
+    if not format_text or not isinstance(format_text, str):
+        return ""
+    match = _FORMAT_RE.search(format_text)
+    if match:
+        return "%sp" % match.group(1)
+    match = _K_RE.search(format_text)
+    if match:
+        return K_LABELS.get(match.group(1), "")
+    return ""
+
+
+def _ext_from_format(format_text, mime):
+    if format_text and isinstance(format_text, str):
+        match = _EXT_RE.search(format_text)
+        if match:
+            return match.group(1).lower()
+    if "/" in mime:
+        subtype = mime.split("/", 1)[1].split(";")[0].strip().lower()
+        if subtype == "mp4":
+            return "mp4"
+        if subtype in ("webm", "weba"):
+            return subtype
+        if subtype in ("x-m4a", "m4a"):
+            return "m4a"
+        if subtype == "aac":
+            return "aac"
+    return ""
+
+
+def _classify(mime, ext):
+    if mime.startswith("audio/"):
+        return "audio"
+    if mime.startswith("video/"):
+        return "video"
+    if ext in AUDIO_EXTENSIONS and ext not in VIDEO_EXTENSIONS:
+        return "audio"
+    if ext in VIDEO_EXTENSIONS:
+        return "video"
+    return ""
+
+
+def _parse_media_entry(entry):
+    if not isinstance(entry, dict):
+        return None
+    url = entry.get("url")
+    if not url or not isinstance(url, str) or not url.startswith("https://"):
+        return None
+    format_text = entry.get("format")
+    mime = _mime_from_url(url)
+    ext = _ext_from_format(format_text, mime)
+    kind = _classify(mime, ext)
+    if not kind:
+        return None
+    quality = _quality_from_format(format_text)
+    if kind == "audio" and not quality:
+        quality = ext.upper() if ext else "AUDIO"
+    if kind == "video" and not quality:
+        return None
+    size_bytes = entry.get("fileSize")
+    try:
+        size_bytes = int(size_bytes) if size_bytes is not None else None
+    except (TypeError, ValueError):
+        size_bytes = None
+    if size_bytes is None and isinstance(format_text, str):
+        size_bytes = utils.parse_size_text(format_text)
+    return {
+        "url": url,
+        "kind": kind,
+        "quality": quality,
+        "ext": ext or ("mp4" if kind == "video" else "m4a"),
+        "mime": mime,
+        "size_bytes": size_bytes,
+        "itag": _itag_from_url(url),
+    }
+
+
+async def _call_upstream(video_id):
+    payload = {"url": "https://www.youtube.com/watch?v=%s" % video_id}
+    headers = {
+        "Origin": "https://www.ytultra.com",
+        "Referer": "https://www.ytultra.com/",
+        "User-Agent": BROWSER_USER_AGENT,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+    timeout = httpx.Timeout(UPSTREAM_TIMEOUT, connect=10.0)
+    try:
+        async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
+            response = await client.post(config.YTDL_API_URL, json=payload, headers=headers)
+    except (httpx.TimeoutException, httpx.ConnectError, httpx.HTTPError) as exc:
+        logger.warning("upstream request failed: %s", type(exc).__name__)
+        raise APIError()
+    if response.status_code != 200:
+        logger.warning("upstream status %s", response.status_code)
+        raise APIError()
+    try:
+        body = response.json()
+    except ValueError:
+        raise APIError()
+    if not isinstance(body, dict):
+        raise APIError()
+    data = body.get("data")
+    if not isinstance(data, dict):
+        raise APIError()
+    return data
+
+
+def _dedupe(items):
+    seen = set()
+    unique = []
+    for item in items:
+        key = item.get("itag") or item.get("url")
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        unique.append(item)
+    return unique
+
+
+def _sort_videos(items):
+    return sorted(items, key=lambda m: utils.quality_rank(m["quality"]), reverse=True)
+
+
+def _sort_audios(items):
+    def key(item):
+        ext = item["ext"]
+        pref = 0 if ext == "m4a" else (1 if ext == "aac" else 2)
+        size = item.get("size_bytes") or 0
+        return (pref, -size)
+    return sorted(items, key=key)
+
+
+async def fetch_media(page_url):
+    video_id = validate_youtube_url(page_url)
+    cached = _cache.get(video_id)
+    if cached is not None:
+        return cached
+    data = await _call_upstream(video_id)
+    raw_medias = data.get("medias")
+    if not isinstance(raw_medias, list) or not raw_medias:
+        raise MediaNotFound()
+    parsed = []
+    for entry in raw_medias:
+        item = _parse_media_entry(entry)
+        if item:
+            parsed.append(item)
+    parsed = _dedupe(parsed)
+    videos = _sort_videos([m for m in parsed if m["kind"] == "video"])
+    audios = _sort_audios([m for m in parsed if m["kind"] == "audio"])
+    if not videos and not audios:
+        raise MediaNotFound()
+    title = data.get("title")
+    if not title or not isinstance(title, str):
+        title = "YouTube Video"
+    title = title.strip()[:200] or "YouTube Video"
+    duration = data.get("duration")
+    try:
+        duration = int(duration) if duration is not None else None
+    except (TypeError, ValueError):
+        duration = None
+    thumbnail = validate_thumbnail_url(data.get("imageUrl"))
+    result = {
+        "video_id": video_id,
+        "title": title,
+        "duration": duration,
+        "thumbnail": thumbnail,
+        "videos": videos,
+        "audios": audios,
+    }
+    _cache.set(video_id, result)
+    return result
