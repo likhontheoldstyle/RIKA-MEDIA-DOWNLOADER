@@ -1,1 +1,63 @@
-aW1wb3J0IG9zCmltcG9ydCBzeXMKCnN5cy5wYXRoLmluc2VydCgwLCBvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5kaXJuYW1lKG9zLnBhdGguYWJzcGF0aChfX2ZpbGVfXykpKSkKCmZyb20gZmFzdGFwaSBpbXBvcnQgUmVxdWVzdApmcm9tIGZhc3RhcGkucmVzcG9uc2VzIGltcG9ydCBKU09OUmVzcG9uc2UsIFJlZGlyZWN0UmVzcG9uc2UsIFN0cmVhbWluZ1Jlc3BvbnNlCmZyb20gc3RhcmxldHRlLmJhY2tncm91bmQgaW1wb3J0IEJhY2tncm91bmRUYXNrCgpmcm9tIGNvcmUgaW1wb3J0IHV0aWxzCmZyb20gY29yZS5leGNlcHRpb25zIGltcG9ydCBDb252ZXJzaW9uVW5hdmFpbGFibGUsIFZhbGlkYXRpb25FcnJvcgpmcm9tIGNvcmUubG9nZ2VyIGltcG9ydCBnZXRfbG9nZ2VyCmZyb20gaGFuZGxlciBpbXBvcnQgbXAzX2hhbmRsZXIKZnJvbSBzZWN1cml0eS5yYXRlX2xpbWl0IGltcG9ydCBjaGVja19tcDNfbGltaXQKCmxvZ2dlciA9IGdldF9sb2dnZXIoImFwaS5tcDMiKQoKCmRlZiBfZmlsZV9pdGVyYXRvcihwYXRoKToKICAgIHdpdGggb3BlbihwYXRoLCAicmIiKSBhcyBoYW5kbGU6CiAgICAgICAgd2hpbGUgVHJ1ZToKICAgICAgICAgICAgY2h1bmsgPSBoYW5kbGUucmVhZCg2NTUzNikKICAgICAgICAgICAgaWYgbm90IGNodW5rOgogICAgICAgICAgICAgICAgYnJlYWsKICAgICAgICAgICAgeWllbGQgY2h1bmsKCgphc3luYyBkZWYgbXAzX2VuZHBvaW50KHJlcXVlc3Q6IFJlcXVlc3QpOgogICAgY2hlY2tfbXAzX2xpbWl0KHJlcXVlc3QpCiAgICB0cnk6CiAgICAgICAgYm9keSA9IGF3YWl0IHJlcXVlc3QuanNvbigpCiAgICBleGNlcHQgRXhjZXB0aW9uOgogICAgICAgIHJhaXNlIFZhbGlkYXRpb25FcnJvcigpCiAgICBpZiBub3QgaXNpbnN0YW5jZShib2R5LCBkaWN0KToKICAgICAgICByYWlzZSBWYWxpZGF0aW9uRXJyb3IoKQogICAgdG9rZW4gPSBib2R5LmdldCgidG9rZW4iLCAiIikKICAgIGlmIG5vdCB0b2tlbiBvciBub3QgaXNpbnN0YW5jZSh0b2tlbiwgc3RyKToKICAgICAgICByYWlzZSBWYWxpZGF0aW9uRXJyb3IoKQogICAgaWYgbm90IG1wM19oYW5kbGVyX2F2YWlsYWJsZSgpOgogICAgICAgIHJhaXNlIENvbnZlcnNpb25VbmF2YWlsYWJsZSgpCiAgICByZXN1bHQgPSBhd2FpdCBtcDNfaGFuZGxlci5jb252ZXJ0KHRva2VuKQogICAgaWYgcmVzdWx0WyJ0eXBlIl0gPT0gInJlZGlyZWN0IjoKICAgICAgICByZXR1cm4gUmVkaXJlY3RSZXNwb25zZSh1cmw9cmVzdWx0WyJ1cmwiXSwgc3RhdHVzX2NvZGU9MzAyKQogICAgdGFzayA9IEJhY2tncm91bmRUYXNrKHV0aWxzLmNsZWFudXBfZGlyLCByZXN1bHRbInRtcGRpciJdKQogICAgaGVhZGVycyA9IHsKICAgICAgICAiQ29udGVudC1EaXNwb3NpdGlvbiI6ICdhdHRhY2htZW50OyBmaWxlbmFtZT0iJXMiJyAlIHJlc3VsdFsiZmlsZW5hbWUiXS5yZXBsYWNlKCciJywgIiIpLAogICAgfQogICAgcmV0dXJuIFN0cmVhbWluZ1Jlc3BvbnNlKAogICAgICAgIF9maWxlX2l0ZXJhdG9yKHJlc3VsdFsicGF0aCJdKSwKICAgICAgICBtZWRpYV90eXBlPSJhdWRpby9tcGVnIiwKICAgICAgICBoZWFkZXJzPWhlYWRlcnMsCiAgICAgICAgYmFja2dyb3VuZD10YXNrLAogICAgKQoKCmRlZiBtcDNfaGFuZGxlcl9hdmFpbGFibGUoKToKICAgIGZyb20gY29yZSBpbXBvcnQgY29uZmlnCiAgICByZXR1cm4gY29uZmlnLm1wM19hdmFpbGFibGUoKQoKCmZyb20gbWFpbi5hcHAgaW1wb3J0IGNyZWF0ZV9hcHAKCmFwcCA9IGNyZWF0ZV9hcHAoKQo=
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from fastapi import Request
+from fastapi.responses import JSONResponse, RedirectResponse, StreamingResponse
+from starlette.background import BackgroundTask
+
+from core import utils
+from core.exceptions import ConversionUnavailable, ValidationError
+from core.logger import get_logger
+from handler import mp3_handler
+from security.rate_limit import check_mp3_limit
+
+logger = get_logger("api.mp3")
+
+
+def _file_iterator(path):
+    with open(path, "rb") as handle:
+        while True:
+            chunk = handle.read(65536)
+            if not chunk:
+                break
+            yield chunk
+
+
+async def mp3_endpoint(request: Request):
+    check_mp3_limit(request)
+    try:
+        body = await request.json()
+    except Exception:
+        raise ValidationError()
+    if not isinstance(body, dict):
+        raise ValidationError()
+    token = body.get("token", "")
+    if not token or not isinstance(token, str):
+        raise ValidationError()
+    if not mp3_handler_available():
+        raise ConversionUnavailable()
+    result = await mp3_handler.convert(token)
+    if result["type"] == "redirect":
+        return RedirectResponse(url=result["url"], status_code=302)
+    task = BackgroundTask(utils.cleanup_dir, result["tmpdir"])
+    headers = {
+        "Content-Disposition": 'attachment; filename="%s"' % result["filename"].replace('"', ""),
+    }
+    return StreamingResponse(
+        _file_iterator(result["path"]),
+        media_type="audio/mpeg",
+        headers=headers,
+        background=task,
+    )
+
+
+def mp3_handler_available():
+    from core import config
+    return config.mp3_available()
+
+
+from main.app import create_app
+
+app = create_app()
