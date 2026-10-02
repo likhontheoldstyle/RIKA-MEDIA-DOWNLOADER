@@ -1,1 +1,24 @@
-Q1NQID0gKAogICAgImRlZmF1bHQtc3JjICdzZWxmJzsgIgogICAgImltZy1zcmMgJ3NlbGYnIGh0dHBzOiBkYXRhOjsgIgogICAgInN0eWxlLXNyYyAnc2VsZicgJ3Vuc2FmZS1pbmxpbmUnOyAiCiAgICAic2NyaXB0LXNyYyAnc2VsZic7ICIKICAgICJjb25uZWN0LXNyYyAnc2VsZic7ICIKICAgICJmb250LXNyYyAnc2VsZicgZGF0YTo7ICIKICAgICJmcmFtZS1hbmNlc3RvcnMgJ25vbmUnOyAiCiAgICAiYmFzZS11cmkgJ3NlbGYnOyAiCiAgICAiZm9ybS1hY3Rpb24gJ3NlbGYnIgopCgoKZGVmIHNlY3VyaXR5X2hlYWRlcnMoKToKICAgIHJldHVybiB7CiAgICAgICAgIkNvbnRlbnQtU2VjdXJpdHktUG9saWN5IjogQ1NQLAogICAgICAgICJYLUNvbnRlbnQtVHlwZS1PcHRpb25zIjogIm5vc25pZmYiLAogICAgICAgICJYLUZyYW1lLU9wdGlvbnMiOiAiREVOWSIsCiAgICAgICAgIlJlZmVycmVyLVBvbGljeSI6ICJzdHJpY3Qtb3JpZ2luLXdoZW4tY3Jvc3Mtb3JpZ2luIiwKICAgICAgICAiUGVybWlzc2lvbnMtUG9saWN5IjogImNhbWVyYT0oKSwgbWljcm9waG9uZT0oKSwgZ2VvbG9jYXRpb249KCksIHBheW1lbnQ9KCkiLAogICAgICAgICJTdHJpY3QtVHJhbnNwb3J0LVNlY3VyaXR5IjogIm1heC1hZ2U9NjMwNzIwMDA7IGluY2x1ZGVTdWJEb21haW5zIiwKICAgICAgICAiQ3Jvc3MtT3JpZ2luLU9wZW5lci1Qb2xpY3kiOiAic2FtZS1vcmlnaW4iLAogICAgICAgICJDcm9zcy1PcmlnaW4tUmVzb3VyY2UtUG9saWN5IjogInNhbWUtb3JpZ2luIiwKICAgIH0K
+CSP = (
+    "default-src 'self'; "
+    "img-src 'self' https: data:; "
+    "style-src 'self' 'unsafe-inline'; "
+    "script-src 'self'; "
+    "connect-src 'self'; "
+    "font-src 'self' data:; "
+    "frame-ancestors 'none'; "
+    "base-uri 'self'; "
+    "form-action 'self'"
+)
+
+
+def security_headers():
+    return {
+        "Content-Security-Policy": CSP,
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains",
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Resource-Policy": "same-origin",
+    }
