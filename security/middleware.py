@@ -1,1 +1,74 @@
-aW1wb3J0IHRpbWUKCmZyb20gc3RhcmxldHRlLm1pZGRsZXdhcmUuYmFzZSBpbXBvcnQgQmFzZUhUVFBNaWRkbGV3YXJlCmZyb20gc3RhcmxldHRlLnJlc3BvbnNlcyBpbXBvcnQgSlNPTlJlc3BvbnNlCgpmcm9tIGNvcmUgaW1wb3J0IGNvbmZpZwpmcm9tIGNvcmUuY29uc3RhbnRzIGltcG9ydCBHRU5FUklDX0VSUk9SCmZyb20gY29yZS5sb2dnZXIgaW1wb3J0IGdldF9sb2dnZXIKZnJvbSBzZWN1cml0eS5oZWFkZXJzIGltcG9ydCBzZWN1cml0eV9oZWFkZXJzCmZyb20gc2VjdXJpdHkgaW1wb3J0IHNlY3VyaXR5X2NvbmZpZyBhcyBzY2ZnCgpsb2dnZXIgPSBnZXRfbG9nZ2VyKCJzZWN1cml0eS5taWRkbGV3YXJlIikKCl9hYnVzZV9oaXRzID0ge30KCgpkZWYgX2FidXNlX2NoZWNrKGlwKToKICAgIGlmIG5vdCBzY2ZnLkVOQUJMRV9BQlVTRV9CTE9DSzoKICAgICAgICByZXR1cm4gRmFsc2UKICAgIG5vdyA9IHRpbWUudGltZSgpCiAgICBlbnRyeSA9IF9hYnVzZV9oaXRzLmdldChpcCkKICAgIGlmIGVudHJ5IGFuZCBlbnRyeS5nZXQoImJsb2NrZWRfdW50aWwiLCAwKSA+IG5vdzoKICAgICAgICByZXR1cm4gVHJ1ZQogICAgd2luZG93X3N0YXJ0ID0gbm93IC0gNjAKICAgIHRpbWVzID0gW3QgZm9yIHQgaW4gKGVudHJ5LmdldCgidGltZXMiKSBpZiBlbnRyeSBlbHNlIFtdKSBpZiB0ID49IHdpbmRvd19zdGFydF0KICAgIHRpbWVzLmFwcGVuZChub3cpCiAgICBibG9ja2VkID0gbGVuKHRpbWVzKSA+PSBzY2ZnLkFCVVNFX1RIUkVTSE9MRAogICAgX2FidXNlX2hpdHNbaXBdID0gewogICAgICAgICJ0aW1lcyI6IHRpbWVzWy1zY2ZnLkFCVVNFX1RIUkVTSE9MRDpdLAogICAgICAgICJibG9ja2VkX3VudGlsIjogbm93ICsgc2NmZy5BQlVTRV9CTE9DS19TRUNPTkRTIGlmIGJsb2NrZWQgZWxzZSAwLAogICAgfQogICAgaWYgbGVuKF9hYnVzZV9oaXRzKSA+IDEwMDAwOgogICAgICAgIF9hYnVzZV9oaXRzLmNsZWFyKCkKICAgIHJldHVybiBibG9ja2VkCgoKY2xhc3MgU2VjdXJpdHlNaWRkbGV3YXJlKEJhc2VIVFRQTWlkZGxld2FyZSk6CiAgICBhc3luYyBkZWYgZGlzcGF0Y2goc2VsZiwgcmVxdWVzdCwgY2FsbF9uZXh0KToKICAgICAgICBsZW5ndGggPSByZXF1ZXN0LmhlYWRlcnMuZ2V0KCJjb250ZW50LWxlbmd0aCIpCiAgICAgICAgaWYgbGVuZ3RoOgogICAgICAgICAgICB0cnk6CiAgICAgICAgICAgICAgICBpZiBpbnQobGVuZ3RoKSA+IGNvbmZpZy5NQVhfUkVRVUVTVF9TSVpFOgogICAgICAgICAgICAgICAgICAgIHJldHVybiBKU09OUmVzcG9uc2UoCiAgICAgICAgICAgICAgICAgICAgICAgIHsic3VjY2VzcyI6IEZhbHNlLCAiZXJyb3IiOiAiUmVxdWVzdCB0b28gbGFyZ2UuIn0sCiAgICAgICAgICAgICAgICAgICAgICAgIHN0YXR1c19jb2RlPTQxMywKICAgICAgICAgICAgICAgICAgICAgICAgaGVhZGVycz1zZWN1cml0eV9oZWFkZXJzKCksCiAgICAgICAgICAgICAgICAgICAgKQogICAgICAgICAgICBleGNlcHQgVmFsdWVFcnJvcjoKICAgICAgICAgICAgICAgIHBhc3MKICAgICAgICBpcCA9IHJlcXVlc3QuaGVhZGVycy5nZXQoIngtZm9yd2FyZGVkLWZvciIsICIiKS5zcGxpdCgiLCIpWzBdLnN0cmlwKCkKICAgICAgICBpZiBub3QgaXA6CiAgICAgICAgICAgIHRyeToKICAgICAgICAgICAgICAgIGlwID0gcmVxdWVzdC5jbGllbnQuaG9zdCBpZiByZXF1ZXN0LmNsaWVudCBlbHNlICJ1bmtub3duIgogICAgICAgICAgICBleGNlcHQgRXhjZXB0aW9uOgogICAgICAgICAgICAgICAgaXAgPSAidW5rbm93biIKICAgICAgICBpZiBfYWJ1c2VfY2hlY2soaXApOgogICAgICAgICAgICBsb2dnZXIud2FybmluZygiYWJ1c2UgYmxvY2sgaXA9JXMiLCBpcCkKICAgICAgICAgICAgcmV0dXJuIEpTT05SZXNwb25zZSgKICAgICAgICAgICAgICAgIHsic3VjY2VzcyI6IEZhbHNlLCAiZXJyb3IiOiAiVG9vIG1hbnkgcmVxdWVzdHMuIFBsZWFzZSB0cnkgYWdhaW4gbGF0ZXIuIn0sCiAgICAgICAgICAgICAgICBzdGF0dXNfY29kZT00MjksCiAgICAgICAgICAgICAgICBoZWFkZXJzPXNlY3VyaXR5X2hlYWRlcnMoKSwKICAgICAgICAgICAgKQogICAgICAgIHRyeToKICAgICAgICAgICAgcmVzcG9uc2UgPSBhd2FpdCBjYWxsX25leHQocmVxdWVzdCkKICAgICAgICBleGNlcHQgRXhjZXB0aW9uOgogICAgICAgICAgICBsb2dnZXIuZXhjZXB0aW9uKCJ1bmhhbmRsZWQgZXJyb3IiKQogICAgICAgICAgICByZXR1cm4gSlNPTlJlc3BvbnNlKAogICAgICAgICAgICAgICAgeyJzdWNjZXNzIjogRmFsc2UsICJlcnJvciI6IEdFTkVSSUNfRVJST1J9LAogICAgICAgICAgICAgICAgc3RhdHVzX2NvZGU9NTAwLAogICAgICAgICAgICAgICAgaGVhZGVycz1zZWN1cml0eV9oZWFkZXJzKCksCiAgICAgICAgICAgICkKICAgICAgICBmb3Iga2V5LCB2YWx1ZSBpbiBzZWN1cml0eV9oZWFkZXJzKCkuaXRlbXMoKToKICAgICAgICAgICAgcmVzcG9uc2UuaGVhZGVyc1trZXldID0gdmFsdWUKICAgICAgICByZXR1cm4gcmVzcG9uc2UK
+import time
+
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import JSONResponse
+
+from core import config
+from core.constants import GENERIC_ERROR
+from core.logger import get_logger
+from security.headers import security_headers
+from security import security_config as scfg
+
+logger = get_logger("security.middleware")
+
+_abuse_hits = {}
+
+
+def _abuse_check(ip):
+    if not scfg.ENABLE_ABUSE_BLOCK:
+        return False
+    now = time.time()
+    entry = _abuse_hits.get(ip)
+    if entry and entry.get("blocked_until", 0) > now:
+        return True
+    window_start = now - 60
+    times = [t for t in (entry.get("times") if entry else []) if t >= window_start]
+    times.append(now)
+    blocked = len(times) >= scfg.ABUSE_THRESHOLD
+    _abuse_hits[ip] = {
+        "times": times[-scfg.ABUSE_THRESHOLD:],
+        "blocked_until": now + scfg.ABUSE_BLOCK_SECONDS if blocked else 0,
+    }
+    if len(_abuse_hits) > 10000:
+        _abuse_hits.clear()
+    return blocked
+
+
+class SecurityMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        length = request.headers.get("content-length")
+        if length:
+            try:
+                if int(length) > config.MAX_REQUEST_SIZE:
+                    return JSONResponse(
+                        {"success": False, "error": "Request too large."},
+                        status_code=413,
+                        headers=security_headers(),
+                    )
+            except ValueError:
+                pass
+        ip = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+        if not ip:
+            try:
+                ip = request.client.host if request.client else "unknown"
+            except Exception:
+                ip = "unknown"
+        if _abuse_check(ip):
+            logger.warning("abuse block ip=%s", ip)
+            return JSONResponse(
+                {"success": False, "error": "Too many requests. Please try again later."},
+                status_code=429,
+                headers=security_headers(),
+            )
+        try:
+            response = await call_next(request)
+        except Exception:
+            logger.exception("unhandled error")
+            return JSONResponse(
+                {"success": False, "error": GENERIC_ERROR},
+                status_code=500,
+                headers=security_headers(),
+            )
+        for key, value in security_headers().items():
+            response.headers[key] = value
+        return response
