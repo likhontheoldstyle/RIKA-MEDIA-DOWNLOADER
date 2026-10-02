@@ -1,1 +1,28 @@
-aW1wb3J0IG9zCgpmcm9tIGNvcmUgaW1wb3J0IGNvbmZpZwpmcm9tIGNvcmUubG9nZ2VyIGltcG9ydCBnZXRfbG9nZ2VyCgpsb2dnZXIgPSBnZXRfbG9nZ2VyKCJtYWluLnN0YXJ0dXAiKQoKCmRlZiBlbnN1cmVfZGlyZWN0b3JpZXMoKToKICAgIGZvciBwYXRoIGluICgKICAgICAgICBjb25maWcuVEVNUF9ESVIsCiAgICAgICAgb3MucGF0aC5qb2luKGNvbmZpZy5CQVNFX0RJUiwgInZhciIsICJjYWNoZSIpLAogICAgICAgIG9zLnBhdGguam9pbihjb25maWcuQkFTRV9ESVIsICJ2YXIiLCAicnVudGltZSIpLAogICAgKToKICAgICAgICB0cnk6CiAgICAgICAgICAgIG9zLm1ha2VkaXJzKHBhdGgsIGV4aXN0X29rPVRydWUpCiAgICAgICAgZXhjZXB0IE9TRXJyb3I6CiAgICAgICAgICAgIHBhc3MKCgpkZWYgbG9nX3N0YXJ0dXAoKToKICAgIGxvZ2dlci5pbmZvKCJzdGFydGluZyBSSUtBIE1FRElBIERPV05MT0FERVIgZW52PSVzIiwgY29uZmlnLkFQUF9FTlYpCiAgICBsb2dnZXIuaW5mbygibXAzIGNvbnZlcnNpb24gYXZhaWxhYmxlOiAlcyIsIGNvbmZpZy5tcDNfYXZhaWxhYmxlKCkpCgoKZGVmIHN0YXJ0dXAoKToKICAgIGVuc3VyZV9kaXJlY3RvcmllcygpCiAgICBsb2dfc3RhcnR1cCgpCg==
+import os
+
+from core import config
+from core.logger import get_logger
+
+logger = get_logger("main.startup")
+
+
+def ensure_directories():
+    for path in (
+        config.TEMP_DIR,
+        os.path.join(config.BASE_DIR, "var", "cache"),
+        os.path.join(config.BASE_DIR, "var", "runtime"),
+    ):
+        try:
+            os.makedirs(path, exist_ok=True)
+        except OSError:
+            pass
+
+
+def log_startup():
+    logger.info("starting RIKA MEDIA DOWNLOADER env=%s", config.APP_ENV)
+    logger.info("mp3 conversion available: %s", config.mp3_available())
+
+
+def startup():
+    ensure_directories()
+    log_startup()
