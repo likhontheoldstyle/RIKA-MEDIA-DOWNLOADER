@@ -1,1 +1,64 @@
-aW1wb3J0IHB5dGVzdAoKZnJvbSBjb3JlLmV4Y2VwdGlvbnMgaW1wb3J0IEludmFsaWRVUkwsIFVuc3VwcG9ydGVkUGxhdGZvcm0KZnJvbSBzZWN1cml0eS52YWxpZGF0aW9uIGltcG9ydCBleHRyYWN0X3ZpZGVvX2lkCgoKZGVmIHRlc3Rfd2F0Y2hfdXJsKCk6CiAgICBhc3NlcnQgZXh0cmFjdF92aWRlb19pZCgiaHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUSIpID09ICJkUXc0dzlXZ1hjUSIKCgpkZWYgdGVzdF9zaG9ydF91cmwoKToKICAgIGFzc2VydCBleHRyYWN0X3ZpZGVvX2lkKCJodHRwczovL3lvdXR1LmJlL2RRdzR3OVdnWGNRIikgPT0gImRRdzR3OVdnWGNRIgoKCmRlZiB0ZXN0X3Nob3J0c191cmwoKToKICAgIGFzc2VydCBleHRyYWN0X3ZpZGVvX2lkKCJodHRwczovL3d3dy55b3V0dWJlLmNvbS9zaG9ydHMvZFF3NHc5V2dYY1EiKSA9PSAiZFF3NHc5V2dYY1EiCgoKZGVmIHRlc3RfZW1iZWRfdXJsKCk6CiAgICBhc3NlcnQgZXh0cmFjdF92aWRlb19pZCgiaHR0cHM6Ly93d3cueW91dHViZS5jb20vZW1iZWQvZFF3NHc5V2dYY1EiKSA9PSAiZFF3NHc5V2dYY1EiCgoKZGVmIHRlc3RfbW9iaWxlX3VybCgpOgogICAgYXNzZXJ0IGV4dHJhY3RfdmlkZW9faWQoImh0dHBzOi8vbS55b3V0dWJlLmNvbS93YXRjaD92PWRRdzR3OVdnWGNRJnQ9MTBzIikgPT0gImRRdzR3OVdnWGNRIgoKCmRlZiB0ZXN0X25vbl95b3V0dWJlX3JlamVjdGVkKCk6CiAgICB3aXRoIHB5dGVzdC5yYWlzZXMoVW5zdXBwb3J0ZWRQbGF0Zm9ybSk6CiAgICAgICAgZXh0cmFjdF92aWRlb19pZCgiaHR0cHM6Ly92aW1lby5jb20vMTIzNDU2IikKCgpkZWYgdGVzdF9sb2NhbGhvc3RfcmVqZWN0ZWQoKToKICAgIHdpdGggcHl0ZXN0LnJhaXNlcygoSW52YWxpZFVSTCwgVW5zdXBwb3J0ZWRQbGF0Zm9ybSkpOgogICAgICAgIGV4dHJhY3RfdmlkZW9faWQoImh0dHA6Ly9sb2NhbGhvc3Qvd2F0Y2g/dj1kUXc0dzlXZ1hjUSIpCgoKZGVmIHRlc3RfcHJpdmF0ZV9pcF9yZWplY3RlZCgpOgogICAgd2l0aCBweXRlc3QucmFpc2VzKChJbnZhbGlkVVJMLCBVbnN1cHBvcnRlZFBsYXRmb3JtKSk6CiAgICAgICAgZXh0cmFjdF92aWRlb19pZCgiaHR0cDovLzE5Mi4xNjguMS4xL3dhdGNoP3Y9ZFF3NHc5V2dYY1EiKQoKCmRlZiB0ZXN0X2JhZF9zY2hlbWVfcmVqZWN0ZWQoKToKICAgIHdpdGggcHl0ZXN0LnJhaXNlcyhJbnZhbGlkVVJMKToKICAgICAgICBleHRyYWN0X3ZpZGVvX2lkKCJqYXZhc2NyaXB0OmFsZXJ0KDEpIikKCgpkZWYgdGVzdF9maWxlX3NjaGVtZV9yZWplY3RlZCgpOgogICAgd2l0aCBweXRlc3QucmFpc2VzKEludmFsaWRVUkwpOgogICAgICAgIGV4dHJhY3RfdmlkZW9faWQoImZpbGU6Ly8vZXRjL3Bhc3N3ZCIpCgoKZGVmIHRlc3RfbWlzc2luZ19pZF9yZWplY3RlZCgpOgogICAgd2l0aCBweXRlc3QucmFpc2VzKEludmFsaWRVUkwpOgogICAgICAgIGV4dHJhY3RfdmlkZW9faWQoImh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoIikKCgpkZWYgdGVzdF9lbXB0eV9yZWplY3RlZCgpOgogICAgd2l0aCBweXRlc3QucmFpc2VzKEludmFsaWRVUkwpOgogICAgICAgIGV4dHJhY3RfdmlkZW9faWQoIiIpCgoKZGVmIHRlc3Rfb3ZlcnNpemVfcmVqZWN0ZWQoKToKICAgIHdpdGggcHl0ZXN0LnJhaXNlcyhJbnZhbGlkVVJMKToKICAgICAgICBleHRyYWN0X3ZpZGVvX2lkKCJodHRwczovL3d3dy55b3V0dWJlLmNvbS93YXRjaD92PSIgKyAiYSIgKiAzMDAwKQo=
+import pytest
+
+from core.exceptions import InvalidURL, UnsupportedPlatform
+from security.validation import extract_video_id
+
+
+def test_watch_url():
+    assert extract_video_id("https://www.youtube.com/watch?v=dQw4w9WgXcQ") == "dQw4w9WgXcQ"
+
+
+def test_short_url():
+    assert extract_video_id("https://youtu.be/dQw4w9WgXcQ") == "dQw4w9WgXcQ"
+
+
+def test_shorts_url():
+    assert extract_video_id("https://www.youtube.com/shorts/dQw4w9WgXcQ") == "dQw4w9WgXcQ"
+
+
+def test_embed_url():
+    assert extract_video_id("https://www.youtube.com/embed/dQw4w9WgXcQ") == "dQw4w9WgXcQ"
+
+
+def test_mobile_url():
+    assert extract_video_id("https://m.youtube.com/watch?v=dQw4w9WgXcQ&t=10s") == "dQw4w9WgXcQ"
+
+
+def test_non_youtube_rejected():
+    with pytest.raises(UnsupportedPlatform):
+        extract_video_id("https://vimeo.com/123456")
+
+
+def test_localhost_rejected():
+    with pytest.raises((InvalidURL, UnsupportedPlatform)):
+        extract_video_id("http://localhost/watch?v=dQw4w9WgXcQ")
+
+
+def test_private_ip_rejected():
+    with pytest.raises((InvalidURL, UnsupportedPlatform)):
+        extract_video_id("http://192.168.1.1/watch?v=dQw4w9WgXcQ")
+
+
+def test_bad_scheme_rejected():
+    with pytest.raises(InvalidURL):
+        extract_video_id("javascript:alert(1)")
+
+
+def test_file_scheme_rejected():
+    with pytest.raises(InvalidURL):
+        extract_video_id("file:///etc/passwd")
+
+
+def test_missing_id_rejected():
+    with pytest.raises(InvalidURL):
+        extract_video_id("https://www.youtube.com/watch")
+
+
+def test_empty_rejected():
+    with pytest.raises(InvalidURL):
+        extract_video_id("")
+
+
+def test_oversize_rejected():
+    with pytest.raises(InvalidURL):
+        extract_video_id("https://www.youtube.com/watch?v=" + "a" * 3000)
