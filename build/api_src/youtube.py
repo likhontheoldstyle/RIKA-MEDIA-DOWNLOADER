@@ -27,6 +27,4 @@ async def youtube_endpoint(request: Request):
     return JSONResponse(result)
 
 
-from main.app import create_app
 
-app = create_app()
