@@ -1,1 +1,15 @@
-aW1wb3J0IG9zCmltcG9ydCBzeXMKCnN5cy5wYXRoLmluc2VydCgwLCBvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5hYnNwYXRoKF9fZmlsZV9fKSkpCgpmcm9tIG1haW4uYXBwIGltcG9ydCBjcmVhdGVfYXBwCmZyb20gbWFpbi5zdGFydHVwIGltcG9ydCBzdGFydHVwCgpzdGFydHVwKCkKCmFwcCA9IGNyZWF0ZV9hcHAoKQoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIGltcG9ydCB1dmljb3JuCiAgICB1dmljb3JuLnJ1bihhcHAsIGhvc3Q9IjAuMC4wLjAiLCBwb3J0PWludChvcy5lbnZpcm9uLmdldCgiUE9SVCIsICI4MDAwIikpKQo=
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from main.app import create_app
+from main.startup import startup
+
+startup()
+
+app = create_app()
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", "8000")))
