@@ -1,1 +1,26 @@
-ZnJvbSBjb3JlIGltcG9ydCB1dGlscwpmcm9tIGNvcmUuZXhjZXB0aW9ucyBpbXBvcnQgTWVkaWFOb3RGb3VuZAoKCmRlZiBwaWNrX2Jlc3RfYXVkaW8oYXVkaW9zKToKICAgIGlmIG5vdCBhdWRpb3M6CiAgICAgICAgcmFpc2UgTWVkaWFOb3RGb3VuZCgpCiAgICBkZWYga2V5KGl0ZW0pOgogICAgICAgIGV4dCA9IGl0ZW0uZ2V0KCJleHQiLCAiIikKICAgICAgICBwcmVmID0gMCBpZiBleHQgPT0gIm00YSIgZWxzZSAoMSBpZiBleHQgPT0gImFhYyIgZWxzZSAyKQogICAgICAgIHJldHVybiAocHJlZiwgLShpdGVtLmdldCgic2l6ZV9ieXRlcyIpIG9yIDApKQogICAgcmV0dXJuIHNvcnRlZChhdWRpb3MsIGtleT1rZXkpWzBdCgoKZGVmIG5vcm1hbGl6ZV9jYXJkKGl0ZW0sIHRpdGxlKToKICAgIHJldHVybiB7CiAgICAgICAgInR5cGUiOiBpdGVtWyJraW5kIl0sCiAgICAgICAgInF1YWxpdHkiOiBpdGVtWyJxdWFsaXR5Il0sCiAgICAgICAgImZvcm1hdCI6IGl0ZW1bImV4dCJdLnVwcGVyKCksCiAgICAgICAgInNpemUiOiB1dGlscy5mb3JtYXRfc2l6ZShpdGVtLmdldCgic2l6ZV9ieXRlcyIpKSwKICAgICAgICAic2l6ZV9ieXRlcyI6IGl0ZW0uZ2V0KCJzaXplX2J5dGVzIiksCiAgICB9CgoKZGVmIHNwbGl0X21lZGlhKHZpZGVvcywgYXVkaW9zKToKICAgIHJldHVybiBsaXN0KHZpZGVvcyksIGxpc3QoYXVkaW9zKQo=
+from core import utils
+from core.exceptions import MediaNotFound
+
+
+def pick_best_audio(audios):
+    if not audios:
+        raise MediaNotFound()
+    def key(item):
+        ext = item.get("ext", "")
+        pref = 0 if ext == "m4a" else (1 if ext == "aac" else 2)
+        return (pref, -(item.get("size_bytes") or 0))
+    return sorted(audios, key=key)[0]
+
+
+def normalize_card(item, title):
+    return {
+        "type": item["kind"],
+        "quality": item["quality"],
+        "format": item["ext"].upper(),
+        "size": utils.format_size(item.get("size_bytes")),
+        "size_bytes": item.get("size_bytes"),
+    }
+
+
+def split_media(videos, audios):
+    return list(videos), list(audios)
