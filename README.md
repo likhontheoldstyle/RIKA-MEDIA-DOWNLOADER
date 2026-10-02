@@ -1,1 +1,235 @@
-IyBSSUtBIE1FRElBIERPV05MT0FERVIKCkZhc3QgYW5kIHNlY3VyZSBZb3VUdWJlIG1lZGlhIGRvd25sb2FkZXIgd2Vic2l0ZS4gUGFzdGUgYSBZb3VUdWJlIFVSTCwgc2VlIGV2ZXJ5CmF2YWlsYWJsZSB2aWRlbyBxdWFsaXR5IGFuZCBhdWRpbyBvcHRpb24sIGRvd25sb2FkIGRpcmVjdGx5LCBvciBjb252ZXJ0IGF1ZGlvIHRvCmEgcmVhbCBNUDMgb24gdGhlIHNlcnZlci4KCiMjIFByb2plY3Qgb3ZlcnZpZXcKClB5dGhvbiB3ZWIgYXBwbGljYXRpb24gYnVpbHQgZm9yIFZlcmNlbCBzZXJ2ZXJsZXNzIGRlcGxveW1lbnQsIGFsc28gcnVubmFibGUKbG9jYWxseS4gTWVkaWEgbWV0YWRhdGEgY29tZXMgZnJvbSB0aGUgY29uZmlndXJlZCB1cHN0cmVhbSBZb3VUdWJlIG1lZGlhIEFQSS4KVGhlIGZyb250ZW5kIG5ldmVyIHNlZXMgc2VjcmV0cywgcmF3IHVwc3RyZWFtIFVSTHMsIG9yIGludGVybmFsIHBhdGhzLiBEb3dubG9hZHMKdXNlIHNob3J0LWxpdmVkIGVuY3J5cHRlZCB0b2tlbnMuIEF1ZGlvIGNhbiBiZSB0cmFuc2NvZGVkIHRvIGdlbnVpbmUgTVAzIHdpdGgKRkZtcGVnIChsaWJtcDNsYW1lLCAxOTIga2Jwcykg4oCUIG5ldmVyIGEgcmVuYW1lZCBNNEEgZmlsZS4KCiMjIEFyY2hpdGVjdHVyZQoKYGBgCnB1YmxpYy9pbmRleC5odG1sICAgICAgICAtPiBnbGFzc21vcnBoaXNtIGZyb250ZW5kICh2YW5pbGxhIEpTLCBubyBzZWNyZXRzKQphcGkvKi5weSAgICAgICAgICAgICAgICAgLT4gVmVyY2VsIHNlcnZlcmxlc3MgZW50cnlwb2ludHMsIG9uZSBBU0dJIGFwcCBlYWNoCm1haW4vYXBwLnB5ICAgICAgICAgICAgICAtPiBGYXN0QVBJIGZhY3RvcnksIHJvdXRlcywgZXJyb3IgaGFuZGxlcnMKbWFpbi9zdGFydHVwLnB5ICAgICAgICAgIC0+IGRpcmVjdG9yeSBzZXR1cCwgc3RhcnR1cCBsb2dnaW5nCm1haW4vc2h1dGRvd24ucHkgICAgICAgICAtPiBjbGVhbnVwIGhvb2tzCm1haW4ucHkgICAgICAgICAgICAgICAgICAtPiB0aW55IGVudHJ5cG9pbnQsIGV4cG9zZXMgYGFwcGAKaGFuZGxlci95b3V0dWJlX2hhbmRsZXIucHkgLT4gYW5hbHlzaXMgb3JjaGVzdHJhdGlvbgpoYW5kbGVyL21lZGlhX2hhbmRsZXIucHkgICAtPiBub3JtYWxpemF0aW9uIGhlbHBlcnMKaGFuZGxlci9kb3dubG9hZF9oYW5kbGVyLnB5IC0+IHRva2VuIHZlcmlmaWNhdGlvbiwgZG93bmxvYWQgdGFyZ2V0cwpoYW5kbGVyL21wM19oYW5kbGVyLnB5ICAgICAtPiBNUDMgY29udmVyc2lvbiBvcmNoZXN0cmF0aW9uCnNvY2lhbC95b3V0dWJlLnB5ICAgICAgICAgIC0+IE9OTFkgcGxhY2Ugd2l0aCB1cHN0cmVhbSBBUEkga25vd2xlZGdlCmNvcmUvKiAgICAgICAgICAgICAgICAgICAtPiBjb25maWcsIGNvbnN0YW50cywgZXhjZXB0aW9ucywgbG9nZ2VyLCB1dGlscwpzZWN1cml0eS8qICAgICAgICAgICAgICAgLT4gbWlkZGxld2FyZSwgcmF0ZSBsaW1pdCwgdmFsaWRhdGlvbiwgaGVhZGVycwpgYGAKCkJyb3dzZXIgZmxvdyBmb3IgdmlkZW8vYXVkaW86CgpgYGAKQnJvd3NlciAtPiBQT1NUIC9hcGkveW91dHViZSAtPiB1cHN0cmVhbSBBUEkgLT4gbm9ybWFsaXplZCBtZWRpYSArIHRva2VucwpCcm93c2VyIC0+IEdFVCAvYXBpL2Rvd25sb2FkP3Rva2VuPS4uLiAtPiAzMDIgcmVkaXJlY3QgdG8gbWVkaWEgc291cmNlIFVSTApgYGAKCkJyb3dzZXIgZmxvdyBmb3IgTVAzOgoKYGBgCkJyb3dzZXIgLT4gUE9TVCAvYXBpL21wMyB7dG9rZW59IC0+IGRvd25sb2FkIHNvdXJjZSBhdWRpbwogICAgICAgIC0+IEZGbXBlZyB0cmFuc2NvZGUgLT4gYXVkaW8vbXBlZyBzdHJlYW0gLT4gQnJvd3NlcgpgYGAKCiMjIEluc3RhbGxhdGlvbgoKYGBgYmFzaApweXRob24gLW0gdmVudiAudmVudgpzb3VyY2UgLnZlbnYvYmluL2FjdGl2YXRlCnBpcCBpbnN0YWxsIC1yIHJlcXVpcmVtZW50cy50eHQKYGBgCgpDb3B5IGAuZW52LmV4YW1wbGVgIHRvIGAuZW52YCBhbmQgZmlsbCB2YWx1ZXMgKHNlZSBiZWxvdykuCgojIyBFbnZpcm9ubWVudCB2YXJpYWJsZXMKCnwgVmFyaWFibGUgICAgICAgICAgICB8IFB1cnBvc2UgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgRGVmYXVsdCAgICAgICAgICAgICAgICAgICAgICAgICAgfAp8LS0tLS0tLS0tLS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS18LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLXwKfCBBUFBfRU5WICAgICAgICAgICAgIHwgYHByb2R1Y3Rpb25gIG9yIGBkZXZlbG9wbWVudGAgICAgICAgICAgICAgICAgICAgICAgfCBgcHJvZHVjdGlvbmAgICAgICAgICAgICAgICAgICAgICB8CnwgU0VDUkVUX0tFWSAgICAgICAgICB8IFNpZ25zL2VuY3J5cHRzIGRvd25sb2FkIHRva2Vucy4gSGFyZGNvZGVkIGluICAgICAgfCBoYXJkY29kZWQgICAgICAgICAgICAgICAgICAgICAgICB8CnwgICAgICAgICAgICAgICAgICAgICB8IGBjb3JlL2NvbmZpZy5weWAuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAp8IFlURExfQVBJX1VSTCAgICAgICAgfCBVcHN0cmVhbSBZb3VUdWJlIG1lZGlhIEFQSSBlbmRwb2ludCAgICAgICAgICAgICAgICB8IHl0dWx0cmEgZW5kcG9pbnQgICAgICAgICAgICAgICAgIHwKfCBGRk1QRUdfUEFUSCAgICAgICAgIHwgRnVsbCBwYXRoIHRvIGZmbXBlZyBiaW5hcnkgKG9wdGlvbmFsIG92ZXJyaWRlKSAgICAgfCBhdXRvLWRldGVjdCAgICAgICAgICAgICAgICAgICAgICB8CnwgQ09OVkVSVEVSX1VSTCAgICAgICB8IFJlbW90ZSBNUDMgY29udmVydGVyIEFQSSAoZmFsbGJhY2sgaWYgbm8gRkZtcGVnKSAgIHwgZW1wdHkgKE1QMyBkaXNhYmxlZCkgICAgICAgICAgICAgfAp8IENPTlZFUlRFUl9BUElfS0VZICAgfCBBUEkga2V5IGZvciByZW1vdGUgY29udmVydGVyICAgICAgICAgICAgICAgICAgICAgICB8IGVtcHR5ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfCBSQVRFX0xJTUlUICAgICAgICAgIHwgUmVxdWVzdHMgcGVyIG1pbnV0ZSBwZXIgSVAgICAgICAgICAgICAgICAgICAgICAgICAgfCBgMTBgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CnwgTVAzX1JBVEVfTElNSVQgICAgICB8IE1QMyBjb252ZXJzaW9ucyBwZXIgbWludXRlIHBlciBJUCAgICAgICAgICAgICAgICAgIHwgYDNgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAp8IENBQ0hFX1RUTCAgICAgICAgICAgfCBVcHN0cmVhbSByZXNwb25zZSBjYWNoZSBzZWNvbmRzICAgICAgICAgICAgICAgICAgICB8IGA2MDBgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfCBUT0tFTl9UVEwgICAgICAgICAgIHwgRG93bmxvYWQgdG9rZW4gbGlmZXRpbWUgc2Vjb25kcyAgICAgICAgICAgICAgICAgICAgfCBgMjcwMGAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CnwgTUFYX1JFUVVFU1RfU0laRSAgICB8IE1heCBKU09OIGJvZHkgYnl0ZXMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgYDEwNDg1NzZgICAgICAgICAgICAgICAgICAgICAgICAgfAp8IE1QM19CSVRSQVRFICAgICAgICAgfCBNUDMgYml0cmF0ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IGAxOTJrYCAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfCBNUDNfTUFYX1NPVVJDRV9CWVRFU3wgTWF4IHNvdXJjZSBhdWRpbyBkb3dubG9hZCBieXRlcyBmb3IgY29udmVyc2lvbiAgICAgfCBgMjYyMTQ0MDAwYCAgICAgICAgICAgICAgICAgICAgICB8CnwgVEVNUF9ESVIgICAgICAgICAgICB8IFRlbXAgd29ya2luZyBkaXJlY3RvcnkgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgYHZhci90ZW1wYCAgICAgICAgICAgICAgICAgICAgICAgfAoKIyMgTG9jYWwgZGV2ZWxvcG1lbnQKCmBgYGJhc2gKcHl0aG9uIG1haW4ucHkKYGBgCgpPcGVuIGh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC8g4oCUIHRoZSByZXdyaXRlIHNlcnZlcyBgcHVibGljL2luZGV4Lmh0bWxgIG9ubHkgb24KVmVyY2VsOyBsb2NhbGx5IG9wZW4gYHB1YmxpYy9pbmRleC5odG1sYCBpbiBhIGJyb3dzZXIgd2hpbGUgdGhlIEFQSSBydW5zLCBvcgpzZXJ2ZSB0aGUgZm9sZGVyIHN0YXRpY2FsbHkuCgpSdW4gdGVzdHM6CgpgYGBiYXNoCnB5dGhvbiAtbSBweXRlc3QgdGVzdHMvIC1xCmBgYAoKIyMgVmVyY2VsIGRlcGxveW1lbnQKCjEuIFB1c2ggdGhpcyBwcm9qZWN0IHRvIEdpdEh1Yi4KMi4gSW4gVmVyY2VsLCBpbXBvcnQgdGhlIHJlcG9zaXRvcnkuCjMuIFNldCBlbnZpcm9ubWVudCB2YXJpYWJsZXMgKGF0IG1pbmltdW0gYFNFQ1JFVF9LRVlgIHdpdGggYSBsb25nIHJhbmRvbQogICBzdHJpbmcpLiBFdmVyeXRoaW5nIGVsc2UgaGFzIHdvcmtpbmcgZGVmYXVsdHMuCjQuIERlcGxveS4gVmVyY2VsIGRldGVjdHMgUHl0aG9uIGZyb20gYHJlcXVpcmVtZW50cy50eHRgLgoKYHZlcmNlbC5qc29uYCBtYXBzIGAvYCB0byBgcHVibGljL2luZGV4Lmh0bWxgLiBFYWNoIGZpbGUgaW4gYGFwaS9gIGJlY29tZXMgYQpzZXJ2ZXJsZXNzIGZ1bmN0aW9uIGV4cG9ydGluZyBhbiBBU0dJIGBhcHBgLgoKIyMgRkZtcGVnIHJlcXVpcmVtZW50CgpNUDMgY29udmVyc2lvbiBuZWVkcyBhIHJlYWwgRkZtcGVnIGJpbmFyeSB3aXRoIGBsaWJtcDNsYW1lYDoKCi0gTG9jYWw6IGluc3RhbGwgRkZtcGVnIG9uIHRoZSBzeXN0ZW0gKGBmZm1wZWdgIG9uIFBBVEgpIG9yIHNldCBgRkZNUEVHX1BBVEhgLgotIFZlcmNlbDogYGltYWdlaW8tZmZtcGVnYCAoaW4gYHJlcXVpcmVtZW50cy50eHRgKSBzaGlwcyBhIHN0YXRpYyBGRm1wZWcgYmluYXJ5CiAgYW5kIGlzIGRldGVjdGVkIGF1dG9tYXRpY2FsbHkuIE5vIHN5c3RlbSBpbnN0YWxsIG5lZWRlZC4KCklmIG5laXRoZXIgaXMgYXZhaWxhYmxlLCBzZXQgYENPTlZFUlRFUl9VUkxgICgrIGBDT05WRVJURVJfQVBJX0tFWWApIHRvIHVzZSBhCnJlbW90ZSBjb252ZXJzaW9uIGJhY2tlbmQ6CgpgYGAKUE9TVCB7Q09OVkVSVEVSX1VSTH0KSGVhZGVyczogQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uLCBYLUFQSS1LZXk6IHtDT05WRVJURVJfQVBJX0tFWX0KQm9keTogeyJhdWRpb191cmwiOiAiLi4uIiwgImZvcm1hdCI6ICJtcDMiLCAiYml0cmF0ZSI6ICIxOTJrIiwgInRpdGxlIjogIi4uLiJ9CkV4cGVjdGVkOiAyMDAgeyJkb3dubG9hZF91cmwiOiAiaHR0cHM6Ly8uLi4vZmlsZS5tcDMifQpgYGAKCklmIG5vIGNvbnZlcnRlciBpcyBhdmFpbGFibGUgYXQgYWxsLCB0aGUgQVBJIHJlcG9ydHMgYG1wM19hdmFpbGFibGU6IGZhbHNlYCwKdGhlIGZyb250ZW5kIGhpZGVzIHRoZSBNUDMgb3B0aW9uLCBhbmQgYFBPU1QgL2FwaS9tcDNgIHJldHVybnMgNTAzLiBNUDMgaXMKbmV2ZXIgZmFrZWQuCgojIyBNUDMgY29udmVyc2lvbiBhcmNoaXRlY3R1cmUKCmBoYW5kbGVyL21wM19oYW5kbGVyLnB5YCBvcmNoZXN0cmF0ZXM6IHZlcmlmeSBlbmNyeXB0ZWQgYXVkaW8gdG9rZW4sIHN0cmVhbSB0aGUKc291cmNlIGF1ZGlvIHRvIGEgdGVtcCBmaWxlIChzaXplLWNhcHBlZCksIHJ1biBGRm1wZWcgdmlhIHN1YnByb2Nlc3Mgd2l0aCBhCnRpbWVvdXQgKGAtdm4gLWNvZGVjOmEgbGlibXAzbGFtZSAtYjphIDE5MmtgKSwgc3RyZWFtIHRoZSByZXN1bHQgYmFjayBhcwpgYXVkaW8vbXBlZ2Agd2l0aCBhIHNhZmUgYENvbnRlbnQtRGlzcG9zaXRpb25gIGZpbGVuYW1lLCB0aGVuIGRlbGV0ZSB0ZW1wIGZpbGVzCmluIGEgYmFja2dyb3VuZCB0YXNrLiBGYWlsdXJlcyBjbGVhbiB1cCBpbiBgZmluYWxseWAtc3R5bGUgcGF0aHMuIEZGbXBlZwpjb21tYW5kIGxpbmVzIGFuZCB0ZW1wIHBhdGhzIGFyZSBuZXZlciBleHBvc2VkIHRvIHRoZSBjbGllbnQuCgojIyBTZWN1cml0eSBhcmNoaXRlY3R1cmUKCi0gU3RyaWN0IFlvdVR1YmUtb25seSBVUkwgdmFsaWRhdGlvbjsgU1NSRiBwcm90ZWN0aW9uIChzY2hlbWUgYWxsb3dsaXN0LAogIGhvc3QgYWxsb3dsaXN0LCBJUC1saXRlcmFsIGFuZCBwcml2YXRlLXJhbmdlIHJlamVjdGlvbiwgRE5TIHJlLXJlc29sdXRpb24KICBjaGVjayBmb3IgZG93bmxvYWQgdGFyZ2V0cykuCi0gRG93bmxvYWQgdGFyZ2V0cyByZXN0cmljdGVkIHRvIGAqLmdvb2dsZXZpZGVvLmNvbWAgb3ZlciBIVFRQUy4KLSBNZWRpYSBVUkxzIG5ldmVyIHNlbnQgdG8gdGhlIGJyb3dzZXI7IEZlcm5ldC1lbmNyeXB0ZWQgc2hvcnQtbGl2ZWQgdG9rZW5zCiAgaW5zdGVhZCAoaW50ZWdyaXR5ICsgZXhwaXJ5KS4KLSBJUC1iYXNlZCByYXRlIGxpbWl0aW5nIChnZW5lcmFsICsgc3RyaWN0ZXIgTVAzIGJ1Y2tldCkgcGx1cyBidXJzdC9hYnVzZQogIGJsb2NraW5nIGluIG1pZGRsZXdhcmUuCi0gU2VjdXJpdHkgaGVhZGVyczogQ1NQLCBYLUNvbnRlbnQtVHlwZS1PcHRpb25zLCBERU5ZIGZyYW1pbmcsCiAgUmVmZXJyZXItUG9saWN5LCBQZXJtaXNzaW9ucy1Qb2xpY3ksIEhTVFMuCi0gUmVxdWVzdCBib2R5IHNpemUgbGltaXRzOyBzYWZlIGVycm9yIG1lc3NhZ2VzIG9ubHkgKG5vIHRyYWNlYmFja3MsIHBhdGhzLAogIG9yIGV4Y2VwdGlvbiBuYW1lcykuCi0gU2VjcmV0IG1hc2tpbmcgaW4gbG9nczsgbm8gc2VjcmV0cyBpbiBmcm9udGVuZDsgc2FtZS1vcmlnaW4gQVBJIG9ubHkuCi0gU2FuaXRpemVkIGZpbGVuYW1lczsgc2FmZSBzdWJwcm9jZXNzIGludm9jYXRpb24gKGFyZ3VtZW50IGxpc3QsIG5vIHNoZWxsKS4KCkZyb250ZW5kIHNvdXJjZSBpcyBwdWJsaWMgYnkgbmF0dXJlIOKAlCBhbGwgc2VjcmV0cyBzdGF5IHNlcnZlci1zaWRlLiBObyBmYWtlCiJlbmNyeXB0aW9uIiBvZiBIVE1ML0pTIGlzIHVzZWQgYXMgYSBzZWN1cml0eSBtZWNoYW5pc20uCgojIyBBUEkgZW5kcG9pbnRzCgojIyMgUE9TVCAvYXBpL3lvdXR1YmUKClJlcXVlc3Q6CgpgYGBqc29uCnsidXJsIjogImh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL3dhdGNoP3Y9ZFF3NHc5V2dYY1EifQpgYGAKClJlc3BvbnNlOgoKYGBganNvbgp7CiAgInN1Y2Nlc3MiOiB0cnVlLAogICJ0aXRsZSI6ICJZb3VUdWJlIFZpZGVvIiwKICAiZHVyYXRpb24iOiAyMTMsCiAgInRodW1ibmFpbCI6ICJodHRwczovL2kueXRpbWcuY29tLy4uLiIsCiAgIm1wM19hdmFpbGFibGUiOiB0cnVlLAogICJtZWRpYSI6IFsKICAgIHsidG9rZW4iOiAiLi4uIiwgInR5cGUiOiAidmlkZW8iLCAicXVhbGl0eSI6ICIxMDgwcCIsICJmb3JtYXQiOiAiTVA0IiwKICAgICAic2l6ZSI6ICI3Ny4xNiBNQiIsICJzaXplX2J5dGVzIjogODA5MTE5OTl9LAogICAgeyJ0b2tlbiI6ICIuLi4iLCAidHlwZSI6ICJhdWRpbyIsICJxdWFsaXR5IjogIk00QSIsICJmb3JtYXQiOiAiTTRBIiwKICAgICAic2l6ZSI6ICIzLjI5IE1CIiwgInNpemVfYnl0ZXMiOiAzNDQ5NDQ3fQogIF0KfQpgYGAKCiMjIyBHRVQgL2FwaS9kb3dubG9hZD90b2tlbj0uLi4KClZhbGlkYXRlcyB0aGUgdG9rZW4sIHRoZW4gMzAyLXJlZGlyZWN0cyB0byB0aGUgbWVkaWEgc291cmNlIFVSTC4KCiMjIyBHRVQgL2FwaS9tZWRpYT90b2tlbj0uLi4KClJldHVybnMgc2FmZSBtZXRhZGF0YSBmb3IgYSB0b2tlbjogZmlsZW5hbWUsIGtpbmQsIHF1YWxpdHksIGZvcm1hdCwgbWltZS4KCiMjIyBQT1NUIC9hcGkvbXAzCgpSZXF1ZXN0OiBgeyJ0b2tlbiI6ICIuLi4ifWAgKGF1ZGlvIHRva2VuIGZyb20gYC9hcGkveW91dHViZWApLgoKUmVzcG9uc2U6IGBhdWRpby9tcGVnYCBzdHJlYW0gd2l0aCBgQ29udGVudC1EaXNwb3NpdGlvbjogYXR0YWNobWVudGAuCjUwMyB3aGVuIGNvbnZlcnNpb24gaXMgdW5hdmFpbGFibGUuCgojIyMgR0VUIC9hcGkvaGVhbHRoCgpgYGBqc29uCnsic3RhdHVzIjogIm9rIn0KYGBgCgpFcnJvciBmb3JtYXQgKGFsbCBlbmRwb2ludHMpOgoKYGBganNvbgp7InN1Y2Nlc3MiOiBmYWxzZSwgImVycm9yIjogIlNhZmUgZXJyb3IgbWVzc2FnZSJ9CmBgYAoKIyMgVHJvdWJsZXNob290aW5nCgotIGBJbnZhbGlkIFlvdVR1YmUgVVJMYCDigJQgb25seSB5b3V0dWJlLmNvbSAvIHlvdXR1LmJlIGxpbmtzIGFyZSBhY2NlcHRlZC4KLSBgTm8gbWVkaWEgZm91bmRgIOKAlCB1cHN0cmVhbSByZXR1cm5lZCBub3RoaW5nIHVzYWJsZSBmb3IgdGhpcyB2aWRlby4KLSBgUmF0ZSBsaW1pdCBleGNlZWRlZGAg4oCUIHNsb3cgZG93bjsgbGltaXRzIGFyZSBwZXIgSVAuCi0gYE1QMyBjb252ZXJzaW9uIGlzIHRlbXBvcmFyaWx5IHVuYXZhaWxhYmxlYCDigJQgbm8gRkZtcGVnIGFuZCBubwogIGBDT05WRVJURVJfVVJMYCBjb25maWd1cmVkLgotIGBUaGlzIGRvd25sb2FkIGxpbmsgaGFzIGV4cGlyZWRgIOKAlCB0b2tlbnMgbGl2ZSA0NSBtaW51dGVzOyBhbmFseXplIGFnYWluLgotIE9uIFZlcmNlbCBIb2JieSwgZnVuY3Rpb25zIHRpbWUgb3V0IGFmdGVyIDYwIHNlY29uZHM6IHZlcnkgbG9uZyBNUDMKICBjb252ZXJzaW9ucyBtYXkgbm90IGZpbmlzaC4gVXNlIGEgcmVtb3RlIGNvbnZlcnRlciBvciBWZXJjZWwgUHJvIGZvcgogIGxvbmdlciB3b3JrbG9hZHMuCgojIyBWZXJjZWwtc3BlY2lmaWMgbGltaXRhdGlvbnMKCi0gU2VydmVybGVzcyBmdW5jdGlvbnMgYXJlIHN0YXRlbGVzczogdG9rZW5zIGFyZSBzZWxmLWNvbnRhaW5lZCAoZW5jcnlwdGVkKSwKICBub3Qgc2VydmVyIG1lbW9yeS4KLSBgL3RtcGAgaXMgdGhlIG9ubHkgd3JpdGFibGUgZGlyZWN0b3J5OyB0ZW1wIGZpbGVzIGFyZSBjbGVhbmVkIGFmdGVyIGVhY2gKICBjb252ZXJzaW9uLgotIEZ1bmN0aW9uIGV4ZWN1dGlvbiB0aW1lIGFuZCBtZW1vcnkgYXJlIGxpbWl0ZWQgYnkgdGhlIFZlcmNlbCBwbGFuLgotIExhcmdlIHZpZGVvL2F1ZGlvIGZpbGVzIGFyZSAzMDItcmVkaXJlY3RlZCBmb3IgZGlyZWN0IGJyb3dzZXIgZG93bmxvYWQgYW5kCiAgYXJlIG5ldmVyIHByb3hpZWQgdGhyb3VnaCB0aGUgZnVuY3Rpb24uCi0gSW4tbWVtb3J5IHJhdGUgbGltaXRpbmcgYW5kIGNhY2hpbmcgYXJlIHBlciBmdW5jdGlvbiBpbnN0YW5jZS4KCiMjIExlZ2FsIG5vdGljZQoKRG93bmxvYWQgY29udGVudCBvbmx5IHdoZW4geW91IGhhdmUgdGhlIHJpZ2h0IG9yIHBlcm1pc3Npb24gdG8gZG8gc28uCg==
+# RIKA MEDIA DOWNLOADER
+
+Fast and secure YouTube media downloader website. Paste a YouTube URL, see every
+available video quality and audio option, download directly, or convert audio to
+a real MP3 on the server.
+
+## Project overview
+
+Python web application built for Vercel serverless deployment, also runnable
+locally. Media metadata comes from the configured upstream YouTube media API.
+The frontend never sees secrets, raw upstream URLs, or internal paths. Downloads
+use short-lived encrypted tokens. Audio can be transcoded to genuine MP3 with
+FFmpeg (libmp3lame, 192 kbps) — never a renamed M4A file.
+
+## Architecture
+
+```
+public/index.html        -> glassmorphism frontend (vanilla JS, no secrets)
+api/*.py                 -> Vercel serverless entrypoints, one ASGI app each
+main/app.py              -> FastAPI factory, routes, error handlers
+main/startup.py          -> directory setup, startup logging
+main/shutdown.py         -> cleanup hooks
+main.py                  -> tiny entrypoint, exposes `app`
+handler/youtube_handler.py -> analysis orchestration
+handler/media_handler.py   -> normalization helpers
+handler/download_handler.py -> token verification, download targets
+handler/mp3_handler.py     -> MP3 conversion orchestration
+social/youtube.py          -> ONLY place with upstream API knowledge
+core/*                   -> config, constants, exceptions, logger, utils
+security/*               -> middleware, rate limit, validation, headers
+```
+
+Browser flow for video/audio:
+
+```
+Browser -> POST /api/youtube -> upstream API -> normalized media + tokens
+Browser -> GET /api/download?token=... -> 302 redirect to media source URL
+```
+
+Browser flow for MP3:
+
+```
+Browser -> POST /api/mp3 {token} -> download source audio
+        -> FFmpeg transcode -> audio/mpeg stream -> Browser
+```
+
+## Installation
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Copy `.env.example` to `.env` and fill values (see below).
+
+## Environment variables
+
+| Variable            | Purpose                                            | Default                          |
+|---------------------|----------------------------------------------------|----------------------------------|
+| APP_ENV             | `production` or `development`                      | `production`                     |
+| SECRET_KEY          | Signs/encrypts download tokens. Hardcoded in      | hardcoded                        |
+|                     | `core/config.py`.                                  |                                  |
+| YTDL_API_URL        | Upstream YouTube media API endpoint                | ytultra endpoint                 |
+| FFMPEG_PATH         | Full path to ffmpeg binary (optional override)     | auto-detect                      |
+| CONVERTER_URL       | Remote MP3 converter API (fallback if no FFmpeg)   | empty (MP3 disabled)             |
+| CONVERTER_API_KEY   | API key for remote converter                       | empty                            |
+| RATE_LIMIT          | Requests per minute per IP                         | `10`                             |
+| MP3_RATE_LIMIT      | MP3 conversions per minute per IP                  | `3`                              |
+| CACHE_TTL           | Upstream response cache seconds                    | `600`                            |
+| TOKEN_TTL           | Download token lifetime seconds                    | `2700`                           |
+| MAX_REQUEST_SIZE    | Max JSON body bytes                                | `1048576`                        |
+| MP3_BITRATE         | MP3 bitrate                                        | `192k`                           |
+| MP3_MAX_SOURCE_BYTES| Max source audio download bytes for conversion     | `262144000`                      |
+| TEMP_DIR            | Temp working directory                             | `var/temp`                       |
+
+## Local development
+
+```bash
+python main.py
+```
+
+Open http://localhost:8000/ — the rewrite serves `public/index.html` only on
+Vercel; locally open `public/index.html` in a browser while the API runs, or
+serve the folder statically.
+
+Run tests:
+
+```bash
+python -m pytest tests/ -q
+```
+
+## Vercel deployment
+
+1. Push this project to GitHub.
+2. In Vercel, import the repository.
+3. Set environment variables (at minimum `SECRET_KEY` with a long random
+   string). Everything else has working defaults.
+4. Deploy. Vercel detects Python from `requirements.txt`.
+
+`vercel.json` maps `/` to `public/index.html`. Each file in `api/` becomes a
+serverless function exporting an ASGI `app`.
+
+## FFmpeg requirement
+
+MP3 conversion needs a real FFmpeg binary with `libmp3lame`:
+
+- Local: install FFmpeg on the system (`ffmpeg` on PATH) or set `FFMPEG_PATH`.
+- Vercel: `imageio-ffmpeg` (in `requirements.txt`) ships a static FFmpeg binary
+  and is detected automatically. No system install needed.
+
+If neither is available, set `CONVERTER_URL` (+ `CONVERTER_API_KEY`) to use a
+remote conversion backend:
+
+```
+POST {CONVERTER_URL}
+Headers: Content-Type: application/json, X-API-Key: {CONVERTER_API_KEY}
+Body: {"audio_url": "...", "format": "mp3", "bitrate": "192k", "title": "..."}
+Expected: 200 {"download_url": "https://.../file.mp3"}
+```
+
+If no converter is available at all, the API reports `mp3_available: false`,
+the frontend hides the MP3 option, and `POST /api/mp3` returns 503. MP3 is
+never faked.
+
+## MP3 conversion architecture
+
+`handler/mp3_handler.py` orchestrates: verify encrypted audio token, stream the
+source audio to a temp file (size-capped), run FFmpeg via subprocess with a
+timeout (`-vn -codec:a libmp3lame -b:a 192k`), stream the result back as
+`audio/mpeg` with a safe `Content-Disposition` filename, then delete temp files
+in a background task. Failures clean up in `finally`-style paths. FFmpeg
+command lines and temp paths are never exposed to the client.
+
+## Security architecture
+
+- Strict YouTube-only URL validation; SSRF protection (scheme allowlist,
+  host allowlist, IP-literal and private-range rejection, DNS re-resolution
+  check for download targets).
+- Download targets restricted to `*.googlevideo.com` over HTTPS.
+- Media URLs never sent to the browser; Fernet-encrypted short-lived tokens
+  instead (integrity + expiry).
+- IP-based rate limiting (general + stricter MP3 bucket) plus burst/abuse
+  blocking in middleware.
+- Security headers: CSP, X-Content-Type-Options, DENY framing,
+  Referrer-Policy, Permissions-Policy, HSTS.
+- Request body size limits; safe error messages only (no tracebacks, paths,
+  or exception names).
+- Secret masking in logs; no secrets in frontend; same-origin API only.
+- Sanitized filenames; safe subprocess invocation (argument list, no shell).
+
+Frontend source is public by nature — all secrets stay server-side. No fake
+"encryption" of HTML/JS is used as a security mechanism.
+
+## API endpoints
+
+### POST /api/youtube
+
+Request:
+
+```json
+{"url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "title": "YouTube Video",
+  "duration": 213,
+  "thumbnail": "https://i.ytimg.com/...",
+  "mp3_available": true,
+  "media": [
+    {"token": "...", "type": "video", "quality": "1080p", "format": "MP4",
+     "size": "77.16 MB", "size_bytes": 80911999},
+    {"token": "...", "type": "audio", "quality": "M4A", "format": "M4A",
+     "size": "3.29 MB", "size_bytes": 3449447}
+  ]
+}
+```
+
+### GET /api/download?token=...
+
+Validates the token, then 302-redirects to the media source URL.
+
+### GET /api/media?token=...
+
+Returns safe metadata for a token: filename, kind, quality, format, mime.
+
+### POST /api/mp3
+
+Request: `{"token": "..."}` (audio token from `/api/youtube`).
+
+Response: `audio/mpeg` stream with `Content-Disposition: attachment`.
+503 when conversion is unavailable.
+
+### GET /api/health
+
+```json
+{"status": "ok"}
+```
+
+Error format (all endpoints):
+
+```json
+{"success": false, "error": "Safe error message"}
+```
+
+## Troubleshooting
+
+- `Invalid YouTube URL` — only youtube.com / youtu.be links are accepted.
+- `No media found` — upstream returned nothing usable for this video.
+- `Rate limit exceeded` — slow down; limits are per IP.
+- `MP3 conversion is temporarily unavailable` — no FFmpeg and no
+  `CONVERTER_URL` configured.
+- `This download link has expired` — tokens live 45 minutes; analyze again.
+- On Vercel Hobby, functions time out after 60 seconds: very long MP3
+  conversions may not finish. Use a remote converter or Vercel Pro for
+  longer workloads.
+
+## Vercel-specific limitations
+
+- Serverless functions are stateless: tokens are self-contained (encrypted),
+  not server memory.
+- `/tmp` is the only writable directory; temp files are cleaned after each
+  conversion.
+- Function execution time and memory are limited by the Vercel plan.
+- Large video/audio files are 302-redirected for direct browser download and
+  are never proxied through the function.
+- In-memory rate limiting and caching are per function instance.
+
+## Legal notice
+
+Download content only when you have the right or permission to do so.
