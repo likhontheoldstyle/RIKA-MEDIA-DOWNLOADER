@@ -1,1 +1,20 @@
-ZnJvbSBjb3JlIGltcG9ydCB1dGlscwpmcm9tIGNvcmUubG9nZ2VyIGltcG9ydCBnZXRfbG9nZ2VyCgpsb2dnZXIgPSBnZXRfbG9nZ2VyKCJtYWluLnNodXRkb3duIikKCl9jYWNoZV9yZWYgPSBOb25lCgoKZGVmIHJlZ2lzdGVyX2NhY2hlKGNhY2hlKToKICAgIGdsb2JhbCBfY2FjaGVfcmVmCiAgICBfY2FjaGVfcmVmID0gY2FjaGUKCgpkZWYgc2h1dGRvd24oKToKICAgIHRyeToKICAgICAgICBpZiBfY2FjaGVfcmVmIGlzIG5vdCBOb25lOgogICAgICAgICAgICBfY2FjaGVfcmVmLmNsZWFyKCkKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcGFzcwogICAgbG9nZ2VyLmluZm8oInNodXRkb3duIGNvbXBsZXRlIikK
+from core import utils
+from core.logger import get_logger
+
+logger = get_logger("main.shutdown")
+
+_cache_ref = None
+
+
+def register_cache(cache):
+    global _cache_ref
+    _cache_ref = cache
+
+
+def shutdown():
+    try:
+        if _cache_ref is not None:
+            _cache_ref.clear()
+    except Exception:
+        pass
+    logger.info("shutdown complete")
