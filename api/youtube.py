@@ -1,1 +1,32 @@
-aW1wb3J0IG9zCmltcG9ydCBzeXMKCnN5cy5wYXRoLmluc2VydCgwLCBvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5kaXJuYW1lKG9zLnBhdGguYWJzcGF0aChfX2ZpbGVfXykpKSkKCmZyb20gZmFzdGFwaSBpbXBvcnQgUmVxdWVzdApmcm9tIGZhc3RhcGkucmVzcG9uc2VzIGltcG9ydCBKU09OUmVzcG9uc2UKCmZyb20gY29yZS5leGNlcHRpb25zIGltcG9ydCBBcHBFcnJvcgpmcm9tIGNvcmUubG9nZ2VyIGltcG9ydCBnZXRfbG9nZ2VyCmZyb20gaGFuZGxlciBpbXBvcnQgeW91dHViZV9oYW5kbGVyCmZyb20gc2VjdXJpdHkucmF0ZV9saW1pdCBpbXBvcnQgY2hlY2tfZ2VuZXJhbF9saW1pdAoKbG9nZ2VyID0gZ2V0X2xvZ2dlcigiYXBpLnlvdXR1YmUiKQoKCmFzeW5jIGRlZiB5b3V0dWJlX2VuZHBvaW50KHJlcXVlc3Q6IFJlcXVlc3QpOgogICAgY2hlY2tfZ2VuZXJhbF9saW1pdChyZXF1ZXN0KQogICAgdHJ5OgogICAgICAgIGJvZHkgPSBhd2FpdCByZXF1ZXN0Lmpzb24oKQogICAgZXhjZXB0IEV4Y2VwdGlvbjoKICAgICAgICByYWlzZSBBcHBFcnJvcigpCiAgICBmcm9tIGNvcmUuZXhjZXB0aW9ucyBpbXBvcnQgVmFsaWRhdGlvbkVycm9yCiAgICBpZiBub3QgaXNpbnN0YW5jZShib2R5LCBkaWN0KToKICAgICAgICByYWlzZSBWYWxpZGF0aW9uRXJyb3IoKQogICAgcmVzdWx0ID0gYXdhaXQgeW91dHViZV9oYW5kbGVyLmFuYWx5emUoYm9keSkKICAgIHJldHVybiBKU09OUmVzcG9uc2UocmVzdWx0KQoKCmZyb20gbWFpbi5hcHAgaW1wb3J0IGNyZWF0ZV9hcHAKCmFwcCA9IGNyZWF0ZV9hcHAoKQo=
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from fastapi import Request
+from fastapi.responses import JSONResponse
+
+from core.exceptions import AppError
+from core.logger import get_logger
+from handler import youtube_handler
+from security.rate_limit import check_general_limit
+
+logger = get_logger("api.youtube")
+
+
+async def youtube_endpoint(request: Request):
+    check_general_limit(request)
+    try:
+        body = await request.json()
+    except Exception:
+        raise AppError()
+    from core.exceptions import ValidationError
+    if not isinstance(body, dict):
+        raise ValidationError()
+    result = await youtube_handler.analyze(body)
+    return JSONResponse(result)
+
+
+from main.app import create_app
+
+app = create_app()
