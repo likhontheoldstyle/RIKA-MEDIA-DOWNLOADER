@@ -20,6 +20,4 @@ async def download_endpoint(request: Request):
     return RedirectResponse(url=target, status_code=302)
 
 
-from main.app import create_app
 
-app = create_app()
