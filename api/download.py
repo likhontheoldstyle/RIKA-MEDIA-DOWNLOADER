@@ -1,1 +1,25 @@
-aW1wb3J0IG9zCmltcG9ydCBzeXMKCnN5cy5wYXRoLmluc2VydCgwLCBvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5kaXJuYW1lKG9zLnBhdGguYWJzcGF0aChfX2ZpbGVfXykpKSkKCmZyb20gZmFzdGFwaSBpbXBvcnQgUmVxdWVzdApmcm9tIGZhc3RhcGkucmVzcG9uc2VzIGltcG9ydCBSZWRpcmVjdFJlc3BvbnNlCgpmcm9tIGNvcmUuZXhjZXB0aW9ucyBpbXBvcnQgVmFsaWRhdGlvbkVycm9yCmZyb20gaGFuZGxlciBpbXBvcnQgZG93bmxvYWRfaGFuZGxlcgpmcm9tIHNlY3VyaXR5LnJhdGVfbGltaXQgaW1wb3J0IGNoZWNrX2dlbmVyYWxfbGltaXQKCgphc3luYyBkZWYgZG93bmxvYWRfZW5kcG9pbnQocmVxdWVzdDogUmVxdWVzdCk6CiAgICBjaGVja19nZW5lcmFsX2xpbWl0KHJlcXVlc3QpCiAgICB0b2tlbiA9IHJlcXVlc3QucXVlcnlfcGFyYW1zLmdldCgidG9rZW4iLCAiIikKICAgIGlmIG5vdCB0b2tlbiBvciBsZW4odG9rZW4pID4gNDA5NjoKICAgICAgICByYWlzZSBWYWxpZGF0aW9uRXJyb3IoKQogICAgdGFyZ2V0ID0gZG93bmxvYWRfaGFuZGxlci5kb3dubG9hZF90YXJnZXQodG9rZW4pCiAgICByZXR1cm4gUmVkaXJlY3RSZXNwb25zZSh1cmw9dGFyZ2V0LCBzdGF0dXNfY29kZT0zMDIpCgoKZnJvbSBtYWluLmFwcCBpbXBvcnQgY3JlYXRlX2FwcAoKYXBwID0gY3JlYXRlX2FwcCgpCg==
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from fastapi import Request
+from fastapi.responses import RedirectResponse
+
+from core.exceptions import ValidationError
+from handler import download_handler
+from security.rate_limit import check_general_limit
+
+
+async def download_endpoint(request: Request):
+    check_general_limit(request)
+    token = request.query_params.get("token", "")
+    if not token or len(token) > 4096:
+        raise ValidationError()
+    target = download_handler.download_target(token)
+    return RedirectResponse(url=target, status_code=302)
+
+
+from main.app import create_app
+
+app = create_app()
