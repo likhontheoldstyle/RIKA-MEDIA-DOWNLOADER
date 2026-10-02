@@ -4,25 +4,16 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from fastapi import Request
-from fastapi.responses import JSONResponse, RedirectResponse, StreamingResponse
-from starlette.background import BackgroundTask
+from fastapi.responses import JSONResponse, StreamingResponse
 
 from core import utils
 from core.exceptions import ConversionUnavailable, ValidationError
 from core.logger import get_logger
 from handler import mp3_handler
+from handler.download_handler import resolve_token
 from security.rate_limit import check_mp3_limit
 
 logger = get_logger("api.mp3")
-
-
-def _file_iterator(path):
-    with open(path, "rb") as handle:
-        while True:
-            chunk = handle.read(65536)
-            if not chunk:
-                break
-            yield chunk
 
 
 async def mp3_endpoint(request: Request):
@@ -36,28 +27,19 @@ async def mp3_endpoint(request: Request):
     token = body.get("token", "")
     if not token or not isinstance(token, str):
         raise ValidationError()
-    if not mp3_handler_available():
+    if not mp3_handler.mp3_handler_available():
         raise ConversionUnavailable()
-    result = await mp3_handler.convert(token)
-    if result["type"] == "redirect":
-        return RedirectResponse(url=result["url"], status_code=302)
-    task = BackgroundTask(utils.cleanup_dir, result["tmpdir"])
+    payload = resolve_token(token)
+    title = payload.get("t", "audio")
+    filename = utils.safe_filename("%s_192kbps" % title, "mp3")
     headers = {
-        "Content-Disposition": 'attachment; filename="%s"' % result["filename"].replace('"', ""),
+        "Content-Disposition": 'attachment; filename="%s"' % filename.replace('"', ""),
     }
     return StreamingResponse(
-        _file_iterator(result["path"]),
+        mp3_handler.mp3_stream(token),
         media_type="audio/mpeg",
         headers=headers,
-        background=task,
     )
 
 
-def mp3_handler_available():
-    from core import config
-    return config.mp3_available()
 
-
-from main.app import create_app
-
-app = create_app()
