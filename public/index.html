@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<!-- deploy-marker-002 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0e1a">
-<meta name="description" content="Fast and secure media downloader for supported YouTube content.">
+<meta name="description" content="Fast and secure media downloader for YouTube, TikTok, Instagram, Facebook and X.">
 <meta property="og:title" content="RIKA MEDIA DOWNLOADER">
-<meta property="og:description" content="Fast and secure media downloader for supported YouTube content.">
+<meta property="og:description" content="Fast and secure media downloader for YouTube, TikTok, Instagram, Facebook and X.">
 <meta property="og:type" content="website">
 <title>RIKA MEDIA DOWNLOADER</title>
 <style>
@@ -47,13 +46,18 @@ header.hero{text-align:center;padding:56px 10px 30px}
 }
 @keyframes shine{to{background-position:220% center}}
 .tagline{margin-top:10px;color:var(--muted);font-size:15px;letter-spacing:4px;text-transform:uppercase}
+.platforms{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.platforms span{
+  font-size:11px;letter-spacing:2px;color:var(--muted);
+  border:1px solid var(--glass-border);border-radius:999px;padding:6px 14px;
+  background:rgba(255,255,255,.03);
+}
 .card{
   background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius);
   backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   box-shadow:0 20px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08);
-  padding:26px;transform:perspective(900px) rotateX(0deg);transition:transform .35s ease,box-shadow .35s ease;
+  padding:26px;
 }
-.card:hover{transform:perspective(900px) rotateX(1.5deg);box-shadow:0 26px 70px rgba(34,211,238,.12),inset 0 1px 0 rgba(255,255,255,.1)}
 .input-row{display:flex;gap:12px;flex-wrap:wrap}
 .url-input{
   flex:1;min-width:220px;padding:16px 18px;font-size:16px;color:var(--text);
@@ -74,7 +78,6 @@ header.hero{text-align:center;padding:56px 10px 30px}
 .btn:active{transform:translateY(1px)}
 .btn:disabled{filter:grayscale(.6) brightness(.7);cursor:not-allowed;transform:none}
 .btn.ghost{background:rgba(255,255,255,.08);color:var(--text);border:1px solid var(--glass-border);box-shadow:none}
-.btn.danger{background:linear-gradient(135deg,#fb7185,#f43f5e);color:#fff;box-shadow:0 8px 24px rgba(251,113,133,.3)}
 .btn .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.25);border-top-color:#04121a;border-radius:50%;animation:rot .7s linear infinite;vertical-align:-3px;margin-right:8px}
 @keyframes rot{to{transform:rotate(360deg)}}
 .loader{display:none;text-align:center;padding:46px 10px}
@@ -92,17 +95,22 @@ header.hero{text-align:center;padding:56px 10px 30px}
 .thumb{width:220px;max-width:100%;border-radius:14px;border:1px solid var(--glass-border);box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .media-title{font-size:19px;font-weight:700;line-height:1.4;flex:1;min-width:200px}
 .media-sub{color:var(--muted);font-size:13px;margin-top:6px}
+.pbadge{
+  display:inline-block;font-size:11px;letter-spacing:2px;font-weight:700;color:#04121a;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  border-radius:999px;padding:5px 14px;margin-bottom:10px;text-transform:uppercase;
+}
 .section-title{font-size:13px;letter-spacing:3px;color:var(--muted);margin:26px 0 14px;text-transform:uppercase}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .qcard{
   background:rgba(255,255,255,.04);border:1px solid var(--glass-border);border-radius:16px;
-  padding:18px 14px;text-align:center;transition:transform .2s,box-shadow .2s,border-color .2s;
+  padding:16px 12px;text-align:center;transition:transform .2s,box-shadow .2s,border-color .2s;
 }
 .qcard:hover{transform:translateY(-4px);border-color:rgba(94,231,255,.4);box-shadow:0 14px 34px rgba(0,0,0,.4)}
-.qcard .q{font-size:22px;font-weight:800;color:var(--neon)}
-.qcard .f{font-size:12px;color:var(--muted);margin:6px 0;letter-spacing:1px}
-.qcard .s{font-size:13px;color:var(--text);margin-bottom:12px}
-.qcard .btn{width:100%;padding:12px 8px;font-size:13px;min-height:46px}
+.qcard .q{font-size:21px;font-weight:800;color:var(--neon)}
+.qcard .f{font-size:11px;color:var(--muted);margin:6px 0;letter-spacing:1px}
+.qcard .s{font-size:12px;color:var(--text);margin-bottom:12px;min-height:16px}
+.qcard .btn{width:100%;padding:12px 6px;font-size:12px;min-height:44px;letter-spacing:1px}
 .audio-row{display:flex;gap:14px;flex-wrap:wrap}
 .audio-card{flex:1;min-width:240px}
 .audio-card .big{font-size:26px;font-weight:800}
@@ -117,6 +125,13 @@ footer .brand{color:var(--text);font-weight:700;letter-spacing:2px}
   .btn{width:100%}
   .input-row .btn{width:100%}
   .orb{opacity:.32}
+  .grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .qcard{padding:12px 6px;border-radius:14px}
+  .qcard .q{font-size:17px}
+  .qcard .f{font-size:10px;margin:4px 0}
+  .qcard .s{font-size:11px;margin-bottom:10px;min-height:14px}
+  .qcard .btn{padding:10px 4px;font-size:11px;min-height:40px}
+  .audio-card{min-width:100%}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -129,13 +144,16 @@ footer .brand{color:var(--text);font-weight:700;letter-spacing:2px}
   <header class="hero">
     <div class="logo">RIKA MEDIA DOWNLOADER</div>
     <div class="tagline">Fast &bull; Secure &bull; Simple Media Downloader</div>
+    <div class="platforms" aria-hidden="true">
+      <span>YOUTUBE</span><span>TIKTOK</span><span>INSTAGRAM</span><span>FACEBOOK</span><span>X</span>
+    </div>
   </header>
 
   <main>
     <section class="card" aria-label="Download form">
       <div class="input-row">
         <input id="urlInput" class="url-input" type="url" inputmode="url"
-               placeholder="Paste YouTube URL here..." aria-label="YouTube URL" autocomplete="off">
+               placeholder="Paste video link... YouTube, TikTok, Instagram, Facebook, X" aria-label="Video URL" autocomplete="off">
         <button id="goBtn" class="btn" type="button">GET MEDIA</button>
       </div>
       <div id="errorBox" class="error" role="alert"></div>
@@ -150,15 +168,20 @@ footer .brand{color:var(--text);font-weight:700;letter-spacing:2px}
         <div class="media-head">
           <img id="thumb" class="thumb" alt="Video thumbnail" referrerpolicy="no-referrer" style="display:none">
           <div>
+            <div id="pBadge" class="pbadge" style="display:none"></div>
             <div id="vTitle" class="media-title"></div>
             <div id="vSub" class="media-sub"></div>
           </div>
         </div>
-        <div class="section-title">Video Qualities</div>
-        <div id="videoGrid" class="grid"></div>
-        <div class="section-title">Audio</div>
-        <div id="audioRow" class="audio-row"></div>
-        <p class="note">Downloads start directly from the media source. MP3 is converted for real on the server &mdash; never a renamed file.</p>
+        <div id="videoSection">
+          <div class="section-title">Video Qualities</div>
+          <div id="videoGrid" class="grid"></div>
+        </div>
+        <div id="audioSection">
+          <div class="section-title">Audio</div>
+          <div id="audioRow" class="audio-row"></div>
+        </div>
+        <p class="note">Downloads start instantly &mdash; no extra pages. MP3 is converted for real on the server &mdash; never a renamed file.</p>
       </div>
     </section>
   </main>
@@ -179,9 +202,12 @@ var errorBox=document.getElementById("errorBox");
 var results=document.getElementById("results");
 var videoGrid=document.getElementById("videoGrid");
 var audioRow=document.getElementById("audioRow");
+var videoSection=document.getElementById("videoSection");
+var audioSection=document.getElementById("audioSection");
 var thumb=document.getElementById("thumb");
 var vTitle=document.getElementById("vTitle");
 var vSub=document.getElementById("vSub");
+var pBadge=document.getElementById("pBadge");
 var busy=false;
 
 function el(tag,text,cls){
@@ -213,16 +239,29 @@ function fmtDuration(sec){
   return h>0?h+":"+p(m)+":"+p(s):m+":"+p(s);
 }
 function clearNode(node){while(node.firstChild){node.removeChild(node.firstChild);}}
+function safeName(s){
+  return (s||"media").replace(/[^\w\- ]+/g,"").trim().replace(/\s+/g,"_").slice(0,60)||"media";
+}
+function directDownload(url,filename){
+  var a=document.createElement("a");
+  a.href=url;
+  if(filename){a.download=filename;}
+  a.rel="noopener";
+  a.style.display="none";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){a.remove();},2000);
+}
 
 async function analyze(){
   if(busy){return;}
   var url=urlInput.value.trim();
-  if(!url){showError("Please paste a YouTube URL first.");return;}
+  if(!url){showError("Please paste a video URL first.");return;}
   hideError();
   results.classList.remove("on");
   setBusy(true);
   try{
-    var res=await fetch("/api/youtube",{
+    var res=await fetch("/api/fetch",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({url:url})
@@ -250,9 +289,16 @@ function makeDownloadBtn(label){
 function render(data){
   clearNode(videoGrid);
   clearNode(audioRow);
-  vTitle.textContent=data.title||"YouTube Video";
+  var title=data.title||"Video";
+  vTitle.textContent=title;
   var sub=fmtDuration(data.duration);
   vSub.textContent=sub?("Duration "+sub):"";
+  if(data.platform_name){
+    pBadge.textContent=data.platform_name;
+    pBadge.style.display="inline-block";
+  }else{
+    pBadge.style.display="none";
+  }
   if(data.thumbnail){
     thumb.src=data.thumbnail;
     thumb.style.display="block";
@@ -264,9 +310,12 @@ function render(data){
     if(m.type==="video"){videos.push(m);}else if(m.type==="audio"){audios.push(m);}
   });
   if(videos.length===0&&audios.length===0){
-    showError("No media found for this video.");
+    showError("No media found for this link.");
     return;
   }
+  videoSection.style.display=videos.length?"block":"none";
+  audioSection.style.display=audios.length?"block":"none";
+  var base=safeName(title);
   videos.forEach(function(m){
     var card=el("div",null,"qcard");
     card.appendChild(el("div",m.quality||"Video","q"));
@@ -276,46 +325,55 @@ function render(data){
     btn.setAttribute("aria-label","Download "+(m.quality||"video"));
     btn.addEventListener("click",function(){
       btn.disabled=true;
-      window.location.href="/api/download?token="+encodeURIComponent(m.token);
+      directDownload("/api/download?token="+encodeURIComponent(m.token),base+"_"+(m.quality||"video")+"."+(m.format||"mp4").toLowerCase());
       setTimeout(function(){btn.disabled=false;},3000);
     });
     card.appendChild(btn);
     videoGrid.appendChild(card);
   });
-  if(audios.length===0){
-    audioRow.appendChild(el("p","No audio tracks found.","note"));
-  }
   audios.forEach(function(m){
     var card=el("div",null,"qcard audio-card");
-    card.appendChild(el("div","MP3","big q"));
-    card.appendChild(el("div","192 kbps true conversion","f"));
-    var cbtn=makeDownloadBtn("CONVERT & DOWNLOAD");
-    cbtn.setAttribute("aria-label","Convert to MP3 and download");
-    if(!data.mp3_available){
-      cbtn.disabled=true;
-      cbtn.textContent="MP3 UNAVAILABLE";
-      cbtn.title="MP3 conversion is temporarily unavailable";
+    var isMp3=(m.format||"").toUpperCase()==="MP3";
+    card.appendChild(el("div",isMp3?"MP3":"AUDIO","big q"));
+    card.appendChild(el("div",isMp3?"192 kbps":"Original audio","f"));
+    if(m.direct_mp3){
+      var dbtn=makeDownloadBtn("DOWNLOAD MP3");
+      dbtn.setAttribute("aria-label","Download MP3");
+      dbtn.addEventListener("click",function(){
+        dbtn.disabled=true;
+        directDownload("/api/download?token="+encodeURIComponent(m.token),base+"_192kbps.mp3");
+        setTimeout(function(){dbtn.disabled=false;},3000);
+      });
+      card.appendChild(dbtn);
     }else{
-      cbtn.addEventListener("click",function(){convertMp3(m.token,cbtn);});
+      var cbtn=makeDownloadBtn("CONVERT & DOWNLOAD");
+      cbtn.setAttribute("aria-label","Convert to MP3 and download");
+      if(!data.mp3_available){
+        cbtn.disabled=true;
+        cbtn.textContent="MP3 UNAVAILABLE";
+        cbtn.title="MP3 conversion is temporarily unavailable";
+      }else{
+        cbtn.addEventListener("click",function(){convertMp3(m.token,cbtn,base);});
+      }
+      card.appendChild(cbtn);
+      var obtn=makeDownloadBtn("DOWNLOAD "+(m.format||"AUDIO"));
+      obtn.classList.add("ghost");
+      obtn.style.marginTop="10px";
+      obtn.setAttribute("aria-label","Download original audio");
+      obtn.addEventListener("click",function(){
+        obtn.disabled=true;
+        directDownload("/api/download?token="+encodeURIComponent(m.token),base+"."+(m.format||"m4a").toLowerCase());
+        setTimeout(function(){obtn.disabled=false;},3000);
+      });
+      card.appendChild(obtn);
     }
-    card.appendChild(cbtn);
-    var obtn=makeDownloadBtn("DOWNLOAD "+(m.format||"M4A"));
-    obtn.classList.add("ghost");
-    obtn.style.marginTop="10px";
-    obtn.setAttribute("aria-label","Download original audio");
-    obtn.addEventListener("click",function(){
-      obtn.disabled=true;
-      window.location.href="/api/download?token="+encodeURIComponent(m.token);
-      setTimeout(function(){obtn.disabled=false;},3000);
-    });
-    card.appendChild(obtn);
     audioRow.appendChild(card);
   });
   results.classList.add("on");
   results.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-async function convertMp3(token,btn){
+async function convertMp3(token,btn,base){
   if(btn.disabled){return;}
   btn.disabled=true;
   var original=btn.textContent;
@@ -343,12 +401,8 @@ async function convertMp3(token,btn){
     }
     var blob=await res.blob();
     var url=URL.createObjectURL(blob);
-    var a=document.createElement("a");
-    a.href=url;
-    a.download="rika-audio.mp3";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function(){URL.revokeObjectURL(url);a.remove();},4000);
+    directDownload(url,(base||"audio")+"_192kbps.mp3");
+    setTimeout(function(){URL.revokeObjectURL(url);},8000);
     btn.textContent="DONE";
     setTimeout(function(){btn.textContent=original;btn.disabled=false;},2500);
   }catch(e){
