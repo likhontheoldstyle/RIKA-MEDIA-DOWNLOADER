@@ -14,18 +14,13 @@ SECTIONS = [
     ("security/rate_limit.py", {"config.": ""}),
     ("security/middleware.py", {"scfg.": "", "config.": ""}),
     ("social/youtube.py", {"config.": "", "utils.": ""}),
+    ("social/platforms.py", {}),
+    ("social/cobalt.py", {"config.": ""}),
     ("handler/youtube_handler.py", {"yt.": "", "config.": "", "utils.": ""}),
+    ("handler/fetch_handler.py", {"config.": "", "utils.": ""}),
     ("handler/download_handler.py", {"utils.": ""}),
     ("handler/media_handler.py", {"utils.": ""}),
     ("handler/mp3_handler.py", {"config.": "", "utils.": ""}),
-]
-
-API_FILES = [
-    ("build/api_src/youtube.py", {"utils.": "", "youtube_handler.": ""}),
-    ("build/api_src/download.py", {"download_handler.": ""}),
-    ("build/api_src/media.py", {"download_handler.": ""}),
-    ("build/api_src/mp3.py", {"mp3_handler.": "", "utils.": "", "config.": ""}),
-    ("build/api_src/health.py", {}),
 ]
 
 
@@ -76,13 +71,39 @@ def apply_replacements(lines, reps):
     return out
 
 
-parts = []
-parts.append("from fastapi import FastAPI, Request\nfrom fastapi.responses import JSONResponse\n")
+ROUTES = {
+    "youtube": ('post', "/api/youtube", "youtube_endpoint"),
+    "download": ('get', "/api/download", "download_endpoint"),
+    "media": ('get', "/api/media", "media_endpoint"),
+    "mp3": ('post', "/api/mp3", "mp3_endpoint"),
+    "health": ('get', "/api/health", "health_endpoint"),
+    "fetch": ('post', "/api/fetch", "fetch_endpoint"),
+}
+
+shared_parts = []
+shared_parts.append("from fastapi import FastAPI, Request\nfrom fastapi.responses import JSONResponse\n")
 for path, reps in SECTIONS:
     lines = apply_replacements(strip_sections(path), reps)
-    parts.append("".join(lines).rstrip() + "\n")
+    shared_parts.append("".join(lines).rstrip() + "\n")
+shared_bundle = "\n".join(shared_parts)
 
-for path, reps in API_FILES:
+API_REPS = {
+    "build/api_src/youtube.py": {"utils.": "", "youtube_handler.": ""},
+    "build/api_src/download.py": {"download_handler.": ""},
+    "build/api_src/media.py": {"download_handler.": ""},
+    "build/api_src/mp3.py": {"mp3_handler.": "", "utils.": "", "config.": ""},
+    "build/api_src/health.py": {},
+    "build/api_src/fetch.py": {"fetch_handler.": ""},
+}
+
+with open("main/app.py") as fh:
+    app_src = fh.read()
+
+parts = [shared_bundle]
+for path in ("build/api_src/youtube.py", "build/api_src/download.py",
+             "build/api_src/media.py", "build/api_src/mp3.py",
+             "build/api_src/health.py", "build/api_src/fetch.py"):
+    reps = dict(API_REPS.get(path, {}))
     lines = strip_sections(path)
     lines = [l for l in lines
              if l.strip() != "from main.app import create_app"
@@ -90,26 +111,34 @@ for path, reps in API_FILES:
     lines = apply_replacements(lines, reps)
     parts.append("".join(lines).rstrip() + "\n")
 
-with open("main/app.py") as fh:
-    app_src = fh.read()
-m = re.search(r"(def create_app\(\):\n(?:.*\n)*)", app_src)
-func_lines = []
-for line in m.group(1).splitlines(keepends=True):
-    s = line.strip()
-    if re.match(r"from api\.\w+ import \w+", s):
-        continue
-    func_lines.append(line)
-parts.append("".join(func_lines).rstrip() + "\n")
-parts.append("app = create_app()\n")
+wiring = []
+wiring.append("app = FastAPI(title=\"RIKA MEDIA DOWNLOADER\", docs_url=None, redoc_url=None, openapi_url=None)")
+wiring.append("app.add_middleware(SecurityMiddleware)")
+for _name, (method, route, func) in ROUTES.items():
+    wiring.append("app.%s(\"%s\")(%s)" % (method, route, func))
+wiring.append("")
+wiring.append("@app.exception_handler(AppError)")
+wiring.append("async def app_error_handler(request: Request, exc: AppError):")
+wiring.append("    return JSONResponse(")
+wiring.append("        {\"success\": False, \"error\": exc.safe_message},")
+wiring.append("        status_code=exc.status_code,")
+wiring.append("    )")
+wiring.append("")
+wiring.append("@app.exception_handler(Exception)")
+wiring.append("async def unhandled_handler(request: Request, exc: Exception):")
+wiring.append("    return JSONResponse(")
+wiring.append("        {\"success\": False, \"error\": GENERIC_ERROR},")
+wiring.append("        status_code=500,")
+wiring.append("    )")
+parts.append("\n".join(wiring) + "\n")
 
-bundle = "\n".join(parts)
 with open("api/index.py", "w") as fh:
-    fh.write(bundle)
+    fh.write("\n".join(parts))
 
 names = {}
-for mm in re.finditer(r"^(?:def|class)\s+(\w+)", bundle, re.M):
+bundle_check = shared_bundle
+for mm in re.finditer(r"^(?:def|class)\s+(\w+)", bundle_check, re.M):
     names.setdefault(mm.group(1), 0)
     names[mm.group(1)] += 1
 dups = {k: v for k, v in names.items() if v > 1}
 print("dups:", dups if dups else "none")
-print("bytes:", len(bundle))
