@@ -1,1 +1,42 @@
-ZnJvbSBjb3JlIGltcG9ydCB1dGlscwpmcm9tIGNvcmUuZXhjZXB0aW9ucyBpbXBvcnQgTWVkaWFFeHBpcmVkLCBNZWRpYU5vdEZvdW5kLCBWYWxpZGF0aW9uRXJyb3IKZnJvbSBzZWN1cml0eS52YWxpZGF0aW9uIGltcG9ydCB2YWxpZGF0ZV9kb3dubG9hZF91cmwKCgpkZWYgcmVzb2x2ZV90b2tlbih0b2tlbik6CiAgICBwYXlsb2FkID0gdXRpbHMudmVyaWZ5X3Rva2VuKHRva2VuKQogICAgaWYgcGF5bG9hZCBpcyBOb25lOgogICAgICAgIHJhaXNlIE1lZGlhRXhwaXJlZCgpCiAgICB1cmwgPSBwYXlsb2FkLmdldCgidSIsICIiKQogICAgdHJ5OgogICAgICAgIHZhbGlkYXRlX2Rvd25sb2FkX3VybCh1cmwpCiAgICBleGNlcHQgVmFsaWRhdGlvbkVycm9yOgogICAgICAgIHJhaXNlIE1lZGlhRXhwaXJlZCgpCiAgICByZXR1cm4gcGF5bG9hZAoKCmRlZiBtZWRpYV9pbmZvKHRva2VuKToKICAgIHBheWxvYWQgPSByZXNvbHZlX3Rva2VuKHRva2VuKQogICAga2luZCA9IHBheWxvYWQuZ2V0KCJrIiwgIiIpCiAgICBxdWFsaXR5ID0gcGF5bG9hZC5nZXQoInEiLCAiIikKICAgIGV4dCA9IHBheWxvYWQuZ2V0KCJlIiwgIiIpCiAgICB0aXRsZSA9IHBheWxvYWQuZ2V0KCJ0IiwgIm1lZGlhIikKICAgIGlmIGtpbmQgPT0gInZpZGVvIjoKICAgICAgICBmaWxlbmFtZSA9IHV0aWxzLnNhZmVfZmlsZW5hbWUoIiVzXyVzIiAlICh0aXRsZSwgcXVhbGl0eSksIGV4dCkKICAgIGVsc2U6CiAgICAgICAgZmlsZW5hbWUgPSB1dGlscy5zYWZlX2ZpbGVuYW1lKCIlc18lcyIgJSAodGl0bGUsIGV4dC51cHBlcigpKSwgZXh0KQogICAgcmV0dXJuIHsKICAgICAgICAic3VjY2VzcyI6IFRydWUsCiAgICAgICAgImZpbGVuYW1lIjogZmlsZW5hbWUsCiAgICAgICAgImtpbmQiOiBraW5kLAogICAgICAgICJxdWFsaXR5IjogcXVhbGl0eSwKICAgICAgICAiZm9ybWF0IjogZXh0LnVwcGVyKCksCiAgICAgICAgIm1pbWUiOiBwYXlsb2FkLmdldCgibSIsICIiKSwKICAgIH0KCgpkZWYgZG93bmxvYWRfdGFyZ2V0KHRva2VuKToKICAgIHBheWxvYWQgPSByZXNvbHZlX3Rva2VuKHRva2VuKQogICAgaWYgbm90IHBheWxvYWQuZ2V0KCJ1Iik6CiAgICAgICAgcmFpc2UgTWVkaWFOb3RGb3VuZCgpCiAgICByZXR1cm4gcGF5bG9hZFsidSJdCg==
+from core import utils
+from core.exceptions import MediaExpired, MediaNotFound, ValidationError
+from security.validation import validate_download_url
+
+
+def resolve_token(token):
+    payload = utils.verify_token(token)
+    if payload is None:
+        raise MediaExpired()
+    url = payload.get("u", "")
+    try:
+        validate_download_url(url)
+    except ValidationError:
+        raise MediaExpired()
+    return payload
+
+
+def media_info(token):
+    payload = resolve_token(token)
+    kind = payload.get("k", "")
+    quality = payload.get("q", "")
+    ext = payload.get("e", "")
+    title = payload.get("t", "media")
+    if kind == "video":
+        filename = utils.safe_filename("%s_%s" % (title, quality), ext)
+    else:
+        filename = utils.safe_filename("%s_%s" % (title, ext.upper()), ext)
+    return {
+        "success": True,
+        "filename": filename,
+        "kind": kind,
+        "quality": quality,
+        "format": ext.upper(),
+        "mime": payload.get("m", ""),
+    }
+
+
+def download_target(token):
+    payload = resolve_token(token)
+    if not payload.get("u"):
+        raise MediaNotFound()
+    return payload["u"]
