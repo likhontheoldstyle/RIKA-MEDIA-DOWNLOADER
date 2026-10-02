@@ -1,1 +1,89 @@
-ZnJvbSBjb3JlIGltcG9ydCB1dGlscwpmcm9tIHNvY2lhbC55b3V0dWJlIGltcG9ydCBfcGFyc2VfbWVkaWFfZW50cnksIF9xdWFsaXR5X2Zyb21fZm9ybWF0CgoKZGVmIF9lbnRyeSh1cmwsIGZvcm1hdF90ZXh0LCBmaWxlX3NpemU9Tm9uZSk6CiAgICByZXR1cm4geyJ1cmwiOiB1cmwsICJmb3JtYXQiOiBmb3JtYXRfdGV4dCwgImZpbGVTaXplIjogZmlsZV9zaXplfQoKCmRlZiB0ZXN0X3F1YWxpdHlfMTA4MHAoKToKICAgIGFzc2VydCBfcXVhbGl0eV9mcm9tX2Zvcm1hdCgiMTA4MHAgKDc3LjE2IE1CKSBbLm1wNF0iKSA9PSAiMTA4MHAiCgoKZGVmIHRlc3RfcXVhbGl0eV80aygpOgogICAgYXNzZXJ0IF9xdWFsaXR5X2Zyb21fZm9ybWF0KCI0SyAoMzQyLjAwIE1CKSBbLndlYm1dIikgPT0gIjIxNjBwIgoKCmRlZiB0ZXN0X3F1YWxpdHlfMmsoKToKICAgIGFzc2VydCBfcXVhbGl0eV9mcm9tX2Zvcm1hdCgiMksgKDE0NC4xMCBNQikgWy53ZWJtXSIpID09ICIxNDQwcCIKCgpkZWYgdGVzdF9xdWFsaXR5X21pc3NpbmcoKToKICAgIGFzc2VydCBfcXVhbGl0eV9mcm9tX2Zvcm1hdChOb25lKSA9PSAiIgogICAgYXNzZXJ0IF9xdWFsaXR5X2Zyb21fZm9ybWF0KCJ1bmtub3duIikgPT0gIiIKCgpkZWYgdGVzdF9wYXJzZV92aWRlb19lbnRyeSgpOgogICAgdXJsID0gImh0dHBzOi8vcmVkaXJlY3Rvci5nb29nbGV2aWRlby5jb20vdmlkZW9wbGF5YmFjaz9taW1lPXZpZGVvJTJGbXA0Jml0YWc9MTM3IgogICAgaXRlbSA9IF9wYXJzZV9tZWRpYV9lbnRyeShfZW50cnkodXJsLCAiMTA4MHAgKDc3LjE2IE1CKSBbLm1wNF0iLCA4MDkxMTk5OSkpCiAgICBhc3NlcnQgaXRlbVsia2luZCJdID09ICJ2aWRlbyIKICAgIGFzc2VydCBpdGVtWyJxdWFsaXR5Il0gPT0gIjEwODBwIgogICAgYXNzZXJ0IGl0ZW1bImV4dCJdID09ICJtcDQiCiAgICBhc3NlcnQgaXRlbVsic2l6ZV9ieXRlcyJdID09IDgwOTExOTk5CiAgICBhc3NlcnQgaXRlbVsiaXRhZyJdID09ICIxMzciCgoKZGVmIHRlc3RfcGFyc2VfYXVkaW9fZW50cnkoKToKICAgIHVybCA9ICJodHRwczovL3JlZGlyZWN0b3IuZ29vZ2xldmlkZW8uY29tL3ZpZGVvcGxheWJhY2s/bWltZT1hdWRpbyUyRm1wNCZpdGFnPTE0MCIKICAgIGl0ZW0gPSBfcGFyc2VfbWVkaWFfZW50cnkoX2VudHJ5KHVybCwgIjEwODBwICgzLjI5IE1CKSBbLm00YV0iLCAzNDQ5NDQ3KSkKICAgIGFzc2VydCBpdGVtWyJraW5kIl0gPT0gImF1ZGlvIgogICAgYXNzZXJ0IGl0ZW1bImV4dCJdID09ICJtNGEiCgoKZGVmIHRlc3RfcGFyc2VfZW50cnlfbWlzc2luZ19zaXplX2Zyb21fZm9ybWF0KCk6CiAgICB1cmwgPSAiaHR0cHM6Ly9yZWRpcmVjdG9yLmdvb2dsZXZpZGVvLmNvbS92aWRlb3BsYXliYWNrP21pbWU9dmlkZW8lMkZtcDQmaXRhZz0xOCIKICAgIGl0ZW0gPSBfcGFyc2VfbWVkaWFfZW50cnkoX2VudHJ5KHVybCwgIjM2MHAgWy5tcDRdIiwgTm9uZSkpCiAgICBhc3NlcnQgaXRlbVsia2luZCJdID09ICJ2aWRlbyIKICAgIGFzc2VydCBpdGVtWyJxdWFsaXR5Il0gPT0gIjM2MHAiCiAgICBhc3NlcnQgaXRlbVsic2l6ZV9ieXRlcyJdIGlzIE5vbmUKCgpkZWYgdGVzdF9wYXJzZV9lbnRyeV9yZWplY3RzX2h0dHAoKToKICAgIGl0ZW0gPSBfcGFyc2VfbWVkaWFfZW50cnkoX2VudHJ5KCJodHRwOi8vZXhhbXBsZS5jb20veCIsICIxMDgwcCBbLm1wNF0iLCAxMCkpCiAgICBhc3NlcnQgaXRlbSBpcyBOb25lCgoKZGVmIHRlc3RfcGFyc2VfZW50cnlfcmVqZWN0c19nYXJiYWdlKCk6CiAgICBhc3NlcnQgX3BhcnNlX21lZGlhX2VudHJ5KHt9KSBpcyBOb25lCiAgICBhc3NlcnQgX3BhcnNlX21lZGlhX2VudHJ5KE5vbmUpIGlzIE5vbmUKICAgIGFzc2VydCBfcGFyc2VfbWVkaWFfZW50cnkoeyJ1cmwiOiAiIiwgImZvcm1hdCI6ICIxMDgwcCJ9KSBpcyBOb25lCgoKZGVmIHRlc3RfcXVhbGl0eV9yYW5rX29yZGVyKCk6CiAgICBhc3NlcnQgdXRpbHMucXVhbGl0eV9yYW5rKCIyMTYwcCIpID4gdXRpbHMucXVhbGl0eV9yYW5rKCIxMDgwcCIpCiAgICBhc3NlcnQgdXRpbHMucXVhbGl0eV9yYW5rKCIxMDgwcCIpID4gdXRpbHMucXVhbGl0eV9yYW5rKCI3MjBwIikKICAgIGFzc2VydCB1dGlscy5xdWFsaXR5X3JhbmsoIjcyMHAiKSA+IHV0aWxzLnF1YWxpdHlfcmFuaygiMTQ0cCIpCiAgICBhc3NlcnQgdXRpbHMucXVhbGl0eV9yYW5rKCJ1bmtub3duIikgPT0gLTEKCgpkZWYgdGVzdF9mb3JtYXRfc2l6ZSgpOgogICAgYXNzZXJ0IHV0aWxzLmZvcm1hdF9zaXplKDExMzAwMDAwMCkgPT0gIjEwNy43NyBNQiIKICAgIGFzc2VydCB1dGlscy5mb3JtYXRfc2l6ZSgyNzkwMDAwKSA9PSAiMi42NiBNQiIKICAgIGFzc2VydCB1dGlscy5mb3JtYXRfc2l6ZSg1MTIpID09ICI1MTIgQiIKICAgIGFzc2VydCB1dGlscy5mb3JtYXRfc2l6ZShOb25lKSBpcyBOb25lCiAgICBhc3NlcnQgdXRpbHMuZm9ybWF0X3NpemUoIm5vcGUiKSBpcyBOb25lCgoKZGVmIHRlc3RfcGFyc2Vfc2l6ZV90ZXh0KCk6CiAgICB2YWx1ZSA9IHV0aWxzLnBhcnNlX3NpemVfdGV4dCgiMTA4MHAgKDc3LjE2IE1CKSBbLm1wNF0iKQogICAgYXNzZXJ0IHZhbHVlID09IGludCg3Ny4xNiAqIDEwMjQgKiogMikKICAgIHZhbHVlID0gdXRpbHMucGFyc2Vfc2l6ZV90ZXh0KCI0SyAoMzQyLjAwIE1CKSBbLndlYm1dIikKICAgIGFzc2VydCB2YWx1ZSA9PSBpbnQoMzQyLjAwICogMTAyNCAqKiAyKQogICAgYXNzZXJ0IHV0aWxzLnBhcnNlX3NpemVfdGV4dCgiMzYwcCBbLm1wNF0iKSBpcyBOb25lCgoKZGVmIHRlc3Rfc2FmZV9maWxlbmFtZSgpOgogICAgYXNzZXJ0IHV0aWxzLnNhZmVfZmlsZW5hbWUoIlRlc3QgLyBNb3ZpZTogMjAyNiIsICJtcDQiKSA9PSAiVGVzdF9Nb3ZpZV8yMDI2Lm1wNCIKICAgIGFzc2VydCAiLi4iIG5vdCBpbiB1dGlscy5zYWZlX2ZpbGVuYW1lKCIuLi8uLi9ldGMvcGFzc3dkIiwgIm1wNCIpCiAgICBhc3NlcnQgIi8iIG5vdCBpbiB1dGlscy5zYWZlX2ZpbGVuYW1lKCJhL2JcXGMiLCAibXA0IikKICAgIGFzc2VydCB1dGlscy5zYWZlX2ZpbGVuYW1lKCIiLCAibXAzIikuZW5kc3dpdGgoIi5tcDMiKQo=
+from core import utils
+from social.youtube import _parse_media_entry, _quality_from_format
+
+
+def _entry(url, format_text, file_size=None):
+    return {"url": url, "format": format_text, "fileSize": file_size}
+
+
+def test_quality_1080p():
+    assert _quality_from_format("1080p (77.16 MB) [.mp4]") == "1080p"
+
+
+def test_quality_4k():
+    assert _quality_from_format("4K (342.00 MB) [.webm]") == "2160p"
+
+
+def test_quality_2k():
+    assert _quality_from_format("2K (144.10 MB) [.webm]") == "1440p"
+
+
+def test_quality_missing():
+    assert _quality_from_format(None) == ""
+    assert _quality_from_format("unknown") == ""
+
+
+def test_parse_video_entry():
+    url = "https://redirector.googlevideo.com/videoplayback?mime=video%2Fmp4&itag=137"
+    item = _parse_media_entry(_entry(url, "1080p (77.16 MB) [.mp4]", 80911999))
+    assert item["kind"] == "video"
+    assert item["quality"] == "1080p"
+    assert item["ext"] == "mp4"
+    assert item["size_bytes"] == 80911999
+    assert item["itag"] == "137"
+
+
+def test_parse_audio_entry():
+    url = "https://redirector.googlevideo.com/videoplayback?mime=audio%2Fmp4&itag=140"
+    item = _parse_media_entry(_entry(url, "1080p (3.29 MB) [.m4a]", 3449447))
+    assert item["kind"] == "audio"
+    assert item["ext"] == "m4a"
+
+
+def test_parse_entry_missing_size_from_format():
+    url = "https://redirector.googlevideo.com/videoplayback?mime=video%2Fmp4&itag=18"
+    item = _parse_media_entry(_entry(url, "360p [.mp4]", None))
+    assert item["kind"] == "video"
+    assert item["quality"] == "360p"
+    assert item["size_bytes"] is None
+
+
+def test_parse_entry_rejects_http():
+    item = _parse_media_entry(_entry("http://example.com/x", "1080p [.mp4]", 10))
+    assert item is None
+
+
+def test_parse_entry_rejects_garbage():
+    assert _parse_media_entry({}) is None
+    assert _parse_media_entry(None) is None
+    assert _parse_media_entry({"url": "", "format": "1080p"}) is None
+
+
+def test_quality_rank_order():
+    assert utils.quality_rank("2160p") > utils.quality_rank("1080p")
+    assert utils.quality_rank("1080p") > utils.quality_rank("720p")
+    assert utils.quality_rank("720p") > utils.quality_rank("144p")
+    assert utils.quality_rank("unknown") == -1
+
+
+def test_format_size():
+    assert utils.format_size(113000000) == "107.77 MB"
+    assert utils.format_size(2790000) == "2.66 MB"
+    assert utils.format_size(512) == "512 B"
+    assert utils.format_size(None) is None
+    assert utils.format_size("nope") is None
+
+
+def test_parse_size_text():
+    value = utils.parse_size_text("1080p (77.16 MB) [.mp4]")
+    assert value == int(77.16 * 1024 ** 2)
+    value = utils.parse_size_text("4K (342.00 MB) [.webm]")
+    assert value == int(342.00 * 1024 ** 2)
+    assert utils.parse_size_text("360p [.mp4]") is None
+
+
+def test_safe_filename():
+    assert utils.safe_filename("Test / Movie: 2026", "mp4") == "Test_Movie_2026.mp4"
+    assert ".." not in utils.safe_filename("../../etc/passwd", "mp4")
+    assert "/" not in utils.safe_filename("a/b\\c", "mp4")
+    assert utils.safe_filename("", "mp3").endswith(".mp3")
