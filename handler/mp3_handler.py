@@ -24,6 +24,29 @@ def _sanitize_stderr(text):
     return cleaned[:2000]
 
 
+async def _refresh_youtube_audio_url(source_url):
+    from social import youtube as yt
+    from security.validation import validate_youtube_url
+    try:
+        validate_youtube_url(source_url)
+    except Exception:
+        return ""
+    try:
+        result = await yt.fetch_media(source_url)
+        audios = result.get("audios", [])
+        if audios:
+            fresh_url = audios[0].get("url", "")
+            if fresh_url:
+                try:
+                    validate_download_url(fresh_url)
+                    return fresh_url
+                except ValidationError:
+                    pass
+    except Exception as exc:
+        logger.warning("youtube url refresh failed: %s", type(exc).__name__)
+    return ""
+
+
 async def _read_stderr(stream):
     try:
         data = await stream.read(_STDERR_MAX_BYTES)
@@ -133,6 +156,13 @@ async def mp3_stream(token):
                 url = audio_url
             except ValidationError:
                 pass
+    platform = payload.get("p", "")
+    if platform == "youtube":
+        source_url = payload.get("src", "")
+        if source_url:
+            fresh_url = await _refresh_youtube_audio_url(source_url)
+            if fresh_url:
+                url = fresh_url
     if not url:
         raise ValidationError()
     validate_download_url(url)
