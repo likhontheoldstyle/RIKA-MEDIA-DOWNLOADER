@@ -19,7 +19,6 @@ DOWNLOAD_HOST_EXACT = {
 DOWNLOAD_HOST_SUFFIXES = (
     ".googlevideo.com",
     ".fbcdn.net",
-    ".xhcdn.com",
 )
 
 THUMBNAIL_HOST_SUFFIXES = (
@@ -979,8 +978,6 @@ PLATFORM_HOSTS = {
     "x.com": "twitter",
     "www.x.com": "twitter",
     "mobile.twitter.com": "twitter",
-    "xhamster.com": "xhamster",
-    "www.xhamster.com": "xhamster",
 }
 
 PLATFORM_NAMES = {
@@ -989,7 +986,6 @@ PLATFORM_NAMES = {
     "instagram": "Instagram",
     "facebook": "Facebook",
     "twitter": "X (Twitter)",
-    "xhamster": "xHamster",
     "unknown": "Video",
 }
 
@@ -1005,7 +1001,7 @@ def detect_platform(url):
         return "unknown"
     if host in PLATFORM_HOSTS:
         return PLATFORM_HOSTS[host]
-    for suffix in ("tiktok.com", "instagram.com", "facebook.com", "twitter.com", "x.com", "xhamster.com"):
+    for suffix in ("tiktok.com", "instagram.com", "facebook.com", "twitter.com", "x.com"):
         if host.endswith("." + suffix):
             return PLATFORM_HOSTS.get(suffix, "unknown")
     return "unknown"
@@ -1402,173 +1398,6 @@ def fetch_direct_url(original_url, quality):
 def fetch_facebook_audio(url):
     return []
 
-import re
-import json
-
-import httpx
-
-
-TIMEOUT = 30.0
-
-VIDEO_URL_RE = re.compile(
-    r"^https?://(?:www\.)?(?:xhamster\.com|xhamster\d*\.com)/videos/[^/?#]+",
-    re.IGNORECASE,
-)
-
-M3U8_RE = re.compile(
-    r'<link rel="preload" href="(https://video-nss-[^"]+?\.m3u8[^"]*)"',
-)
-
-INITIALS_RE = re.compile(
-    r"window\.initials=(\{.*?\});",
-    re.DOTALL,
-)
-
-QUALITY_RE = re.compile(r"(\d+)x(\d+):(\d+p)")
-
-
-def is_xhamster_url(url):
-    return bool(VIDEO_URL_RE.match((url or "").strip()))
-
-
-def _fetch_html(url):
-    resp = httpx.get(
-        url,
-        timeout=TIMEOUT,
-        follow_redirects=True,
-        headers={
-            "User-Agent": BROWSER_USER_AGENT,
-            "Accept": "text/html,application/xhtml+xml",
-            "Accept-Language": "en-US,en;q=0.9",
-        },
-    )
-    resp.raise_for_status()
-    return resp.text
-
-
-def _parse_initials(html):
-    m = INITIALS_RE.search(html)
-    if not m:
-        return {}
-    try:
-        return json.loads(m.group(1))
-    except (ValueError, TypeError):
-        return {}
-
-
-def _extract_m3u8(html):
-    m = M3U8_RE.search(html)
-    if not m:
-        return "", []
-    url = m.group(1)
-    qualities = []
-    for qm in QUALITY_RE.finditer(url):
-        width, height, label = qm.groups()
-        qualities.append({
-            "quality": label,
-            "width": int(width),
-            "height": int(height),
-        })
-    qualities.sort(key=lambda x: x["height"])
-    return url, qualities
-
-
-def _m3u8_for_quality(master_url, quality_label):
-    if "_TPL_" in master_url:
-        return master_url.replace("_TPL_", quality_label)
-    return master_url
-
-
-def fetch_xhamster_info(url):
-    url = (url or "").strip()
-    if not is_xhamster_url(url):
-        raise MediaNotFound()
-    url = url.split("?")[0].split("#")[0]
-    try:
-        html = _fetch_html(url)
-    except Exception:
-        raise MediaNotFound()
-    data = _parse_initials(html)
-    entity = data.get("videoEntity", {}) if isinstance(data.get("videoEntity"), dict) else {}
-    title = str(entity.get("title", "")).strip() or "xHamster Video"
-    duration = entity.get("duration")
-    try:
-        duration = int(duration) if duration is not None else None
-    except (TypeError, ValueError):
-        duration = None
-    views = entity.get("views")
-    thumbs = entity.get("thumbs", {}) if isinstance(entity.get("thumbs"), dict) else {}
-    thumbnail = ""
-    if isinstance(thumbs, dict):
-        for key in ("thumbBig", "thumb", "poster"):
-            val = thumbs.get(key)
-            if isinstance(val, str) and val.startswith("http"):
-                thumbnail = val
-                break
-            if isinstance(val, dict):
-                for sub in val.values():
-                    if isinstance(sub, str) and sub.startswith("http"):
-                        thumbnail = sub
-                        break
-                if thumbnail:
-                    break
-    if not thumbnail:
-        m = re.search(r'<meta property="og:image" content="([^"]+)"', html)
-        if m:
-            thumbnail = m.group(1)
-    master_url, qualities = _extract_m3u8(html)
-    if not master_url:
-        raise MediaNotFound()
-    video_id = entity.get("id") or data.get("videoModel", {}).get("id", "")
-    formats = []
-    for q in qualities:
-        formats.append({
-            "quality": q["quality"],
-            "width": q["width"],
-            "height": q["height"],
-            "url": _m3u8_for_quality(master_url, q["quality"]),
-            "ext": "mp4",
-        })
-    if not formats:
-        formats.append({
-            "quality": "HD",
-            "width": 0,
-            "height": 0,
-            "url": master_url.replace("_TPL_", "720p"),
-            "ext": "mp4",
-        })
-    return {
-        "video_id": str(video_id),
-        "title": title[:200],
-        "duration": duration,
-        "views": views,
-        "thumbnail": thumbnail,
-        "formats": formats,
-        "master_url": master_url,
-    }
-
-
-def fetch_search_results(query, page=1):
-    search_url = "https://xhamster.com/search/%s" % httpx.QueryParams({"q": query}).get("q", query)
-    if page > 1:
-        search_url += "/%d" % page
-    try:
-        html = _fetch_html(search_url)
-    except Exception:
-        raise MediaNotFound()
-    data = _parse_initials(html)
-    results = []
-    seen = set()
-    for m in re.finditer(r'href="(https://xhamster\.com/videos/[^"]+)"', html):
-        video_url = m.group(1)
-        if video_url in seen:
-            continue
-        seen.add(video_url)
-        results.append({"url": video_url})
-        if len(results) >= 20:
-            break
-    return results
-
 
 logger = get_logger("handler.youtube")
 
@@ -1751,44 +1580,6 @@ async def universal_analyze(body):
             "mp3_available": False,
             "media": media,
         }
-    if platform == "xhamster":
-        try:
-            info = fetch_xhamster_info(url)
-        except Exception as exc:
-            logger.warning("xhamster fetch failed: %s", type(exc).__name__)
-            raise MediaNotFound()
-        title = info["title"][:80]
-        media = []
-        for fmt in info["formats"]:
-            token = issue_token({
-                "u": fmt["url"],
-                "t": title,
-                "e": "mp4",
-                "m": "video/mp4",
-                "k": "video",
-                "q": fmt["quality"],
-                "h": "",
-                "o": url,
-                "p": "xhamster",
-            })
-            media.append({
-                "token": token,
-                "type": "video",
-                "quality": fmt["quality"],
-                "format": "MP4",
-                "size": "size unknown",
-                "size_bytes": None,
-            })
-        return {
-            "success": True,
-            "platform": platform,
-            "platform_name": platform_display_name(platform),
-            "title": title,
-            "duration": info.get("duration"),
-            "thumbnail": info.get("thumbnail", ""),
-            "mp3_available": False,
-            "media": media,
-        }
     if not uses_cobalt(platform):
         raise UnsupportedPlatform()
     title = "%s Video" % platform_display_name(platform)
@@ -1919,22 +1710,6 @@ def download_target(token):
         if fresh:
             return fresh
     return url
-
-
-def is_xhamster_download(token):
-    payload = verify_token(token)
-    return bool(payload and payload.get("p") == "xhamster")
-
-
-def xhamster_download_info(token):
-    payload = resolve_token(token)
-    url = payload.get("u", "")
-    if not url:
-        raise MediaNotFound()
-    title = payload.get("t", "xhamster_video")
-    quality = payload.get("q", "")
-    filename = safe_filename("%s_%s" % (title, quality or "HD"), "mp4")
-    return {"url": url, "filename": filename, "mime": "video/mp4"}
 
 
 def is_facebook_download(token):
@@ -2165,9 +1940,6 @@ async def download_endpoint(request: Request):
         if info["audio_url"]:
             return await _mux_download(info)
         return _proxy_download(info["url"], info["filename"], info["mime"])
-    if is_xhamster_download(token):
-        info = xhamster_download_info(token)
-        return await _hls_download(info)
     target = download_target(token)
     return RedirectResponse(url=target, status_code=302)
 
@@ -2227,48 +1999,6 @@ async def _mux_download(info):
     except OSError as exc:
         logger.warning("ffmpeg spawn failed: %s", type(exc).__name__)
         return _proxy_download(info["url"], info["filename"], info["mime"])
-
-    async def _stream():
-        try:
-            while True:
-                chunk = await process.stdout.read(65536)
-                if not chunk:
-                    break
-                yield chunk
-        finally:
-            try:
-                process.kill()
-            except Exception:
-                pass
-            await process.wait()
-
-    safe_name = info["filename"].replace('"', "").strip() or "video.mp4"
-    headers = {"Content-Disposition": 'attachment; filename="%s"' % safe_name}
-    return StreamingResponse(_stream(), media_type="video/mp4", headers=headers)
-
-
-async def _hls_download(info):
-    ffmpeg = config.resolve_ffmpeg()
-    if not ffmpeg:
-        raise ConversionError("FFmpeg not available")
-    args = [
-        ffmpeg, "-y",
-        "-headers", "User-Agent: %s\r\n" % BROWSER_USER_AGENT,
-        "-i", info["url"],
-        "-c", "copy",
-        "-f", "mp4",
-        "-movflags", "frag_keyframe+empty_moov",
-        "pipe:1",
-    ]
-    try:
-        process = await asyncio.create_subprocess_exec(
-            *args,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.DEVNULL,
-        )
-    except OSError as exc:
-        logger.warning("ffmpeg hls failed: %s", type(exc).__name__)
-        raise ConversionError("Download failed")
 
     async def _stream():
         try:
