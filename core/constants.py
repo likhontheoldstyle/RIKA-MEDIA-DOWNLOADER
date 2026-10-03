@@ -15,6 +15,8 @@ DOWNLOAD_HOST_EXACT = {
 
 DOWNLOAD_HOST_SUFFIXES = (
     ".googlevideo.com",
+    ".fbcdn.net",
+    ".xhcdn.com",
 )
 
 THUMBNAIL_HOST_SUFFIXES = (
@@ -56,6 +58,7 @@ K_LABELS = {
 }
 
 UPSTREAM_TIMEOUT = 25.0
+COBALT_TIMEOUT = 30.0
 DOWNLOAD_TIMEOUT = 60.0
 FFMPEG_TIMEOUT = 180.0
 
