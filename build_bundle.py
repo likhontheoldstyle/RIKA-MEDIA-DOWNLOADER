@@ -16,6 +16,8 @@ SECTIONS = [
     ("social/youtube.py", {"config.": "", "utils.": ""}),
     ("social/platforms.py", {}),
     ("social/cobalt.py", {"config.": ""}),
+    ("social/facebook.py", {}),
+    ("social/xhamster.py", {}),
     ("handler/youtube_handler.py", {"yt.": "", "config.": "", "utils.": ""}),
     ("handler/fetch_handler.py", {"config.": "", "utils.": ""}),
     ("handler/download_handler.py", {"utils.": ""}),
@@ -74,6 +76,7 @@ def apply_replacements(lines, reps):
 ROUTES = {
     "youtube": ('post', "/api/youtube", "youtube_endpoint"),
     "download": ('get', "/api/download", "download_endpoint"),
+    "download_head": ('head', "/api/download", "download_head_endpoint"),
     "media": ('get', "/api/media", "media_endpoint"),
     "mp3": ('post', "/api/mp3", "mp3_endpoint"),
     "health": ('get', "/api/health", "health_endpoint"),
