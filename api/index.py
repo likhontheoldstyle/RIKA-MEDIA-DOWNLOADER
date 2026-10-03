@@ -1571,7 +1571,7 @@ import sys
 
 
 from fastapi import Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 
 
 
@@ -1582,6 +1582,15 @@ async def download_endpoint(request: Request):
         raise ValidationError()
     target = download_target(token)
     return RedirectResponse(url=target, status_code=302)
+
+
+async def download_head_endpoint(request: Request):
+    check_general_limit(request)
+    token = request.query_params.get("token", "")
+    if not token or len(token) > 4096:
+        raise ValidationError()
+    resolve_token(token)
+    return JSONResponse(status_code=200, content={"ok": True})
 
 import os
 import sys
@@ -1669,6 +1678,7 @@ app = FastAPI(title="RIKA MEDIA DOWNLOADER", docs_url=None, redoc_url=None, open
 app.add_middleware(SecurityMiddleware)
 app.post("/api/youtube")(youtube_endpoint)
 app.get("/api/download")(download_endpoint)
+app.head("/api/download")(download_head_endpoint)
 app.get("/api/media")(media_endpoint)
 app.post("/api/mp3")(mp3_endpoint)
 app.get("/api/health")(health_endpoint)
