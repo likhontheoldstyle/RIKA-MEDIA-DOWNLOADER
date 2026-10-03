@@ -103,6 +103,22 @@ def download_target(token):
     return url
 
 
+def is_xhamster_download(token):
+    payload = utils.verify_token(token)
+    return bool(payload and payload.get("p") == "xhamster")
+
+
+def xhamster_download_info(token):
+    payload = resolve_token(token)
+    url = payload.get("u", "")
+    if not url:
+        raise MediaNotFound()
+    title = payload.get("t", "xhamster_video")
+    quality = payload.get("q", "")
+    filename = utils.safe_filename("%s_%s" % (title, quality or "HD"), "mp4")
+    return {"url": url, "filename": filename, "mime": "video/mp4"}
+
+
 def is_facebook_download(token):
     payload = utils.verify_token(token)
     return bool(payload and payload.get("p") == "facebook")
