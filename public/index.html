@@ -340,6 +340,14 @@ function render(data){
       setTimeout(function(){btn.disabled=false;},3000);
     });
     card.appendChild(btn);
+    if(data.mp3_available){
+      var mp3btn=makeDownloadBtn("MP3");
+      mp3btn.classList.add("ghost");
+      mp3btn.style.marginTop="10px";
+      mp3btn.setAttribute("aria-label","Convert to MP3");
+      mp3btn.addEventListener("click",function(){convertMp3(m.token,mp3btn,base);});
+      card.appendChild(mp3btn);
+    }
     videoGrid.appendChild(card);
   });
   audios.forEach(function(m){
