@@ -1411,7 +1411,7 @@ import httpx
 TIMEOUT = 30.0
 
 VIDEO_URL_RE = re.compile(
-    r"^https?://(?:www\.)?(?:xhamster\.com|xhamster\d*\.com)/videos/[^/]+$",
+    r"^https?://(?:www\.)?(?:xhamster\.com|xhamster\d*\.com)/videos/[^/?#]+",
     re.IGNORECASE,
 )
 
@@ -1483,6 +1483,7 @@ def fetch_xhamster_info(url):
     url = (url or "").strip()
     if not is_xhamster_url(url):
         raise MediaNotFound()
+    url = url.split("?")[0].split("#")[0]
     try:
         html = _fetch_html(url)
     except Exception:
