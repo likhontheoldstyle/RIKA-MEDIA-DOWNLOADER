@@ -110,18 +110,15 @@ def is_facebook_download(token):
 
 def facebook_download_info(token):
     payload = resolve_token(token)
-    original_url = payload.get("o", "")
-    quality = payload.get("q", "")
-    title = payload.get("t", "facebook_video")
-    ext = payload.get("e", "mp4")
-    try:
-        url = fetch_direct_url(original_url, quality)
-    except Exception as exc:
-        logger.warning("facebook direct url failed: %s", type(exc).__name__)
+    url = payload.get("u", "")
+    if not url:
         raise MediaNotFound()
     try:
         validate_download_url(url)
     except ValidationError:
         raise MediaExpired()
+    title = payload.get("t", "facebook_video")
+    quality = payload.get("q", "")
+    ext = payload.get("e", "mp4")
     filename = utils.safe_filename("%s_%s" % (title, quality or "HD"), ext)
     return {"url": url, "filename": filename, "mime": payload.get("m", "video/mp4")}
