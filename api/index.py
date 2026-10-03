@@ -18,6 +18,7 @@ DOWNLOAD_HOST_EXACT = {
 
 DOWNLOAD_HOST_SUFFIXES = (
     ".googlevideo.com",
+    ".fbcdn.net",
 )
 
 THUMBNAIL_HOST_SUFFIXES = (
@@ -85,7 +86,7 @@ class InvalidURL(AppError):
 
 class UnsupportedPlatform(AppError):
     status_code = 400
-    safe_message = "This platform is not supported. Try YouTube, TikTok, Instagram or X."
+    safe_message = "This platform is not supported. Try YouTube, TikTok, Instagram, Facebook or X."
 
 
 class APIError(AppError):
@@ -968,6 +969,10 @@ PLATFORM_HOSTS = {
     "vt.tiktok.com": "tiktok",
     "instagram.com": "instagram",
     "www.instagram.com": "instagram",
+    "facebook.com": "facebook",
+    "www.facebook.com": "facebook",
+    "m.facebook.com": "facebook",
+    "fb.watch": "facebook",
     "twitter.com": "twitter",
     "www.twitter.com": "twitter",
     "x.com": "twitter",
@@ -979,6 +984,7 @@ PLATFORM_NAMES = {
     "youtube": "YouTube",
     "tiktok": "TikTok",
     "instagram": "Instagram",
+    "facebook": "Facebook",
     "twitter": "X (Twitter)",
     "unknown": "Video",
 }
@@ -995,7 +1001,7 @@ def detect_platform(url):
         return "unknown"
     if host in PLATFORM_HOSTS:
         return PLATFORM_HOSTS[host]
-    for suffix in ("tiktok.com", "instagram.com", "twitter.com", "x.com"):
+    for suffix in ("tiktok.com", "instagram.com", "facebook.com", "twitter.com", "x.com"):
         if host.endswith("." + suffix):
             return PLATFORM_HOSTS.get(suffix, "unknown")
     return "unknown"
@@ -1165,6 +1171,88 @@ def fetch_audio_mp3(url):
     }
     return _call_cobalt(payload)
 
+import re
+
+import httpx
+
+
+API_URL = "https://fdown.isuru.eu.org/download"
+TIMEOUT = 60.0
+
+
+def _post(url, quality):
+    resp = httpx.post(
+        API_URL,
+        json={"url": url, "quality": quality},
+        headers={
+            "User-Agent": BROWSER_USER_AGENT,
+            "Content-Type": "application/json",
+            "Accept": "*/*",
+            "Origin": "https://fdown.isuru.eu.org",
+            "Referer": "https://fdown.isuru.eu.org/",
+        },
+        timeout=TIMEOUT,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    if data.get("status") != "success":
+        raise MediaNotFound()
+    return data
+
+
+def _quality_number(value):
+    match = re.search(r"(\d+)", str(value or ""))
+    return int(match.group(1)) if match else 0
+
+
+def _clean_formats(data):
+    formats = data.get("available_formats", [])
+    if not isinstance(formats, list):
+        return []
+    seen = {}
+    for item in formats:
+        if not isinstance(item, dict):
+            continue
+        quality = str(item.get("quality", "")).strip()
+        url = str(item.get("url", "")).strip()
+        if not quality or not url:
+            continue
+        if quality not in seen:
+            seen[quality] = {
+                "quality": quality,
+                "url": url,
+                "ext": str(item.get("ext", "mp4")).strip() or "mp4",
+            }
+    ordered = sorted(seen.values(), key=lambda x: _quality_number(x["quality"]), reverse=True)
+    return ordered
+
+
+def fetch_facebook_video(url):
+    data = _post(url, "best")
+    formats = _clean_formats(data)
+    if not formats:
+        direct = str(data.get("download_url", "")).strip()
+        if not direct:
+            raise MediaNotFound()
+        formats = [{"quality": "HD", "url": direct, "ext": "mp4"}]
+    info = data.get("video_info", {}) if isinstance(data.get("video_info"), dict) else {}
+    title = str(info.get("title", "")).strip()
+    items = []
+    for fmt in formats:
+        items.append({
+            "url": fmt["url"],
+            "filename": "%s_%s.%s" % (title[:40] or "facebook_video", fmt["quality"], fmt["ext"]),
+            "instance_host": "",
+            "title": title,
+            "thumbnail": str(info.get("thumbnail", "")),
+            "duration": info.get("duration"),
+        })
+    return items
+
+
+def fetch_facebook_audio(url):
+    return []
+
 
 logger = get_logger("handler.youtube")
 
@@ -1288,6 +1376,34 @@ async def universal_analyze(body):
         result["platform"] = "youtube"
         result["platform_name"] = platform_display_name("youtube")
         return result
+    if platform == "facebook":
+        title = "%s Video" % platform_display_name(platform)
+        media = []
+        try:
+            videos = fetch_facebook_video(url)
+        except Exception as exc:
+            logger.warning("facebook video failed: %s", type(exc).__name__)
+            videos = []
+        if videos:
+            first = videos[0]
+            if first.get("title"):
+                title = first["title"][:80]
+            thumbnail = first.get("thumbnail", "")
+            duration = first.get("duration")
+        else:
+            raise MediaNotFound()
+        for item in videos:
+            media.append(_cobalt_card(item, title, "video", item["quality"], url))
+        return {
+            "success": True,
+            "platform": platform,
+            "platform_name": platform_display_name(platform),
+            "title": title,
+            "duration": duration,
+            "thumbnail": thumbnail,
+            "mp3_available": False,
+            "media": media,
+        }
     if not uses_cobalt(platform):
         raise UnsupportedPlatform()
     title = "%s Video" % platform_display_name(platform)
