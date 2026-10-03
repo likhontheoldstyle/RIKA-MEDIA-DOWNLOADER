@@ -1404,7 +1404,7 @@ def fetch_facebook_audio(url):
 logger = get_logger("handler.youtube")
 
 
-def _media_token(item, title, audio_url=""):
+def _media_token(item, title, audio_url="", source_url=""):
     payload = {
         "u": item["url"],
         "t": title,
@@ -1416,6 +1416,8 @@ def _media_token(item, title, audio_url=""):
     }
     if audio_url and item["kind"] == "video":
         payload["a"] = audio_url
+    if source_url:
+        payload["src"] = source_url
     return issue_token(payload)
 
 
@@ -1425,9 +1427,9 @@ def _quality_num(q):
     return int(m.group(1)) if m else 0
 
 
-def _card(item, title, audio_url=""):
+def _card(item, title, audio_url="", source_url=""):
     return {
-        "token": _media_token(item, title, audio_url),
+        "token": _media_token(item, title, audio_url, source_url),
         "type": item["kind"],
         "quality": item["quality"],
         "format": item["ext"].upper(),
@@ -1442,14 +1444,15 @@ async def analyze(body):
     if not isinstance(raw_url, str):
         raise InvalidURL()
     validate_youtube_url(raw_url.strip())
-    result = await fetch_media(raw_url.strip())
+    source_url = raw_url.strip()
+    result = await fetch_media(source_url)
     title = result["title"]
     audios = result["audios"]
     best_audio_url = audios[0]["url"] if audios else ""
     videos_sorted = sorted(result["videos"], key=lambda v: _quality_num(v["quality"]))
     audios_sorted = sorted(audios, key=lambda a: _quality_num(a["quality"]))
-    media = [_card(v, title, best_audio_url) for v in videos_sorted]
-    media += [_card(a, title) for a in audios_sorted]
+    media = [_card(v, title, best_audio_url, source_url) for v in videos_sorted]
+    media += [_card(a, title, "", source_url) for a in audios_sorted]
     return {
         "success": True,
         "title": title,
@@ -1811,6 +1814,27 @@ def _sanitize_stderr(text):
     return cleaned[:2000]
 
 
+async def _refresh_youtube_audio_url(source_url):
+    try:
+        validate_youtube_url(source_url)
+    except Exception:
+        return ""
+    try:
+        result = await yt.fetch_media(source_url)
+        audios = result.get("audios", [])
+        if audios:
+            fresh_url = audios[0].get("url", "")
+            if fresh_url:
+                try:
+                    validate_download_url(fresh_url)
+                    return fresh_url
+                except ValidationError:
+                    pass
+    except Exception as exc:
+        logger.warning("youtube url refresh failed: %s", type(exc).__name__)
+    return ""
+
+
 async def _read_stderr(stream):
     try:
         data = await stream.read(_STDERR_MAX_BYTES)
@@ -1920,6 +1944,13 @@ async def mp3_stream(token):
                 url = audio_url
             except ValidationError:
                 pass
+    platform = payload.get("p", "")
+    if platform == "youtube":
+        source_url = payload.get("src", "")
+        if source_url:
+            fresh_url = await _refresh_youtube_audio_url(source_url)
+            if fresh_url:
+                url = fresh_url
     if not url:
         raise ValidationError()
     validate_download_url(url)
