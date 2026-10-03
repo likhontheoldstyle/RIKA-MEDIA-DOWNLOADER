@@ -1,12 +1,10 @@
 import asyncio
-import json
-import os
-import tempfile
+import re
 
 import httpx
 
 from core import config, utils
-from core.constants import DOWNLOAD_TIMEOUT, FFMPEG_TIMEOUT
+from core.constants import BROWSER_USER_AGENT, DOWNLOAD_TIMEOUT, FFMPEG_TIMEOUT
 from core.exceptions import ConversionError, ConversionUnavailable, MediaExpired, ValidationError
 from core.logger import get_logger
 from handler.download_handler import resolve_token
@@ -14,109 +12,172 @@ from security.validation import validate_download_url
 
 logger = get_logger("handler.mp3")
 
+_URL_RE = re.compile(r"https?://[^\s\"'<>]+")
+_TOKEN_RE = re.compile(r"[A-Za-z0-9_-]{32,}")
+_FFMPEG_STARTUP_TIMEOUT = 25.0
+_STDERR_MAX_BYTES = 8192
 
-async def _download_source(url, dest_path):
+
+def _sanitize_stderr(text):
+    cleaned = _URL_RE.sub("[url]", text)
+    cleaned = _TOKEN_RE.sub("[token]", cleaned)
+    return cleaned[:2000]
+
+
+async def _read_stderr(stream):
+    try:
+        data = await stream.read(_STDERR_MAX_BYTES)
+        return data.decode("utf-8", errors="replace")
+    except Exception:
+        return ""
+
+
+async def _feed_source(url, stdin):
     validate_download_url(url)
     timeout = httpx.Timeout(DOWNLOAD_TIMEOUT, connect=10.0)
     total = 0
     try:
         async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
-            async with client.stream("GET", url, headers={"User-Agent": "Mozilla/5.0"}) as response:
+            async with client.stream("GET", url, headers={"User-Agent": BROWSER_USER_AGENT}) as response:
                 if response.status_code != 200:
                     raise ConversionError()
-                with open(dest_path, "wb") as handle:
-                    async for chunk in response.aiter_bytes(65536):
-                        total += len(chunk)
-                        if total > config.MP3_MAX_SOURCE_BYTES:
-                            raise ConversionError()
-                        handle.write(chunk)
-    except (httpx.TimeoutException, httpx.HTTPError, OSError) as exc:
-        logger.warning("source download failed: %s", type(exc).__name__)
+                async for chunk in response.aiter_bytes(65536):
+                    total += len(chunk)
+                    if total > config.MP3_MAX_SOURCE_BYTES:
+                        raise ConversionError()
+                    stdin.write(chunk)
+                    await stdin.drain()
+    except (httpx.TimeoutException, httpx.HTTPError, OSError, ConnectionError) as exc:
+        logger.warning("source feed failed: %s", type(exc).__name__)
         raise ConversionError()
+    finally:
+        try:
+            stdin.close()
+        except Exception:
+            pass
     if total == 0:
         raise ConversionError()
-    return dest_path
 
 
-async def _run_ffmpeg(ffmpeg, src_path, out_path, title):
-    args = [
-        ffmpeg, "-y",
-        "-i", src_path,
-        "-vn",
-        "-codec:a", "libmp3lame",
-        "-b:a", config.MP3_BITRATE,
-        "-metadata", "title=%s" % title[:120],
-        out_path,
-    ]
+async def _spawn_ffmpeg(title, url=""):
+    ffmpeg = config.resolve_ffmpeg()
+    if not ffmpeg:
+        raise ConversionUnavailable()
+    if url:
+        args = [
+            ffmpeg, "-y",
+            "-headers", "User-Agent: %s\r\n" % BROWSER_USER_AGENT,
+            "-i", url,
+            "-vn",
+            "-codec:a", "libmp3lame",
+            "-b:a", config.MP3_BITRATE,
+            "-metadata", "title=%s" % title[:120],
+            "-f", "mp3",
+            "pipe:1",
+        ]
+        use_stdin = False
+    else:
+        args = [
+            ffmpeg, "-y",
+            "-i", "pipe:0",
+            "-vn",
+            "-codec:a", "libmp3lame",
+            "-b:a", config.MP3_BITRATE,
+            "-metadata", "title=%s" % title[:120],
+            "-f", "mp3",
+            "pipe:1",
+        ]
+        use_stdin = True
     try:
         process = await asyncio.create_subprocess_exec(
             *args,
-            stdout=asyncio.subprocess.DEVNULL,
+            stdin=asyncio.subprocess.PIPE if use_stdin else asyncio.subprocess.DEVNULL,
+            stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
+    except OSError as exc:
+        logger.warning("ffmpeg spawn failed: %s", type(exc).__name__)
+        raise ConversionError()
+    return process, use_stdin
+
+
+async def _cleanup(process, feed_task, stderr_text):
+    if feed_task and not feed_task.done():
+        feed_task.cancel()
+    try:
+        await asyncio.wait_for(process.wait(), timeout=5.0)
+    except asyncio.TimeoutError:
         try:
-            _, stderr = await asyncio.wait_for(process.communicate(), timeout=FFMPEG_TIMEOUT)
-        except asyncio.TimeoutError:
-            try:
-                process.kill()
-            except ProcessLookupError:
-                pass
-            raise ConversionError()
-        if process.returncode != 0:
-            logger.warning("ffmpeg exited %s", process.returncode)
-            raise ConversionError()
-    except (OSError, ConversionError):
-        raise ConversionError()
-    if not os.path.isfile(out_path) or os.path.getsize(out_path) == 0:
-        raise ConversionError()
-    return out_path
+            process.kill()
+        except ProcessLookupError:
+            pass
+    if process.returncode not in (0, None):
+        logger.warning("ffmpeg exited %s stderr=%s", process.returncode, _sanitize_stderr(stderr_text))
+    if feed_task and feed_task.done() and feed_task.exception() is not None:
+        raise feed_task.exception()
 
 
-async def _remote_convert(url, title):
-    if not config.remote_converter_available():
-        raise ConversionUnavailable()
-    payload = {"audio_url": url, "format": "mp3", "bitrate": config.MP3_BITRATE, "title": title}
-    headers = {"Content-Type": "application/json"}
-    if config.CONVERTER_API_KEY:
-        headers["X-API-Key"] = config.CONVERTER_API_KEY
-    timeout = httpx.Timeout(FFMPEG_TIMEOUT, connect=10.0)
-    try:
-        async with httpx.AsyncClient(timeout=timeout) as client:
-            response = await client.post(config.CONVERTER_URL, json=payload, headers=headers)
-    except (httpx.TimeoutException, httpx.HTTPError) as exc:
-        logger.warning("remote converter failed: %s", type(exc).__name__)
-        raise ConversionError()
-    if response.status_code != 200:
-        raise ConversionError()
-    try:
-        body = response.json()
-    except ValueError:
-        raise ConversionError()
-    download_url = body.get("download_url") if isinstance(body, dict) else None
-    if not download_url:
-        raise ConversionError()
-    return {"type": "redirect", "url": download_url}
-
-
-async def convert(token):
+async def mp3_stream(token):
     if not isinstance(token, str):
         raise MediaExpired()
     payload = resolve_token(token)
-    if payload.get("k") != "audio":
+    kind = payload.get("k", "")
+    if kind not in ("audio", "video"):
         raise ValidationError()
     url = payload.get("u", "")
+    if kind == "video":
+        audio_url = payload.get("a", "")
+        if audio_url:
+            try:
+                validate_download_url(audio_url)
+                url = audio_url
+            except ValidationError:
+                pass
+    if not url:
+        raise ValidationError()
+    validate_download_url(url)
     title = payload.get("t", "audio")
-    if config.local_converter_available():
-        tmpdir = tempfile.mkdtemp(dir=config.TEMP_DIR, prefix="mp3_")
-        src_path = os.path.join(tmpdir, "source")
-        out_path = os.path.join(tmpdir, "output.mp3")
+    if not config.local_converter_available():
+        if config.remote_converter_available():
+            logger.warning("remote converter configured but API contract unknown, local ffmpeg missing")
+        raise ConversionUnavailable()
+    process, use_stdin = await _spawn_ffmpeg(title, url)
+    feed_task = None
+    if use_stdin:
+        feed_task = asyncio.ensure_future(_feed_source(url, process.stdin))
+    stderr_task = asyncio.ensure_future(_read_stderr(process.stderr))
+    filename = utils.safe_filename("%s_192kbps" % title, "mp3")
+    stderr_text = ""
+    try:
         try:
-            await _download_source(url, src_path)
-            await _run_ffmpeg(config.resolve_ffmpeg(), src_path, out_path, title)
-        except Exception:
-            utils.cleanup_dir(tmpdir)
-            raise
-        utils.cleanup_path(src_path)
-        filename = utils.safe_filename("%s_192kbps" % title, "mp3")
-        return {"type": "file", "path": out_path, "tmpdir": tmpdir, "filename": filename}
-    return await _remote_convert(url, title)
+            first = await asyncio.wait_for(process.stdout.read(65536), timeout=_FFMPEG_STARTUP_TIMEOUT)
+        except asyncio.TimeoutError:
+            stderr_text = await stderr_task if stderr_task.done() else ""
+            logger.warning("ffmpeg startup timeout stderr=%s", _sanitize_stderr(stderr_text))
+            raise ConversionError()
+        if not first:
+            stderr_text = await stderr_task if stderr_task.done() else ""
+            logger.warning("ffmpeg produced no output stderr=%s", _sanitize_stderr(stderr_text))
+            raise ConversionError()
+        yield first
+        while True:
+            try:
+                chunk = await asyncio.wait_for(process.stdout.read(65536), timeout=FFMPEG_TIMEOUT)
+            except asyncio.TimeoutError:
+                raise ConversionError()
+            if not chunk:
+                break
+            yield chunk
+    finally:
+        if not stderr_task.done():
+            stderr_task.cancel()
+        else:
+            try:
+                stderr_text = stderr_task.result()
+            except Exception:
+                pass
+        await _cleanup(process, feed_task, stderr_text)
+
+
+def mp3_handler_available():
+    return config.mp3_available()
