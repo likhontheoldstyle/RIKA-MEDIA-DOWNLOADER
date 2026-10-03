@@ -1824,31 +1824,46 @@ async def _feed_source(url, stdin):
         raise ConversionError()
 
 
-async def _spawn_ffmpeg(title):
+async def _spawn_ffmpeg(title, url=""):
     ffmpeg = resolve_ffmpeg()
     if not ffmpeg:
         raise ConversionUnavailable()
-    args = [
-        ffmpeg, "-y",
-        "-i", "pipe:0",
-        "-vn",
-        "-codec:a", "libmp3lame",
-        "-b:a", MP3_BITRATE,
-        "-metadata", "title=%s" % title[:120],
-        "-f", "mp3",
-        "pipe:1",
-    ]
+    if url:
+        args = [
+            ffmpeg, "-y",
+            "-headers", "User-Agent: %s\r\n" % BROWSER_USER_AGENT,
+            "-i", url,
+            "-vn",
+            "-codec:a", "libmp3lame",
+            "-b:a", MP3_BITRATE,
+            "-metadata", "title=%s" % title[:120],
+            "-f", "mp3",
+            "pipe:1",
+        ]
+        use_stdin = False
+    else:
+        args = [
+            ffmpeg, "-y",
+            "-i", "pipe:0",
+            "-vn",
+            "-codec:a", "libmp3lame",
+            "-b:a", MP3_BITRATE,
+            "-metadata", "title=%s" % title[:120],
+            "-f", "mp3",
+            "pipe:1",
+        ]
+        use_stdin = True
     try:
         process = await asyncio.create_subprocess_exec(
             *args,
-            stdin=asyncio.subprocess.PIPE,
+            stdin=asyncio.subprocess.PIPE if use_stdin else asyncio.subprocess.DEVNULL,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.DEVNULL,
         )
     except OSError as exc:
         logger.warning("ffmpeg spawn failed: %s", type(exc).__name__)
         raise ConversionError()
-    return process
+    return process, use_stdin
 
 
 async def mp3_stream(token):
@@ -1859,11 +1874,21 @@ async def mp3_stream(token):
     if kind not in ("audio", "video"):
         raise ValidationError()
     url = payload.get("u", "")
+    if kind == "video":
+        audio_url = payload.get("a", "")
+        if audio_url:
+            try:
+                validate_download_url(audio_url)
+                url = audio_url
+            except ValidationError:
+                pass
     title = payload.get("t", "audio")
     if not local_converter_available():
         raise ConversionUnavailable()
-    process = await _spawn_ffmpeg(title)
-    feed_task = asyncio.ensure_future(_feed_source(url, process.stdin))
+    process, use_stdin = await _spawn_ffmpeg(title, url)
+    feed_task = None
+    if use_stdin:
+        feed_task = asyncio.ensure_future(_feed_source(url, process.stdin))
     filename = safe_filename("%s_192kbps" % title, "mp3")
     try:
         while True:
@@ -1875,7 +1900,7 @@ async def mp3_stream(token):
                 break
             yield chunk
     finally:
-        if not feed_task.done():
+        if feed_task and not feed_task.done():
             feed_task.cancel()
         try:
             await asyncio.wait_for(process.wait(), timeout=5.0)
@@ -1886,7 +1911,7 @@ async def mp3_stream(token):
                 pass
         if process.returncode not in (0, None):
             logger.warning("ffmpeg exited %s", process.returncode)
-    if feed_task.done() and feed_task.exception() is not None:
+    if feed_task and feed_task.done() and feed_task.exception() is not None:
         raise feed_task.exception()
 
 
