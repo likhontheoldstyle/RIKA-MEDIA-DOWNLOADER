@@ -1577,7 +1577,7 @@ async def universal_analyze(body):
             "title": title,
             "duration": duration,
             "thumbnail": thumbnail,
-            "mp3_available": False,
+            "mp3_available": mp3_available(),
             "media": media,
         }
     if not uses_cobalt(platform):
@@ -1855,7 +1855,8 @@ async def mp3_stream(token):
     if not isinstance(token, str):
         raise MediaExpired()
     payload = resolve_token(token)
-    if payload.get("k") != "audio":
+    kind = payload.get("k", "")
+    if kind not in ("audio", "video"):
         raise ValidationError()
     url = payload.get("u", "")
     title = payload.get("t", "audio")
