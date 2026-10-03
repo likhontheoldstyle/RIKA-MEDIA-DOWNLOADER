@@ -101,7 +101,7 @@ async def universal_analyze(body):
         else:
             raise MediaNotFound()
         for item in videos:
-            media.append(_cobalt_card(item, title, "video", item["quality"], url))
+            media.append(_cobalt_card(item, title, "video", item.get("quality") or "HD", url))
         return {
             "success": True,
             "platform": platform,
