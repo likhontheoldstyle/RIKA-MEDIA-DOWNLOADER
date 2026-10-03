@@ -19,6 +19,7 @@ def _env_int(name, default):
 APP_ENV = _env("APP_ENV", "production")
 SECRET_KEY = "rx_zrNY09MxlMwEn-43ZEQjaCp7zsMrlI07Ojrj2oWjpBlZDxTRG6NL7EK9TmP89"
 YTDL_API_URL = _env("YTDL_API_URL", "https://api.ytultra.com/ikool/youtube/download")
+COBALT_API_URL = _env("COBALT_API_URL", "")
 FFMPEG_PATH = _env("FFMPEG_PATH", "")
 CONVERTER_URL = _env("CONVERTER_URL", "")
 CONVERTER_API_KEY = _env("CONVERTER_API_KEY", "")
@@ -70,4 +71,6 @@ def remote_converter_available():
 
 
 def mp3_available():
-    return bool(local_converter_available() or remote_converter_available())
+    if local_converter_available():
+        return True
+    return False
