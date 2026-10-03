@@ -70,6 +70,7 @@ def fetch_facebook_video(url):
     for fmt in formats:
         items.append({
             "url": fmt["url"],
+            "quality": fmt["quality"],
             "filename": "%s_%s.%s" % (title[:40] or "facebook_video", fmt["quality"], fmt["ext"]),
             "instance_host": "",
             "title": title,
