@@ -1205,6 +1205,23 @@ def _quality_number(value):
     return int(match.group(1)) if match else 0
 
 
+def _head_size(url):
+    try:
+        resp = httpx.head(
+            url,
+            timeout=15.0,
+            follow_redirects=True,
+            headers={"User-Agent": BROWSER_USER_AGENT},
+        )
+        if resp.status_code == 200:
+            length = resp.headers.get("content-length", "")
+            if length.isdigit() and int(length) > 0:
+                return int(length)
+    except Exception:
+        pass
+    return None
+
+
 def _clean_formats(data):
     formats = data.get("available_formats", [])
     if not isinstance(formats, list):
@@ -1242,6 +1259,7 @@ def fetch_facebook_video(url):
         items.append({
             "url": fmt["url"],
             "quality": fmt["quality"],
+            "filesize": _head_size(fmt["url"]),
             "filename": "%s_%s.%s" % (title[:40] or "facebook_video", fmt["quality"], fmt["ext"]),
             "instance_host": "",
             "title": title,
@@ -1249,6 +1267,18 @@ def fetch_facebook_video(url):
             "duration": info.get("duration"),
         })
     return items
+
+
+def fetch_direct_url(original_url, quality):
+    data = _post(original_url, quality or "best")
+    direct = str(data.get("download_url", "")).strip()
+    if not direct:
+        formats = _clean_formats(data)
+        if formats:
+            direct = formats[0]["url"]
+    if not direct:
+        raise MediaNotFound()
+    return direct
 
 
 def fetch_facebook_audio(url):
@@ -1325,11 +1355,11 @@ def _mime_for_ext(ext):
     }.get(ext, "application/octet-stream")
 
 
-def _cobalt_token(item, title, kind, quality, original_url):
+def _cobalt_token(item, title, kind, quality, original_url, platform=""):
     ext = _ext_from_filename(item.get("filename", ""))
     if kind == "audio":
         ext = "mp3"
-    return issue_token({
+    payload = {
         "u": item["url"],
         "t": title,
         "e": ext,
@@ -1338,20 +1368,37 @@ def _cobalt_token(item, title, kind, quality, original_url):
         "q": quality,
         "h": item.get("instance_host", ""),
         "o": original_url,
-    })
+    }
+    if platform:
+        payload["p"] = platform
+    return issue_token(payload)
 
 
-def _cobalt_card(item, title, kind, quality, original_url, direct_mp3=False):
+def _format_size(num_bytes):
+    if not num_bytes or num_bytes <= 0:
+        return "size unknown"
+    size = float(num_bytes)
+    for unit in ("B", "KB", "MB", "GB"):
+        if size < 1024 or unit == "GB":
+            if unit == "B":
+                return "%d B" % int(size)
+            return "%.1f %s" % (size, unit)
+        size /= 1024
+    return "size unknown"
+
+
+def _cobalt_card(item, title, kind, quality, original_url, direct_mp3=False, platform=""):
     ext = _ext_from_filename(item.get("filename", ""))
     if kind == "audio":
         ext = "mp3"
+    size_bytes = item.get("filesize")
     card = {
-        "token": _cobalt_token(item, title, kind, quality, original_url),
+        "token": _cobalt_token(item, title, kind, quality, original_url, platform),
         "type": kind,
         "quality": quality,
         "format": ext.upper(),
-        "size": "size unknown",
-        "size_bytes": None,
+        "size": _format_size(size_bytes),
+        "size_bytes": size_bytes,
     }
     if direct_mp3:
         card["direct_mp3"] = True
@@ -1394,7 +1441,7 @@ async def universal_analyze(body):
         else:
             raise MediaNotFound()
         for item in videos:
-            media.append(_cobalt_card(item, title, "video", item.get("quality") or "HD", url))
+            media.append(_cobalt_card(item, title, "video", item.get("quality") or "HD", url, platform="facebook"))
         return {
             "success": True,
             "platform": platform,
@@ -1520,6 +1567,14 @@ def download_target(token):
     url = payload.get("u", "")
     if not url:
         raise MediaNotFound()
+    if payload.get("p") == "facebook":
+        original_url = payload.get("o", "")
+        quality = payload.get("q", "")
+        try:
+            return fetch_direct_url(original_url, quality)
+        except Exception as exc:
+            logger.warning("facebook direct url failed: %s", type(exc).__name__)
+            return url
     instance_host = payload.get("h", "")
     original_url = payload.get("o", "")
     if instance_host and original_url and not _tunnel_alive(url):
@@ -1527,6 +1582,30 @@ def download_target(token):
         if fresh:
             return fresh
     return url
+
+
+def is_facebook_download(token):
+    payload = verify_token(token)
+    return bool(payload and payload.get("p") == "facebook")
+
+
+def facebook_download_info(token):
+    payload = resolve_token(token)
+    original_url = payload.get("o", "")
+    quality = payload.get("q", "")
+    title = payload.get("t", "facebook_video")
+    ext = payload.get("e", "mp4")
+    try:
+        url = fetch_direct_url(original_url, quality)
+    except Exception as exc:
+        logger.warning("facebook direct url failed: %s", type(exc).__name__)
+        raise MediaNotFound()
+    try:
+        validate_download_url(url)
+    except ValidationError:
+        raise MediaExpired()
+    filename = safe_filename("%s_%s" % (title, quality or "HD"), ext)
+    return {"url": url, "filename": filename, "mime": payload.get("m", "video/mp4")}
 
 
 
@@ -1682,9 +1761,12 @@ import os
 import sys
 
 
+import httpx
 from fastapi import Request
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse, StreamingResponse
 
+
+logger = get_logger("api.download")
 
 
 async def download_endpoint(request: Request):
@@ -1692,8 +1774,38 @@ async def download_endpoint(request: Request):
     token = request.query_params.get("token", "")
     if not token or len(token) > 4096:
         raise ValidationError()
+    if is_facebook_download(token):
+        info = facebook_download_info(token)
+        return _proxy_download(info["url"], info["filename"], info["mime"])
     target = download_target(token)
     return RedirectResponse(url=target, status_code=302)
+
+
+def _proxy_download(url, filename, mime):
+    def _stream():
+        try:
+            with httpx.stream(
+                "GET",
+                url,
+                timeout=120.0,
+                follow_redirects=True,
+                headers={"User-Agent": BROWSER_USER_AGENT},
+            ) as resp:
+                resp.raise_for_status()
+                for chunk in resp.iter_bytes(chunk_size=65536):
+                    if chunk:
+                        yield chunk
+        except Exception as exc:
+            logger.warning("facebook proxy failed: %s", type(exc).__name__)
+            return
+
+    safe_name = filename.replace('"', "").strip() or "video.mp4"
+    headers = {"Content-Disposition": 'attachment; filename="%s"' % safe_name}
+    return StreamingResponse(
+        _stream(),
+        media_type=mime or "video/mp4",
+        headers=headers,
+    )
 
 
 async def download_head_endpoint(request: Request):
