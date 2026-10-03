@@ -32,11 +32,11 @@ def _mime_for_ext(ext):
     }.get(ext, "application/octet-stream")
 
 
-def _cobalt_token(item, title, kind, quality, original_url):
+def _cobalt_token(item, title, kind, quality, original_url, platform=""):
     ext = _ext_from_filename(item.get("filename", ""))
     if kind == "audio":
         ext = "mp3"
-    return utils.issue_token({
+    payload = {
         "u": item["url"],
         "t": title,
         "e": ext,
@@ -45,20 +45,37 @@ def _cobalt_token(item, title, kind, quality, original_url):
         "q": quality,
         "h": item.get("instance_host", ""),
         "o": original_url,
-    })
+    }
+    if platform:
+        payload["p"] = platform
+    return utils.issue_token(payload)
 
 
-def _cobalt_card(item, title, kind, quality, original_url, direct_mp3=False):
+def _format_size(num_bytes):
+    if not num_bytes or num_bytes <= 0:
+        return "size unknown"
+    size = float(num_bytes)
+    for unit in ("B", "KB", "MB", "GB"):
+        if size < 1024 or unit == "GB":
+            if unit == "B":
+                return "%d B" % int(size)
+            return "%.1f %s" % (size, unit)
+        size /= 1024
+    return "size unknown"
+
+
+def _cobalt_card(item, title, kind, quality, original_url, direct_mp3=False, platform=""):
     ext = _ext_from_filename(item.get("filename", ""))
     if kind == "audio":
         ext = "mp3"
+    size_bytes = item.get("filesize")
     card = {
-        "token": _cobalt_token(item, title, kind, quality, original_url),
+        "token": _cobalt_token(item, title, kind, quality, original_url, platform),
         "type": kind,
         "quality": quality,
         "format": ext.upper(),
-        "size": "size unknown",
-        "size_bytes": None,
+        "size": _format_size(size_bytes),
+        "size_bytes": size_bytes,
     }
     if direct_mp3:
         card["direct_mp3"] = True
@@ -101,7 +118,7 @@ async def universal_analyze(body):
         else:
             raise MediaNotFound()
         for item in videos:
-            media.append(_cobalt_card(item, title, "video", item.get("quality") or "HD", url))
+            media.append(_cobalt_card(item, title, "video", item.get("quality") or "HD", url, platform="facebook"))
         return {
             "success": True,
             "platform": platform,
