@@ -242,18 +242,9 @@ function clearNode(node){while(node.firstChild){node.removeChild(node.firstChild
 function safeName(s){
   return (s||"media").replace(/[^\w\- ]+/g,"").trim().replace(/\s+/g,"_").slice(0,60)||"media";
 }
-async function directDownload(url,filename){
-  try{
-    var probe=await fetch(url,{method:"HEAD"});
-    if(probe.status===410||probe.status===404){
-      showError("This download link has expired. Click GET MEDIA again.");
-      return;
-    }
-    if(probe.status!==200){
-      showError("Download failed. Click GET MEDIA again.");
-      return;
-    }
-  }catch(e){}
+function directDownload(url,filename){
+  hideError();
+
   var a=document.createElement("a");
   a.href=url;
   if(filename){a.download=filename;}
@@ -261,7 +252,10 @@ async function directDownload(url,filename){
   a.style.display="none";
   document.body.appendChild(a);
   a.click();
-  setTimeout(function(){a.remove();},2000);
+
+  setTimeout(function(){
+    a.remove();
+  },2000);
 }
 
 async function analyze(){
