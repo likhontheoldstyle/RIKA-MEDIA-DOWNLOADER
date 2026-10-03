@@ -1014,6 +1014,7 @@ def platform_display_name(platform):
 def uses_cobalt(platform):
     return platform in COBALT_PLATFORMS
 
+import asyncio
 import time
 from urllib.parse import urlparse
 
@@ -1155,11 +1156,57 @@ def _call_cobalt(payload):
     raise MediaNotFound()
 
 
+COBALT_QUALITIES = ["360", "720", "1080"]
+
+
+async def _fetch_quality_async(url, quality):
+    payload = {"url": url, "videoQuality": quality}
+    try:
+        items = await asyncio.to_thread(_call_cobalt, payload)
+        videos = [i for i in items if i["kind"] != "audio"]
+        result = videos or items
+        if result:
+            result[0]["quality_label"] = "%sp" % quality
+            return result[0]
+    except Exception as exc:
+        logger.warning("cobalt quality %s failed: %s", quality, type(exc).__name__)
+    return None
+
+
 def fetch_video(url):
-    payload = {"url": url, "videoQuality": "1080"}
-    items = _call_cobalt(payload)
-    videos = [i for i in items if i["kind"] != "audio"]
-    return videos or items
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+    if loop and loop.is_running():
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            return pool.submit(asyncio.run, _fetch_all_qualities(url)).result()
+    return asyncio.run(_fetch_all_qualities(url))
+
+
+async def _fetch_all_qualities(url):
+    results = await asyncio.gather(*[_fetch_quality_async(url, q) for q in COBALT_QUALITIES])
+    seen_urls = set()
+    items = []
+    for item in results:
+        if not item:
+            continue
+        u = item.get("url", "")
+        if not u or u in seen_urls:
+            continue
+        seen_urls.add(u)
+        items.append(item)
+    if not items:
+        payload = {"url": url, "videoQuality": "1080"}
+        items = _call_cobalt(payload)
+        videos = [i for i in items if i["kind"] != "audio"]
+        result = videos or items
+        if result:
+            result[0]["quality_label"] = "HD"
+        return result
+    items.sort(key=lambda x: int(x.get("quality_label", "0p")[:-1] or 0))
+    return items
 
 
 def fetch_audio_mp3(url):
@@ -1355,20 +1402,30 @@ def fetch_facebook_audio(url):
 logger = get_logger("handler.youtube")
 
 
-def _media_token(item, title):
-    return issue_token({
+def _media_token(item, title, audio_url=""):
+    payload = {
         "u": item["url"],
         "t": title,
         "e": item["ext"],
         "m": item["mime"],
         "k": item["kind"],
         "q": item["quality"],
-    })
+        "p": "youtube",
+    }
+    if audio_url and item["kind"] == "video":
+        payload["a"] = audio_url
+    return issue_token(payload)
 
 
-def _card(item, title):
+def _quality_num(q):
+    import re
+    m = re.search(r"(\d+)", str(q or ""))
+    return int(m.group(1)) if m else 0
+
+
+def _card(item, title, audio_url=""):
     return {
-        "token": _media_token(item, title),
+        "token": _media_token(item, title, audio_url),
         "type": item["kind"],
         "quality": item["quality"],
         "format": item["ext"].upper(),
@@ -1385,8 +1442,12 @@ async def analyze(body):
     validate_youtube_url(raw_url.strip())
     result = await fetch_media(raw_url.strip())
     title = result["title"]
-    media = [_card(v, title) for v in result["videos"]]
-    media += [_card(a, title) for a in result["audios"]]
+    audios = result["audios"]
+    best_audio_url = audios[0]["url"] if audios else ""
+    videos_sorted = sorted(result["videos"], key=lambda v: _quality_num(v["quality"]))
+    audios_sorted = sorted(audios, key=lambda a: _quality_num(a["quality"]))
+    media = [_card(v, title, best_audio_url) for v in videos_sorted]
+    media += [_card(a, title) for a in audios_sorted]
     return {
         "success": True,
         "title": title,
@@ -1538,7 +1599,7 @@ async def universal_analyze(body):
     if not videos and not mp3_items:
         raise MediaNotFound()
     for idx, item in enumerate(videos):
-        label = "HD" if len(videos) == 1 else "Video %d" % (idx + 1)
+        label = item.get("quality_label") or ("HD" if len(videos) == 1 else "Video %d" % (idx + 1))
         media.append(_cobalt_card(item, title, "video", label, url))
     for item in mp3_items:
         media.append(_cobalt_card(item, title, "audio", "MP3 192kbps", url, direct_mp3=True))
@@ -1654,6 +1715,38 @@ def download_target(token):
 def is_facebook_download(token):
     payload = verify_token(token)
     return bool(payload and payload.get("p") == "facebook")
+
+
+def is_youtube_download(token):
+    payload = verify_token(token)
+    return bool(payload and payload.get("p") == "youtube" and payload.get("k") == "video")
+
+
+def youtube_download_info(token):
+    payload = resolve_token(token)
+    url = payload.get("u", "")
+    if not url:
+        raise MediaNotFound()
+    try:
+        validate_download_url(url)
+    except ValidationError:
+        raise MediaExpired()
+    audio_url = payload.get("a", "")
+    if audio_url:
+        try:
+            validate_download_url(audio_url)
+        except ValidationError:
+            audio_url = ""
+    title = payload.get("t", "youtube_video")
+    quality = payload.get("q", "")
+    ext = payload.get("e", "mp4")
+    filename = safe_filename("%s_%s" % (title, quality or "HD"), ext)
+    return {
+        "url": url,
+        "audio_url": audio_url,
+        "filename": filename,
+        "mime": payload.get("m", "video/mp4"),
+    }
 
 
 def facebook_download_info(token):
@@ -1821,6 +1914,7 @@ async def youtube_endpoint(request: Request):
     result = await analyze(body)
     return JSONResponse(result)
 
+import asyncio
 import os
 import sys
 
@@ -1841,6 +1935,11 @@ async def download_endpoint(request: Request):
     if is_facebook_download(token):
         info = facebook_download_info(token)
         return _proxy_download(info["url"], info["filename"], info["mime"])
+    if is_youtube_download(token):
+        info = youtube_download_info(token)
+        if info["audio_url"]:
+            return await _mux_download(info)
+        return _proxy_download(info["url"], info["filename"], info["mime"])
     target = download_target(token)
     return RedirectResponse(url=target, status_code=302)
 
@@ -1860,7 +1959,7 @@ def _proxy_download(url, filename, mime):
                     if chunk:
                         yield chunk
         except Exception as exc:
-            logger.warning("facebook proxy failed: %s", type(exc).__name__)
+            logger.warning("proxy failed: %s", type(exc).__name__)
             return
 
     safe_name = filename.replace('"', "").strip() or "video.mp4"
@@ -1870,6 +1969,54 @@ def _proxy_download(url, filename, mime):
         media_type=mime or "video/mp4",
         headers=headers,
     )
+
+
+async def _mux_download(info):
+    ffmpeg = config.resolve_ffmpeg()
+    if not ffmpeg:
+        return _proxy_download(info["url"], info["filename"], info["mime"])
+    args = [
+        ffmpeg, "-y",
+        "-headers", "User-Agent: %s\r\n" % BROWSER_USER_AGENT,
+        "-i", info["url"],
+        "-headers", "User-Agent: %s\r\n" % BROWSER_USER_AGENT,
+        "-i", info["audio_url"],
+        "-map", "0:v:0",
+        "-map", "1:a:0",
+        "-c:v", "copy",
+        "-c:a", "aac",
+        "-b:a", "128k",
+        "-f", "mp4",
+        "-movflags", "frag_keyframe+empty_moov",
+        "pipe:1",
+    ]
+    try:
+        process = await asyncio.create_subprocess_exec(
+            *args,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.DEVNULL,
+        )
+    except OSError as exc:
+        logger.warning("ffmpeg spawn failed: %s", type(exc).__name__)
+        return _proxy_download(info["url"], info["filename"], info["mime"])
+
+    async def _stream():
+        try:
+            while True:
+                chunk = await process.stdout.read(65536)
+                if not chunk:
+                    break
+                yield chunk
+        finally:
+            try:
+                process.kill()
+            except Exception:
+                pass
+            await process.wait()
+
+    safe_name = info["filename"].replace('"', "").strip() or "video.mp4"
+    headers = {"Content-Disposition": 'attachment; filename="%s"' % safe_name}
+    return StreamingResponse(_stream(), media_type="video/mp4", headers=headers)
 
 
 async def download_head_endpoint(request: Request):
