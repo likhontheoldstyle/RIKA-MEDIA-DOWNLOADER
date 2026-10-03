@@ -34,6 +34,23 @@ def _quality_number(value):
     return int(match.group(1)) if match else 0
 
 
+def _head_size(url):
+    try:
+        resp = httpx.head(
+            url,
+            timeout=15.0,
+            follow_redirects=True,
+            headers={"User-Agent": BROWSER_USER_AGENT},
+        )
+        if resp.status_code == 200:
+            length = resp.headers.get("content-length", "")
+            if length.isdigit() and int(length) > 0:
+                return int(length)
+    except Exception:
+        pass
+    return None
+
+
 def _clean_formats(data):
     formats = data.get("available_formats", [])
     if not isinstance(formats, list):
@@ -71,6 +88,7 @@ def fetch_facebook_video(url):
         items.append({
             "url": fmt["url"],
             "quality": fmt["quality"],
+            "filesize": _head_size(fmt["url"]),
             "filename": "%s_%s.%s" % (title[:40] or "facebook_video", fmt["quality"], fmt["ext"]),
             "instance_host": "",
             "title": title,
@@ -78,6 +96,18 @@ def fetch_facebook_video(url):
             "duration": info.get("duration"),
         })
     return items
+
+
+def fetch_direct_url(original_url, quality):
+    data = _post(original_url, quality or "best")
+    direct = str(data.get("download_url", "")).strip()
+    if not direct:
+        formats = _clean_formats(data)
+        if formats:
+            direct = formats[0]["url"]
+    if not direct:
+        raise MediaNotFound()
+    return direct
 
 
 def fetch_facebook_audio(url):
