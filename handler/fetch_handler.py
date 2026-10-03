@@ -4,6 +4,7 @@ from core.logger import get_logger
 from security.validation import validate_json_body, validate_media_url
 from social.cobalt import fetch_audio_mp3, fetch_video
 from social.facebook import fetch_facebook_video
+from social.xhamster import fetch_xhamster_info
 from social.platforms import detect_platform, platform_display_name, uses_cobalt
 from handler.youtube_handler import analyze
 
@@ -126,6 +127,44 @@ async def universal_analyze(body):
             "title": title,
             "duration": duration,
             "thumbnail": thumbnail,
+            "mp3_available": False,
+            "media": media,
+        }
+    if platform == "xhamster":
+        try:
+            info = fetch_xhamster_info(url)
+        except Exception as exc:
+            logger.warning("xhamster fetch failed: %s", type(exc).__name__)
+            raise MediaNotFound()
+        title = info["title"][:80]
+        media = []
+        for fmt in info["formats"]:
+            token = utils.issue_token({
+                "u": fmt["url"],
+                "t": title,
+                "e": "mp4",
+                "m": "video/mp4",
+                "k": "video",
+                "q": fmt["quality"],
+                "h": "",
+                "o": url,
+                "p": "xhamster",
+            })
+            media.append({
+                "token": token,
+                "type": "video",
+                "quality": fmt["quality"],
+                "format": "MP4",
+                "size": "size unknown",
+                "size_bytes": None,
+            })
+        return {
+            "success": True,
+            "platform": platform,
+            "platform_name": platform_display_name(platform),
+            "title": title,
+            "duration": info.get("duration"),
+            "thumbnail": info.get("thumbnail", ""),
             "mp3_available": False,
             "media": media,
         }
