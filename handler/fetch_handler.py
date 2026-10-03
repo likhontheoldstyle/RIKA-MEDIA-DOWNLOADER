@@ -148,7 +148,7 @@ async def universal_analyze(body):
     if not videos and not mp3_items:
         raise MediaNotFound()
     for idx, item in enumerate(videos):
-        label = "HD" if len(videos) == 1 else "Video %d" % (idx + 1)
+        label = item.get("quality_label") or ("HD" if len(videos) == 1 else "Video %d" % (idx + 1))
         media.append(_cobalt_card(item, title, "video", label, url))
     for item in mp3_items:
         media.append(_cobalt_card(item, title, "audio", "MP3 192kbps", url, direct_mp3=True))
