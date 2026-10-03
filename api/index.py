@@ -1241,6 +1241,7 @@ def fetch_facebook_video(url):
     for fmt in formats:
         items.append({
             "url": fmt["url"],
+            "quality": fmt["quality"],
             "filename": "%s_%s.%s" % (title[:40] or "facebook_video", fmt["quality"], fmt["ext"]),
             "instance_host": "",
             "title": title,
@@ -1393,7 +1394,7 @@ async def universal_analyze(body):
         else:
             raise MediaNotFound()
         for item in videos:
-            media.append(_cobalt_card(item, title, "video", item["quality"], url))
+            media.append(_cobalt_card(item, title, "video", item.get("quality") or "HD", url))
         return {
             "success": True,
             "platform": platform,
