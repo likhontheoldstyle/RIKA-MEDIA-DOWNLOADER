@@ -1,3 +1,4 @@
+import asyncio
 import re
 
 import httpx
@@ -7,6 +8,20 @@ from core.exceptions import MediaNotFound
 
 API_URL = "https://fdown.isuru.eu.org/download"
 TIMEOUT = 60.0
+
+QUALITY_MAP = {
+    "2560p": "best",
+    "1920p": "1080p",
+    "1280p": "1080p",
+    "960p": "720p",
+}
+
+
+def _api_quality(quality):
+    q = str(quality or "").strip().lower()
+    if q in ("best", "worst", "360p", "720p", "1080p"):
+        return q
+    return QUALITY_MAP.get(q, "best")
 
 
 def _post(url, quality):
@@ -27,6 +42,26 @@ def _post(url, quality):
     if data.get("status") != "success":
         raise MediaNotFound()
     return data
+
+
+async def _apost(url, quality):
+    async with httpx.AsyncClient(timeout=TIMEOUT) as client:
+        resp = await client.post(
+            API_URL,
+            json={"url": url, "quality": quality},
+            headers={
+                "User-Agent": BROWSER_USER_AGENT,
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Origin": "https://fdown.isuru.eu.org",
+                "Referer": "https://fdown.isuru.eu.org/",
+            },
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        if data.get("status") != "success":
+            raise MediaNotFound()
+        return data
 
 
 def _quality_number(value):
@@ -73,7 +108,18 @@ def _clean_formats(data):
     return ordered
 
 
-def fetch_facebook_video(url):
+async def _fetch_muxed_url(url, api_quality):
+    try:
+        data = await _apost(url, api_quality)
+        direct = str(data.get("download_url", "")).strip()
+        if direct:
+            return direct
+    except Exception:
+        pass
+    return ""
+
+
+async def fetch_facebook_video_async(url):
     data = _post(url, "best")
     formats = _clean_formats(data)
     if not formats:
@@ -83,12 +129,21 @@ def fetch_facebook_video(url):
         formats = [{"quality": "HD", "url": direct, "ext": "mp4"}]
     info = data.get("video_info", {}) if isinstance(data.get("video_info"), dict) else {}
     title = str(info.get("title", "")).strip()
+    needed = sorted({_api_quality(f["quality"]) for f in formats})
+    muxed = {}
+    results = await asyncio.gather(*[_fetch_muxed_url(url, q) for q in needed])
+    for q, direct in zip(needed, results):
+        if direct:
+            muxed[q] = direct
+    best_fallback = str(data.get("download_url", "")).strip()
     items = []
     for fmt in formats:
+        api_q = _api_quality(fmt["quality"])
+        direct_url = muxed.get(api_q) or best_fallback or fmt["url"]
         items.append({
-            "url": fmt["url"],
+            "url": direct_url,
             "quality": fmt["quality"],
-            "filesize": _head_size(fmt["url"]),
+            "filesize": _head_size(direct_url),
             "filename": "%s_%s.%s" % (title[:40] or "facebook_video", fmt["quality"], fmt["ext"]),
             "instance_host": "",
             "title": title,
@@ -98,8 +153,20 @@ def fetch_facebook_video(url):
     return items
 
 
+def fetch_facebook_video(url):
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+    if loop and loop.is_running():
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            return pool.submit(asyncio.run, fetch_facebook_video_async(url)).result()
+    return asyncio.run(fetch_facebook_video_async(url))
+
+
 def fetch_direct_url(original_url, quality):
-    data = _post(original_url, quality or "best")
+    data = _post(original_url, _api_quality(quality))
     direct = str(data.get("download_url", "")).strip()
     if not direct:
         formats = _clean_formats(data)
