@@ -108,6 +108,38 @@ def is_facebook_download(token):
     return bool(payload and payload.get("p") == "facebook")
 
 
+def is_youtube_download(token):
+    payload = utils.verify_token(token)
+    return bool(payload and payload.get("p") == "youtube" and payload.get("k") == "video")
+
+
+def youtube_download_info(token):
+    payload = resolve_token(token)
+    url = payload.get("u", "")
+    if not url:
+        raise MediaNotFound()
+    try:
+        validate_download_url(url)
+    except ValidationError:
+        raise MediaExpired()
+    audio_url = payload.get("a", "")
+    if audio_url:
+        try:
+            validate_download_url(audio_url)
+        except ValidationError:
+            audio_url = ""
+    title = payload.get("t", "youtube_video")
+    quality = payload.get("q", "")
+    ext = payload.get("e", "mp4")
+    filename = utils.safe_filename("%s_%s" % (title, quality or "HD"), ext)
+    return {
+        "url": url,
+        "audio_url": audio_url,
+        "filename": filename,
+        "mime": payload.get("m", "video/mp4"),
+    }
+
+
 def facebook_download_info(token):
     payload = resolve_token(token)
     url = payload.get("u", "")
