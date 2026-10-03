@@ -77,7 +77,7 @@ def _m3u8_for_quality(master_url, quality_label):
     return master_url
 
 
-def fetch_video_info(url):
+def fetch_xhamster_info(url):
     url = (url or "").strip()
     if not is_xhamster_url(url):
         raise MediaNotFound()
