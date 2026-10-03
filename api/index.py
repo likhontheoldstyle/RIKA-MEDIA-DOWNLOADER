@@ -1241,7 +1241,7 @@ def _mime_for_ext(ext):
     }.get(ext, "application/octet-stream")
 
 
-def _cobalt_token(item, title, kind, quality):
+def _cobalt_token(item, title, kind, quality, original_url):
     ext = _ext_from_filename(item.get("filename", ""))
     if kind == "audio":
         ext = "mp3"
@@ -1253,15 +1253,16 @@ def _cobalt_token(item, title, kind, quality):
         "k": kind,
         "q": quality,
         "h": item.get("instance_host", ""),
+        "o": original_url,
     })
 
 
-def _cobalt_card(item, title, kind, quality, direct_mp3=False):
+def _cobalt_card(item, title, kind, quality, original_url, direct_mp3=False):
     ext = _ext_from_filename(item.get("filename", ""))
     if kind == "audio":
         ext = "mp3"
     card = {
-        "token": _cobalt_token(item, title, kind, quality),
+        "token": _cobalt_token(item, title, kind, quality, original_url),
         "type": kind,
         "quality": quality,
         "format": ext.upper(),
@@ -1312,9 +1313,9 @@ async def universal_analyze(body):
         raise MediaNotFound()
     for idx, item in enumerate(videos):
         label = "HD" if len(videos) == 1 else "Video %d" % (idx + 1)
-        media.append(_cobalt_card(item, title, "video", label))
+        media.append(_cobalt_card(item, title, "video", label, url))
     for item in mp3_items:
-        media.append(_cobalt_card(item, title, "audio", "MP3 192kbps", direct_mp3=True))
+        media.append(_cobalt_card(item, title, "audio", "MP3 192kbps", url, direct_mp3=True))
     return {
         "success": True,
         "platform": platform,
@@ -1326,6 +1327,10 @@ async def universal_analyze(body):
         "media": media,
     }
 
+import httpx
+
+
+logger = get_logger("handler.download")
 
 
 def resolve_token(token):
@@ -1364,11 +1369,52 @@ def media_info(token):
     }
 
 
+def _tunnel_alive(url):
+    try:
+        resp = httpx.head(
+            url,
+            timeout=10.0,
+            follow_redirects=True,
+            headers={"User-Agent": BROWSER_USER_AGENT},
+        )
+        content_type = resp.headers.get("content-type", "").lower()
+        return resp.status_code == 200 and "json" not in content_type
+    except Exception:
+        return False
+
+
+def _fresh_cobalt_url(original_url):
+    try:
+        items = fetch_video(original_url)
+    except Exception as exc:
+        logger.warning("cobalt refresh failed: %s", type(exc).__name__)
+        return ""
+    if not items:
+        return ""
+    item = items[0]
+    url = item.get("url", "")
+    host = item.get("instance_host", "")
+    if not url or not host:
+        return ""
+    try:
+        validate_cobalt_download_url(url, host)
+    except ValidationError:
+        return ""
+    return url
+
+
 def download_target(token):
     payload = resolve_token(token)
-    if not payload.get("u"):
+    url = payload.get("u", "")
+    if not url:
         raise MediaNotFound()
-    return payload["u"]
+    instance_host = payload.get("h", "")
+    original_url = payload.get("o", "")
+    if instance_host and original_url and not _tunnel_alive(url):
+        fresh = _fresh_cobalt_url(original_url)
+        if fresh:
+            return fresh
+    return url
 
 
 
