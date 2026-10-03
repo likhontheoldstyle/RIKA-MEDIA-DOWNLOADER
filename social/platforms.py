@@ -22,6 +22,8 @@ PLATFORM_HOSTS = {
     "x.com": "twitter",
     "www.x.com": "twitter",
     "mobile.twitter.com": "twitter",
+    "xhamster.com": "xhamster",
+    "www.xhamster.com": "xhamster",
 }
 
 PLATFORM_NAMES = {
@@ -30,6 +32,7 @@ PLATFORM_NAMES = {
     "instagram": "Instagram",
     "facebook": "Facebook",
     "twitter": "X (Twitter)",
+    "xhamster": "xHamster",
     "unknown": "Video",
 }
 
@@ -45,7 +48,7 @@ def detect_platform(url):
         return "unknown"
     if host in PLATFORM_HOSTS:
         return PLATFORM_HOSTS[host]
-    for suffix in ("tiktok.com", "instagram.com", "facebook.com", "twitter.com", "x.com"):
+    for suffix in ("tiktok.com", "instagram.com", "facebook.com", "twitter.com", "x.com", "xhamster.com"):
         if host.endswith("." + suffix):
             return PLATFORM_HOSTS.get(suffix, "unknown")
     return "unknown"
