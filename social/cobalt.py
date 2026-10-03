@@ -1,3 +1,4 @@
+import asyncio
 import time
 from urllib.parse import urlparse
 
@@ -143,11 +144,57 @@ def _call_cobalt(payload):
     raise MediaNotFound()
 
 
+COBALT_QUALITIES = ["360", "720", "1080"]
+
+
+async def _fetch_quality_async(url, quality):
+    payload = {"url": url, "videoQuality": quality}
+    try:
+        items = await asyncio.to_thread(_call_cobalt, payload)
+        videos = [i for i in items if i["kind"] != "audio"]
+        result = videos or items
+        if result:
+            result[0]["quality_label"] = "%sp" % quality
+            return result[0]
+    except Exception as exc:
+        logger.warning("cobalt quality %s failed: %s", quality, type(exc).__name__)
+    return None
+
+
 def fetch_video(url):
-    payload = {"url": url, "videoQuality": "1080"}
-    items = _call_cobalt(payload)
-    videos = [i for i in items if i["kind"] != "audio"]
-    return videos or items
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+    if loop and loop.is_running():
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            return pool.submit(asyncio.run, _fetch_all_qualities(url)).result()
+    return asyncio.run(_fetch_all_qualities(url))
+
+
+async def _fetch_all_qualities(url):
+    results = await asyncio.gather(*[_fetch_quality_async(url, q) for q in COBALT_QUALITIES])
+    seen_urls = set()
+    items = []
+    for item in results:
+        if not item:
+            continue
+        u = item.get("url", "")
+        if not u or u in seen_urls:
+            continue
+        seen_urls.add(u)
+        items.append(item)
+    if not items:
+        payload = {"url": url, "videoQuality": "1080"}
+        items = _call_cobalt(payload)
+        videos = [i for i in items if i["kind"] != "audio"]
+        result = videos or items
+        if result:
+            result[0]["quality_label"] = "HD"
+        return result
+    items.sort(key=lambda x: int(x.get("quality_label", "0p")[:-1] or 0))
+    return items
 
 
 def fetch_audio_mp3(url):
