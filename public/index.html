@@ -244,13 +244,12 @@ function safeName(s){
 }
 async function directDownload(url,filename){
   try{
-    var probe=await fetch(url,{method:"HEAD",redirect:"manual"});
-    var loc=probe.headers.get("location")||"";
+    var probe=await fetch(url,{method:"HEAD"});
     if(probe.status===410||probe.status===404){
       showError("This download link has expired. Click GET MEDIA again.");
       return;
     }
-    if(probe.status>=400&&!loc){
+    if(probe.status!==200){
       showError("Download failed. Click GET MEDIA again.");
       return;
     }
